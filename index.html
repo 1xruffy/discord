@@ -58,10 +58,11 @@ main{flex:1;display:flex;flex-direction:column;background:var(--bg3);min-width:0
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const K='chatcord_v1',SK='chatcord_seen',MEMO_KEY='MEMO-PLACEHOLDER-KEY',BTC='bc1qPLACEHOLDERADDRESS0000000000000000000';
 let db;try{db=JSON.parse(localStorage[K])}catch{}db=db||{users:{},servers:{},dms:{},inv:{}};
-let me=sessionStorage.me||null,view={t:'friends',tab:'online'};
+const mem0={},ss={get:k=>{try{return sessionStorage.getItem(k)}catch{return mem0[k]}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch{mem0[k]=v}},del:k=>{try{sessionStorage.removeItem(k)}catch{delete mem0[k]}}};
+let me=ss.get('me'),view={t:'friends',tab:'online'};
 const save=()=>{try{localStorage[K]=JSON.stringify(db)}catch{toast('Storage full. Use a smaller image.')}};
 const U=u=>db.users[u],dn=u=>esc(U(u)?.display||u),rid=()=>Math.random().toString(36).slice(2,10);
-const sha=async t=>{try{return[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('cc:'+t)))].map(b=>b.toString(16).padStart(2,'0')).join('')}catch{return btoa(t)}};
+const sha=async t=>{const o=[];try{o.push([...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('cc:'+t)))].map(b=>b.toString(16).padStart(2,'0')).join(''))}catch{}let h=5381,g=52711;for(const c of 'cc:'+t){h=(h*33^c.codePointAt(0))>>>0;g=(g*31+c.codePointAt(0))>>>0}o.push('x'+h+'-'+g);return o};
 const hasMemo=u=>u==='9584'||U(u)?.memo;
 const seen=()=>{try{return JSON.parse(localStorage[SK]||'{}')}catch{return{}}};
 const online=u=>U(u)&&U(u).status!=='invisible'&&Date.now()-(seen()[u]||0)<30000;
@@ -86,19 +87,19 @@ const img=(f,max,anim)=>new Promise((ok,no)=>{const r=new FileReader();r.onerror
 /* ---------- auth ---------- */
 function authView(mode='login'){const L=mode=='login';
 $('#root').innerHTML=`<div class="auth"><div class="card pop"><h1>${L?'Welcome back':'Create an account'}</h1><p class="mu" style="margin:6px 0 18px">${L?'Log in to pick up your conversations.':'Pick a username and password.'}</p><label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><input id="ap" type="password"><button id="ab">${L?'Log in':'Register'}</button><p class="mu">${L?'Need an account? <a onclick="authView(\'reg\')">Register</a>':'<a onclick="authView()">Already have an account?</a>'}</p></div></div>`;
-$('#ap').onkeydown=e=>e.key=='Enter'&&$('#ab').click();
-$('#ab').onclick=async()=>{const u=$('#au').value.trim(),p=$('#ap').value;
+$('#ap').onkeydown=$('#au').onkeydown=e=>{if(e.key=='Enter')$('#ab').click()};$('#au').focus();
+$('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;
 if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');
-const h=await sha(p);
-if(L){if(!db.users[u]||db.users[u].pass!==h)return toast('Wrong username or password')}
+const hs=await sha(p),h=hs[0];
+if(L){if(!db.users[u]||!hs.includes(db.users[u].pass))return toast('Wrong username or password')}
 else{if(p.length<6)return toast('Password needs at least 6 characters');if(db.users[u])return toast('That username is taken');db.users[u]={pass:h,display:u,friends:[],blocked:[],status:'online'};save()}
-me=sessionStorage.me=u;view={t:'friends',tab:'online'};render()}}
+me=u;ss.set('me',u);view={t:'friends',tab:'online'};render()}catch(e){toast('Error: '+e.message)}}}
 
 /* ---------- profile ---------- */
 function pop(){if($('.upop'))return $('.upop').remove();const d=document.createElement('div');d.className='upop pop';
 d.innerHTML=card(me)+`<div class="pm"><div class="mi" onclick="editProfile()">✏️ Edit Profile</div><div class="mi">Status <select onchange="setStatus(this.value)">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${U(me).status==k?'selected':''}>${v}</option>`).join('')}</select></div><div class="mi" onclick="memoModal()">✦ ${hasMemo(me)?'Memo active':'Get Memo'}</div><div class="mi dng" onclick="logout()">Log out</div></div>`;document.body.append(d)}
 const setStatus=v=>{U(me).status=v;save();$('.upop')?.remove();render()};
-function logout(){delete sessionStorage.me;me=null;$('.upop')?.remove();authView()}
+function logout(){ss.del('me');me=null;$('.upop')?.remove();authView()}
 function editProfile(){$('.upop')?.remove();const x=U(me),m=hasMemo(me);
 modal(`<h2>Edit Profile</h2><label>DISPLAY NAME</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate ✦)':'(static image)'}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'✦':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}>${m?'':'<p class="mu">Custom banners and animated avatars need Memo. <a onclick="memoModal()">Get Memo</a></p>'}<div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Cancel</button><button id="es">Save changes</button></div>`);
 $('#es').onclick=async()=>{const n=$('#ed').value.trim(),a=$('#ea').files[0],b=$('#eb').files[0];try{if(a)x.avatar=await img(a,128,m);if(b&&m)x.banner=await img(b,640,m)}catch{return toast('Image failed. Animated GIFs must be under 1.5 MB.')}if(n)x.display=n;save();closeModal();render()}}
@@ -157,9 +158,9 @@ const rail=`<div class="ri ${view.t!='srv'?'on':''}" onclick="view={t:'friends',
 const mem=view.t=='srv'?`<aside class="mem"><div class="mu" style="padding:0 8px 8px">Members: ${s.members.length}</div>${s.members.map(u=>`<div class="mrow ${online(u)?'':'offl'}" data-ctx="mem:${u}" onclick="showProfile('${u}')"><div class="avw">${av(u,32)}<i class="dot ${dot(u)}"></i></div><span style="color:${rc(s,u)}">${dn(u)}${u==s.owner?' 👑':''}</span></div>`).join('')}</aside>`:'';
 $('#root').innerHTML=`<div id="app"><nav class="rail">${rail}</nav><aside class="side"><div class="sc">${side}</div><div class="up"><div id="upb" onclick="pop()"><div class="avw">${av(me,32)}<i class="dot ${dot(me)}"></i></div><div><b>${dn(me)}</b><span class="mu">${ST[x.status||'online']}</span></div></div></div></aside><main>${m}</main>${mem}</div>`;
 const i=$('#inp');if(i){if(iv)i.value=iv;if(f)i.focus();i.onkeydown=e=>{const t=i.value.trim();if(e.key=='Enter'&&t){i.value='';send(t)}};const g=$('#msgs');g.scrollTop=g.scrollHeight}
-$('#ab2')&&($('#ab2').onclick=addFriend,$('#af').onkeydown=e=>e.key=='Enter'&&addFriend())}
+$('#ab2')&&($('#ab2').onclick=addFriend,$('#af').onkeydown=e=>{if(e.key=='Enter')addFriend()})}
 addEventListener('storage',e=>{if(e.key==K&&e.newValue){db=JSON.parse(e.newValue);render()}});
-const beat=()=>{if(me){const s=seen();s[me]=Date.now();localStorage[SK]=JSON.stringify(s)}};beat();setInterval(beat,10000);
+const beat=()=>{try{if(me){const s=seen();s[me]=Date.now();localStorage[SK]=JSON.stringify(s)}}catch{}};beat();setInterval(beat,10000);
 setInterval(()=>{if(me&&view.t=='friends'&&view.tab!='add')render()},20000);
 render();
 </script></body></html>
