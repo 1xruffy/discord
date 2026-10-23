@@ -1,65 +1,86 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chatcord</title>
 <style>
-:root{--bg:#1e1f22;--bg2:#2b2d31;--bg3:#313338;--tx:#f2f3f5;--mu:#949ba4;--br:#5865f2;--rd:#da373c}
-*{box-sizing:border-box;margin:0}
-body{font:15px/1.4 "gg sans","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--tx);height:100vh;overflow:hidden}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;border:0;border-radius:6px;padding:8px 14px;background:var(--br);transition:.15s}
-button:hover{filter:brightness(1.15);transform:translateY(-1px)}button:active{transform:scale(.97)}
-button.g{background:#4e5058}button.r{background:var(--rd)}
-input,select{background:#1e1f22;border:1px solid #0004;border-radius:6px;padding:10px;width:100%;outline:0;transition:.15s;margin:4px 0 10px}
-input:focus{box-shadow:0 0 0 2px var(--br)}select{background:var(--bg3);padding:4px;width:auto;margin:0}
-label{font-size:12px;font-weight:700;color:var(--mu)}h2{margin-bottom:10px}hr{border:0;border-top:1px solid #ffffff14;margin:12px 0}
-a{color:#00a8fc;cursor:pointer}.mu{color:var(--mu);font-size:13px}.row{display:flex;gap:8px;align-items:center;margin:8px 0}.sp{flex:1}
-.pop{animation:pop .18s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{opacity:0;transform:scale(.9) translateY(8px)}}
+:root{--rail:#0e0e11;--side:#131316;--main:#1a1a1e;--card:#232328;--sel:#2c2c32;--line:#2b2b31;--tx:#e6e7ea;--mu:#9a9da6;--br:#5865f2;--rd:#da373c}
+*{box-sizing:border-box;margin:0}html,body{height:100%}
+body{font:16px/1.375 "gg sans","Noto Sans","Segoe UI",system-ui,sans-serif;background:var(--rail);color:var(--tx);overflow:hidden}
+svg{display:block;flex:none}button,input,select{font:inherit;color:inherit}
+button{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;border:0;border-radius:8px;padding:9px 16px;background:var(--br);font-weight:600;transition:filter .15s,transform .15s,background .15s}
+button:hover{filter:brightness(1.12)}button:active{transform:scale(.97)}button.g{background:#34343a}button.r{background:var(--rd)}
+input,select{background:#0e0e11;border:1px solid var(--line);border-radius:8px;padding:11px 12px;width:100%;outline:0;transition:box-shadow .15s,border-color .15s;margin:6px 0 12px}
+input:focus{border-color:var(--br);box-shadow:0 0 0 3px #5865f244}select{width:auto;margin:0;padding:4px 6px;background:var(--card)}
+label{font-size:12px;font-weight:700;color:var(--mu)}h2{margin-bottom:10px}hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+a{color:#00a8fc;cursor:pointer}.mu{color:var(--mu);font-size:14px}.row{display:flex;gap:8px;align-items:center;margin:8px 0}.sp{flex:1}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#ffffff1c;border-radius:4px}
+.pop{animation:pop .2s cubic-bezier(.2,1.3,.4,1)}@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}}
 .slide{animation:sl .3s ease}@keyframes sl{from{opacity:0;transform:translateY(12px)}}
-.auth{height:100vh;display:grid;place-items:center;background:linear-gradient(130deg,#5865f2,#1e1f22,#eb459e,#1e1f22);background-size:300% 300%;animation:bg 14s ease infinite}
-@keyframes bg{50%{background-position:100% 100%}}
-.card{width:min(420px,92vw);background:var(--bg3);padding:30px;border-radius:8px;box-shadow:0 8px 40px #0008}.card h1{text-align:center}.card button{width:100%;margin:6px 0 12px}.card p{text-align:center}
-#app{display:flex;height:100vh}
-.rail{width:72px;background:var(--bg);padding:12px 0;display:flex;flex-direction:column;align-items:center;gap:8px;overflow-y:auto}
-.ri{width:48px;height:48px;border-radius:50%;background:var(--bg3);display:grid;place-items:center;cursor:pointer;overflow:hidden;font-weight:700;position:relative;transition:border-radius .2s,background .2s,transform .2s;flex:none}
-.ri img{width:100%;height:100%;object-fit:cover}.ri:hover,.ri.on{border-radius:16px;background:var(--br)}.ri:hover{transform:scale(1.06)}
-.ri.on::before{content:"";position:fixed;left:0;width:4px;height:36px;background:#fff;border-radius:0 4px 4px 0;animation:pop .2s}
-.ri.add{color:#23a55a;font-size:24px}.ri.add:hover{background:#23a55a;color:#fff}.rs{width:32px}
-.side{width:240px;background:var(--bg2);display:flex;flex-direction:column}.sc{flex:1;overflow-y:auto;padding:8px}
-.sh{padding:12px 8px;font-weight:700;border-bottom:1px solid #0003;margin:-8px -8px 8px}
-.find{background:var(--bg);padding:7px;border-radius:4px;color:var(--mu);font-size:13px;margin-bottom:8px;text-align:center}
-.nav,.ch{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:5px;cursor:pointer;color:var(--mu);transition:.12s}
-.nav:hover,.ch:hover{background:#ffffff0f;color:var(--tx);transform:translateX(2px)}.nav.on,.ch.on{background:#ffffff1c;color:var(--tx)}
-.up{height:56px;background:#232428;display:flex;align-items:center;padding:0 8px}
-#upb{display:flex;gap:10px;align-items:center;padding:5px 8px;border-radius:6px;cursor:pointer;flex:1;transition:.15s}#upb:hover{background:#ffffff14}
-#upb b{font-size:14px;display:block;line-height:1.1}
-main{flex:1;display:flex;flex-direction:column;background:var(--bg3);min-width:0}
-.top{height:48px;border-bottom:1px solid #0003;display:flex;align-items:center;gap:14px;padding:0 16px;flex:none}
-.tab{padding:3px 10px;border-radius:5px;cursor:pointer;color:var(--mu);transition:.15s}.tab:hover,.tab.on{background:#ffffff1c;color:var(--tx)}.tab.add{background:var(--br);color:#fff}.tab.add.on2{background:none;color:#23a55a}
-.body{padding:20px;overflow-y:auto}.fr{display:flex;align-items:center;gap:12px;padding:10px;border-top:1px solid #ffffff10;border-radius:6px;animation:sl .25s}.fr:hover{background:#ffffff0d}
-.msgs{flex:1;overflow-y:auto;padding:16px}.msg{display:flex;gap:14px;padding:6px 8px;border-radius:4px}.msg:hover{background:#0000001a}.msg>span{cursor:pointer;flex:none;height:40px}.msg div{word-break:break-word}
-.inw{padding:0 16px 20px}.inw input{padding:12px;background:#383a40;margin:0}
-.mem{width:240px;background:var(--bg2);padding:14px 8px;overflow-y:auto}.mrow{display:flex;gap:10px;align-items:center;padding:5px 8px;border-radius:5px;cursor:pointer}.mrow:hover{background:#ffffff0f}.offl{opacity:.45}
-.av{border-radius:50%;object-fit:cover;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}.avw{position:relative;display:inline-flex}
-.dot{position:absolute;right:-2px;bottom:-2px;width:13px;height:13px;border-radius:50%;border:3px solid var(--bg2);background:#80848e}.dot.online{background:#23a55a}.dot.idle{background:#f0b232}.dot.dnd{background:#f23f43}
-.bd{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;font-size:11px;vertical-align:middle;margin-left:2px}
-.ov{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:50;animation:fi .2s}@keyframes fi{from{opacity:0}}
-.md{background:var(--bg3);padding:22px;border-radius:10px;width:min(420px,92vw);max-height:90vh;overflow-y:auto}.md .pc{margin:-22px -22px 0}
-.pc{background:var(--bg2);border-radius:10px;overflow:hidden}.bn{height:100px;background-size:cover;background-position:center}
-.pav{margin:-42px 0 0 16px;display:inline-flex;position:relative}.pav .av,.pav img{border:6px solid var(--bg2)}.pav .dot{right:4px;bottom:4px;width:22px;height:22px;border-width:4px}
-.pb{padding:6px 16px 16px}.big{font-size:20px}
-.upop{position:fixed;left:12px;bottom:66px;width:300px;z-index:40;border-radius:10px;box-shadow:0 8px 30px #000b;background:var(--bg2);transform-origin:bottom left}
-.pm{padding:6px 10px 10px}.mi{padding:8px 10px;border-radius:4px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}.mi:hover{background:var(--br)}.mi.dng{color:#f23f43}.mi.dng:hover{background:var(--rd);color:#fff}
-.menu{position:fixed;z-index:60;background:#111214;padding:6px;border-radius:6px;min-width:180px;box-shadow:0 6px 24px #000c}.menu hr{margin:4px 0}
+.fade{animation:fd .28s ease}@keyframes fd{from{opacity:0;transform:translateX(10px)}}
+.auth{height:100vh;display:grid;place-items:center;background:linear-gradient(130deg,#5865f2,#131316,#8b5cf6,#131316);background-size:300% 300%;animation:bg 14s ease infinite}@keyframes bg{50%{background-position:100% 100%}}
+.card{width:min(440px,92vw);background:#1e1f25;padding:32px;border-radius:14px;box-shadow:0 12px 50px #000a}.card h1{text-align:center;font-size:24px}.card button{display:flex;width:100%;margin:6px 0 12px;padding:12px}.card p{text-align:center}
+#app{display:flex;flex-direction:column;height:100vh}
+.tb{height:40px;flex:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px;position:relative;background:var(--rail)}
+.tbr{position:absolute;right:16px;display:flex;gap:18px;color:var(--mu)}.tbr svg:hover{color:#fff}
+.wrap{flex:1;display:flex;min-height:0}
+.rail{width:72px;flex:none;padding:6px 0 80px;display:flex;flex-direction:column;align-items:center;gap:8px;overflow-y:auto;scrollbar-width:none}
+.ri{width:50px;height:50px;border-radius:50%;background:#232328;display:grid;place-items:center;cursor:pointer;position:relative;font-weight:700;color:#d5d7dc;flex:none;transition:border-radius .2s,background .2s,transform .2s,color .2s}
+.ri img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.ri::before{content:"";position:absolute;left:-11px;top:50%;width:4px;height:8px;margin-top:-4px;background:#fff;border-radius:0 4px 4px 0;opacity:0;transition:.2s}
+.ri:hover::before{opacity:1;height:22px;margin-top:-11px}.ri.on::before{opacity:1;height:40px;margin-top:-20px}
+.ri:hover,.ri.on{border-radius:16px;background:var(--br);color:#fff}.ri:hover{transform:scale(1.05)}.ri.home{background:var(--br);color:#fff}.ri.home:not(.on){border-radius:50%}.ri.home:hover{border-radius:16px}
+.ri.add{color:#3ba55d;background:#232328}.ri.add:hover{background:#3ba55d;color:#fff}.rs{width:32px;border-top:2px solid var(--line);margin:2px 0}
+.side{width:264px;flex:none;background:var(--side);border-top:1px solid var(--line);border-left:1px solid var(--line);border-top-left-radius:12px;display:flex;flex-direction:column;min-height:0}
+.fh{padding:10px;border-bottom:1px solid var(--line)}.find{height:34px;background:#1d1d22;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:500;cursor:pointer;transition:.15s}.find:hover{background:#26262c}
+.sc{flex:1;overflow-y:auto;padding:8px 8px 80px}
+.sh{display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;font-weight:700;border-bottom:1px solid var(--line);margin:-8px -8px 8px}
+.nav,.ch{display:flex;align-items:center;gap:14px;min-height:44px;padding:0 12px;border-radius:8px;color:var(--mu);font-weight:500;cursor:pointer;transition:background .15s,color .15s,transform .15s}
+.nav:hover,.ch:hover{background:#ffffff0a;color:var(--tx)}.nav.on,.ch.on{background:var(--sel);color:#fff}.nav.dm{min-height:48px;padding:0 10px}
+.dmh{display:flex;justify-content:space-between;align-items:center;padding:18px 12px 6px;font-size:14px;color:var(--mu)}.dmh svg{cursor:pointer;transition:.15s}.dmh svg:hover{color:#fff;transform:rotate(90deg)}
+main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.top{height:48px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 16px;font-weight:600}.sep{width:4px;height:4px;border-radius:50%;background:#4a4a52}
+.tab{padding:4px 12px;border-radius:8px;cursor:pointer;color:var(--mu);font-weight:500;transition:.15s}.tab:hover{background:#ffffff0d;color:var(--tx)}.tab.on{background:#303036;color:#fff}.tab.add{background:var(--br);color:#fff;font-weight:600}.tab.add:hover{filter:brightness(1.12)}.tab.add.on2{background:#3f48b5}
+.fb{flex:1;display:flex;min-height:0}.fl{flex:1;padding:16px 28px;overflow-y:auto;min-width:0}.h2{font-size:20px}
+.sb{display:flex;align-items:center;gap:10px;border:1px solid #3a3a42;border-radius:10px;padding:0 10px 0 14px;height:48px;margin-bottom:22px;color:var(--mu);transition:border-color .15s}.sb:focus-within{border-color:var(--br)}
+.sb input{border:0;background:none;margin:0;padding:0;box-shadow:none!important;flex:1;color:var(--tx)}.sb button{padding:7px 14px;white-space:nowrap}
+.lh{font-weight:700;font-size:15px;padding-bottom:12px;color:#fff}
+.fr{display:flex;align-items:center;gap:12px;padding:12px 10px;border-top:1px solid var(--line);border-radius:8px;cursor:pointer;transition:background .15s}.fr:hover{background:#ffffff08;border-radius:10px}.fr b{font-weight:600}
+.cb{width:36px;height:36px;border-radius:50%;background:#2a2a30;padding:0;display:grid;place-items:center;color:#c4c7cd}.cb:hover{color:#fff;background:#38383f;filter:none}
+.an{width:340px;flex:none;border-left:1px solid var(--line);padding:20px 16px;overflow-y:auto}.an h2{font-size:22px;margin-bottom:14px}.ac{background:var(--card);border-radius:12px;padding:22px 18px;text-align:center}.ac b{display:block;font-size:17px;margin-bottom:6px}
+.msgs{flex:1;overflow-y:auto;padding:16px 8px}.msg{display:flex;gap:16px;padding:6px 16px;border-radius:6px}.msg:hover{background:#ffffff06}.msg>span{cursor:pointer;flex:none;height:40px}.msg div{word-break:break-word}
+.inw{padding:0 16px 24px}.inw input{background:#242429;border:0;border-radius:10px;padding:14px 16px;margin:0}
+.mem{width:240px;flex:none;background:var(--side);border-left:1px solid var(--line);padding:16px 8px;overflow-y:auto}.mrow{display:flex;gap:12px;align-items:center;padding:6px 8px;border-radius:8px;cursor:pointer;transition:.15s}.mrow:hover{background:#ffffff0d}.offl{opacity:.45}
+.av{border-radius:50%;object-fit:cover;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}.avw{position:relative;display:inline-flex;flex:none}
+.dot{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;border:3px solid var(--side);background:#80848e}.dot.online{background:#23a55a}.dot.idle{background:#f0b232}.dot.dnd{background:#f23f43}
+.fr .dot{border-color:var(--main)}.up .dot{border-color:#18181c}.pc .dot{border-color:#1a1a1e}.avw .dot{width:14px;height:14px}
+.bd{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-size:12px;vertical-align:middle;margin-left:4px}
+.up{position:fixed;left:8px;bottom:8px;width:320px;height:60px;background:#18181c;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;padding:0 8px;gap:2px;z-index:20;box-shadow:0 4px 18px #0008}
+#upb{display:flex;gap:10px;align-items:center;padding:5px 8px;border-radius:8px;cursor:pointer;flex:1;min-width:0;transition:.15s}#upb:hover{background:#ffffff14}#upb b{display:block;font-size:15px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#upb .mu{font-size:12.5px}
+.ib{width:34px;height:34px;padding:0;border-radius:8px;background:none;color:#c4c7cd;display:grid;place-items:center}.ib:hover{background:#ffffff14;filter:none;color:#fff}.ib.mute{background:#3a1d20;color:#f2575c}
+.ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:50;animation:fi .2s}@keyframes fi{from{opacity:0}}
+.md{background:#1e1f25;padding:24px;border-radius:14px;width:min(440px,92vw);max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px #000}.md .pc{margin:-24px -24px 0}
+.pc{background:#1a1a1e;border-radius:14px;position:relative}.bn{height:110px;background:var(--br);background-size:cover;background-position:center;border-radius:14px 14px 0 0}
+.pav{position:relative;margin:-46px 0 0 16px;display:inline-flex}.pav .av{border:6px solid #1a1a1e}.pav .dot{right:2px;bottom:2px;width:26px;height:26px;border-width:5px}
+.note{position:absolute;left:116px;top:76px;max-width:200px;background:#242429;border-radius:16px;padding:9px 14px;font-style:italic;color:var(--mu);font-size:14px;line-height:1.3;cursor:default}.note.own{cursor:pointer}.note.own:hover{background:#2c2c32}
+.pb{padding:6px 18px 16px}.nm{display:flex;align-items:center;gap:2px;font-size:22px;font-weight:700}
+.upop{position:fixed;left:8px;bottom:76px;width:340px;z-index:40;background:#1a1a1e;border:1px solid #2f2f36;border-radius:14px;box-shadow:0 10px 40px #000c;transform-origin:bottom left;padding-bottom:14px}.upop .pc{border-radius:14px 14px 0 0}
+.promo{margin:0 16px 10px;padding:14px;border-radius:12px;border:1.5px solid transparent;background:linear-gradient(#1a1a1e,#1a1a1e) padding-box,linear-gradient(90deg,#a855f7,#5865f2) border-box;position:relative}.promo b{display:block;margin-bottom:10px}.promo .row{margin:0}.promo button{flex:1}.promo .x{position:absolute;right:10px;top:12px;cursor:pointer;color:var(--mu);padding:0;background:none}
+.pcard{margin:0 16px 10px;background:var(--card);border-radius:12px;padding:4px 0}.pr{display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer;color:#c9ccd1;transition:.15s}.pr:hover{background:#ffffff0a}.pr span{flex:1}.pcard hr{margin:0 16px}.pr.dng{color:#f2575c}
+.sl{display:none;padding:0 0 6px 30px}.sl.open{display:block;animation:sl .2s}.sl div{padding:8px 16px;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:12px}.sl div:hover{background:#ffffff0f}.sd{width:12px;height:12px;border-radius:50%;display:inline-block}
+.menu{position:fixed;z-index:60;background:#0c0c0e;border:1px solid var(--line);padding:6px;border-radius:8px;min-width:190px;box-shadow:0 6px 24px #000c}.menu hr{margin:4px 0}
+.mi{padding:8px 10px;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14.5px}.mi:hover{background:var(--br)}.mi.dng{color:#f2575c}.mi.dng:hover{background:var(--rd);color:#fff}
 .sw{width:18px;height:18px;border-radius:50%;display:inline-block}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#111214;padding:10px 18px;border-radius:8px;z-index:99;animation:pop .2s}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#0c0c0e;border:1px solid var(--line);padding:11px 20px;border-radius:10px;z-index:99;animation:pop .2s}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media(max-width:700px){.mem,.side{display:none}}
+@media(max-width:800px){.mem,.an{display:none}}@media(max-width:600px){.side{display:none}}
 </style></head><body><div id="root"></div>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P={friends:'<path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 20c0-3 3.500-5 7-5s7 2 7 5v1H2v-1Zm15-4.800c3 .1 5 1.600 5 3.800v2h-4v-1.500c0-1.800-.4-3.300-1-4.300Z"/>',chat:'<path d="M12 3C6.500 3 2 6.600 2 11c0 2.200 1.100 4.200 3 5.600V21l4-2.200c.6.100 1.300.2 2 .2 5.500 0 10-3.600 10-8s-4.500-8-10-8Z"/>',dots:'<circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>',search:'<path d="M10 3a7 7 0 1 0 4.200 12.600l5.100 5.100 1.400-1.400-5.100-5.100A7 7 0 0 0 10 3Zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>',mic:'<path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.900V21h2v-3.100A7 7 0 0 0 19 11h-2Z"/>',head:'<path d="M12 3a9 9 0 0 0-9 9v6a3 3 0 0 0 3 3h1v-8H5v-1a7 7 0 0 1 14 0v1h-2v8h1a3 3 0 0 0 3-3v-6a9 9 0 0 0-9-9Z"/>',gear:'<circle cx="12" cy="12" r="7.500" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="2.100 1.900"/><circle cx="12" cy="12" r="5.500" fill="none" stroke="currentColor" stroke-width="2.500"/>',inbox:'<path d="M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm1 2v8h4l1 2h4l1-2h4V6H5Z"/>',help:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 15h2v-2h-2v2Zm1-11a4 4 0 0 0-4 4h2a2 2 0 1 1 3 1.700c-1.200.8-2 1.500-2 3.300h2c0-1 .5-1.300 1.400-2A4 4 0 0 0 12 6Z"/>',plus:'<path d="M13 5h-2v6H5v2h6v6h2v-6h6v-2h-6V5Z"/>',memo:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5 1.500 3.500L17 12l-3.500 1.500L12 17l-1.500-3.500L7 12l3.500-1.500L12 7Z"/>',pen:'<path d="M3 17.200V21h3.800L18 9.800 14.200 6 3 17.200ZM20.700 7a1 1 0 0 0 0-1.400l-2.300-2.300a1 1 0 0 0-1.400 0l-1.800 1.800L19 8.800 20.700 7Z"/>',chev:'<path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"/>',down:'<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>',x:'<path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2"/>',medal:'<circle cx="12" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 14l-2 7 6-3 6 3-2-7" fill="none" stroke="currentColor" stroke-width="2"/>',out:'<path d="M10 4H5v16h5M15 8l4 4-4 4M9 12h10" fill="none" stroke="currentColor" stroke-width="2"/>',logo:'<path d="M5 5h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H9l-4 3v-3a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z"/><circle cx="8.500" cy="12" r="1.700" fill="#5865f2"/><circle cx="15.500" cy="12" r="1.700" fill="#5865f2"/>'};
+const I=(n,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor">${P[n]}</svg>`;
 const K='chatcord_v1',SK='chatcord_seen',MEMO_KEY='MEMO-PLACEHOLDER-KEY',BTC='bc1qPLACEHOLDERADDRESS0000000000000000000';
 let db;try{db=JSON.parse(localStorage[K])}catch{}db=db||{users:{},servers:{},dms:{},inv:{}};
 const mem0={},ss={get:k=>{try{return sessionStorage.getItem(k)}catch{return mem0[k]}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch{mem0[k]=v}},del:k=>{try{sessionStorage.removeItem(k)}catch{delete mem0[k]}}};
-let me=ss.get('me'),view={t:'friends',tab:'online'};
+let me=ss.get('me'),view={t:'friends',tab:'online'},nav=1,muted=1,deaf=0;
+const go=v=>{view=v;nav=1;render()};
 const save=()=>{try{localStorage[K]=JSON.stringify(db)}catch{toast('Storage full. Use a smaller image.')}};
 const U=u=>db.users[u],dn=u=>esc(U(u)?.display||u),rid=()=>Math.random().toString(36).slice(2,10);
 const sha=async t=>{const o=[];try{o.push([...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('cc:'+t)))].map(b=>b.toString(16).padStart(2,'0')).join(''))}catch{}let h=5381,g=52711;for(const c of 'cc:'+t){h=(h*33^c.codePointAt(0))>>>0;g=(g*31+c.codePointAt(0))>>>0}o.push('x'+h+'-'+g);return o};
@@ -67,12 +88,13 @@ const hasMemo=u=>u==='9584'||U(u)?.memo;
 const seen=()=>{try{return JSON.parse(localStorage[SK]||'{}')}catch{return{}}};
 const online=u=>U(u)&&U(u).status!=='invisible'&&Date.now()-(seen()[u]||0)<30000;
 const dot=u=>online(u)?(U(u).status||'online'):'off';
-const ST={online:'Online',idle:'Idle',dnd:'Do Not Disturb',invisible:'Invisible'};
+const ST={online:['Online','#23a55a'],idle:['Idle','#f0b232'],dnd:['Do Not Disturb','#f23f43'],invisible:['Invisible','#80848e']};
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2600)}
 const B={own:['👑','#f0b232','Server Owner'],dev:['🛠','#5865f2','Active Developer'],bird:['☁','#e3e5e8','Early Supporter'],memo:['✦','#eb459e','Memo']};
-const badges=u=>(u==='9584'?['own','dev','bird','memo']:U(u)?.memo?['memo']:[]).map(k=>`<span class="bd" style="background:${B[k][1]}" title="${B[k][2]}">${B[k][0]}</span>`).join('');
+const bk=u=>u==='9584'?['own','dev','bird','memo']:U(u)?.memo?['memo']:[];
+const badges=u=>bk(u).map(k=>`<span class="bd" style="background:${B[k][1]}" title="${B[k][2]}">${B[k][0]}</span>`).join('');
 const av=(u,s=40)=>{const x=U(u);return x?.avatar?`<img class="av" src="${x.avatar}" style="width:${s}px;height:${s}px">`:`<div class="av" style="width:${s}px;height:${s}px;font-size:${s/2}px;background:hsl(${[...u].reduce((a,c)=>a+c.charCodeAt(0),0)*37%360} 50% 45%)">${esc((x?.display||u)[0].toUpperCase())}</div>`};
-const card=u=>{const x=U(u);return`<div class="pc"><div class="bn" style="${x.banner?`background-image:url(${x.banner})`:'background:var(--br)'}"></div><div class="pav">${av(u,84)}<i class="dot ${dot(u)}"></i></div><div class="pb"><b class="big">${dn(u)}</b> ${badges(u)}<div class="mu">${esc(u)}</div></div></div>`};
+const card=(u,own)=>{const x=U(u);return`<div class="pc"><div class="bn" style="${x.banner?`background-image:url(${x.banner})`:''}"></div><div class="pav">${av(u,84)}<i class="dot ${dot(u)}"></i></div>${x.note||own?`<div class="note ${own?'own':''}" ${own?'onclick="setNote()"':''}>${esc(x.note||'What have you been reading?')}</div>`:''}<div class="pb"><div class="nm">${dn(u)}${badges(u)}</div><div class="mu">${esc(u)}</div></div></div>`};
 const showProfile=u=>modal(card(u));
 const rc=(s,u)=>(s&&(s.mr[u]||[]).map(i=>s.roles.find(r=>r.id==i)).find(Boolean)?.color)||'#f2f3f5';
 
@@ -86,44 +108,50 @@ const img=(f,max,anim)=>new Promise((ok,no)=>{const r=new FileReader();r.onerror
 
 /* ---------- auth ---------- */
 function authView(mode='login'){const L=mode=='login';
-$('#root').innerHTML=`<div class="auth"><div class="card pop"><h1>${L?'Welcome back':'Create an account'}</h1><p class="mu" style="margin:6px 0 18px">${L?'Log in to pick up your conversations.':'Pick a username and password.'}</p><label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><input id="ap" type="password"><button id="ab">${L?'Log in':'Register'}</button><p class="mu">${L?'Need an account? <a onclick="authView(\'reg\')">Register</a>':'<a onclick="authView()">Already have an account?</a>'}</p></div></div>`;
+$('#root').innerHTML=`<div class="auth"><div class="card pop"><h1>${L?'Welcome back!':'Create an account'}</h1><p class="mu" style="margin:6px 0 20px">${L?'We are so excited to see you again!':'Pick a username and password.'}</p><label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><input id="ap" type="password"><button id="ab">${L?'Log In':'Continue'}</button><p class="mu">${L?'Need an account? <a onclick="authView(\'reg\')">Register</a>':'<a onclick="authView()">Already have an account?</a>'}</p></div></div>`;
 $('#ap').onkeydown=$('#au').onkeydown=e=>{if(e.key=='Enter')$('#ab').click()};$('#au').focus();
 $('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;
 if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');
 const hs=await sha(p),h=hs[0];
 if(L){if(!db.users[u]||!hs.includes(db.users[u].pass))return toast('Wrong username or password')}
 else{if(p.length<6)return toast('Password needs at least 6 characters');if(db.users[u])return toast('That username is taken');db.users[u]={pass:h,display:u,friends:[],blocked:[],status:'online'};save()}
-me=u;ss.set('me',u);view={t:'friends',tab:'online'};render()}catch(e){toast('Error: '+e.message)}}}
+me=u;ss.set('me',u);go({t:'friends',tab:'online'})}catch(e){toast('Error: '+e.message)}}}
 
 /* ---------- profile ---------- */
-function pop(){if($('.upop'))return $('.upop').remove();const d=document.createElement('div');d.className='upop pop';
-d.innerHTML=card(me)+`<div class="pm"><div class="mi" onclick="editProfile()">✏️ Edit Profile</div><div class="mi">Status <select onchange="setStatus(this.value)">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${U(me).status==k?'selected':''}>${v}</option>`).join('')}</select></div><div class="mi" onclick="memoModal()">✦ ${hasMemo(me)?'Memo active':'Get Memo'}</div><div class="mi dng" onclick="logout()">Log out</div></div>`;document.body.append(d)}
+function pop(){if($('.upop'))return $('.upop').remove();const d=document.createElement('div');d.className='upop pop';const st=U(me).status||'online';
+d.innerHTML=card(me,1)+(hasMemo(me)?'':`<div class="promo"><b>Amp up your profile</b><button class="x" onclick="this.parentNode.remove()">${I('x',16)}</button><div class="row"><button class="g" onclick="memoModal()">${I('memo',16)}&nbsp;Get Memo</button><button class="g" onclick="editProfile()">Customize</button></div></div>`)+
+`<div class="pcard"><div class="pr" onclick="editProfile()">${I('pen',20)}<span>Edit Profile</span></div><hr><div class="pr" onclick="$('#stl').classList.toggle('open')"><i class="sd" style="background:${ST[st][1]}"></i><span>${ST[st][0]}</span>${I('chev',18)}</div><div class="sl" id="stl">${Object.entries(ST).map(([k,v])=>`<div onclick="setStatus('${k}')"><i class="sd" style="background:${v[1]}"></i>${v[0]}</div>`).join('')}</div><hr><div class="pr" onclick="showBadges()">${I('medal',20)}<span>Badges</span></div></div><div class="pcard"><div class="pr dng" onclick="logout()">${I('out',20)}<span>Log out</span></div></div>`;document.body.append(d)}
 const setStatus=v=>{U(me).status=v;save();$('.upop')?.remove();render()};
+function setNote(){const n=prompt('Set a note',U(me).note||'');if(n!=null){U(me).note=n.slice(0,60);save();$('.upop')?.remove();render()}}
+function showBadges(){$('.upop')?.remove();modal('<h2>Badges</h2>'+(bk(me).map(k=>`<div class="row"><span class="bd" style="background:${B[k][1]}">${B[k][0]}</span>${B[k][2]}</div>`).join('')||'<p class="mu">No badges yet.</p>'))}
 function logout(){ss.del('me');me=null;$('.upop')?.remove();authView()}
 function editProfile(){$('.upop')?.remove();const x=U(me),m=hasMemo(me);
-modal(`<h2>Edit Profile</h2><label>DISPLAY NAME</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate ✦)':'(static image)'}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'✦':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}>${m?'':'<p class="mu">Custom banners and animated avatars need Memo. <a onclick="memoModal()">Get Memo</a></p>'}<div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Cancel</button><button id="es">Save changes</button></div>`);
+modal(`<h2>Edit Profile</h2><label>DISPLAY NAME</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate)':'(static image)'}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}>${m?'':'<p class="mu">Custom banners and animated avatars need Memo. <a onclick="memoModal()">Get Memo</a></p>'}<div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Cancel</button><button id="es">Save changes</button></div>`);
 $('#es').onclick=async()=>{const n=$('#ed').value.trim(),a=$('#ea').files[0],b=$('#eb').files[0];try{if(a)x.avatar=await img(a,128,m);if(b&&m)x.banner=await img(b,640,m)}catch{return toast('Image failed. Animated GIFs must be under 1.5 MB.')}if(n)x.display=n;save();closeModal();render()}}
-function memoModal(){$('.upop')?.remove();modal(`<h2>✦ Memo</h2><p class="mu" style="margin-bottom:12px">Unlock custom banners and animated profile pictures. Send BTC to this address, then enter the license key you receive.</p><label>BTC ADDRESS (placeholder)</label><input readonly value="${BTC}" onclick="this.select()"><button class="g" onclick="navigator.clipboard?.writeText('${BTC}');toast('Address copied')">Copy address</button><hr><label>LICENSE KEY</label><input id="mk"><div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Close</button><button id="mb">Activate</button></div>`);
+function memoModal(){$('.upop')?.remove();modal(`<h2>Memo</h2><p class="mu" style="margin-bottom:12px">Unlock custom banners and animated profile pictures. Send BTC to this address, then enter the license key you receive.</p><label>BTC ADDRESS (placeholder)</label><input readonly value="${BTC}" onclick="this.select()"><button class="g" onclick="navigator.clipboard?.writeText('${BTC}');toast('Address copied')">Copy address</button><hr><label>LICENSE KEY</label><input id="mk"><div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Close</button><button id="mb">Activate</button></div>`);
 $('#mb').onclick=()=>{if($('#mk').value.trim()===MEMO_KEY){U(me).memo=1;save();closeModal();render();toast('Memo activated')}else toast('Invalid license key')}}
+function quick(){modal(`<h2>Where would you like to go?</h2><input id="qs" placeholder="Search friends"><div id="ql"></div>`);const f=()=>{const q=$('#qs').value.toLowerCase();$('#ql').innerHTML=U(me).friends.filter(u=>(u+(U(u).display||'')).toLowerCase().includes(q)).map(u=>`<div class="mi" onclick="closeModal();dm('${u}')">${av(u,28)}${dn(u)}</div>`).join('')||'<p class="mu">No matches</p>'};$('#qs').oninput=f;f();$('#qs').focus()}
 
 /* ---------- friends ---------- */
-const dm=u=>{view={t:'dm',id:u};render()};
+const dm=u=>go({t:'dm',id:u});
 function blk(u,on){const x=U(me);if(on){x.blocked.includes(u)||x.blocked.push(u);x.friends=x.friends.filter(f=>f!=u);U(u).friends=U(u).friends.filter(f=>f!=me)}else x.blocked=x.blocked.filter(f=>f!=u);save();toast(on?'Blocked '+u:'Unblocked '+u);render()}
 function unf(u){U(me).friends=U(me).friends.filter(f=>f!=u);U(u).friends=U(u).friends.filter(f=>f!=me);save();render()}
 function addFriend(){const x=U(me),n=$('#af').value.trim(),y=U(n);if(!y||n==me)return toast('No user with that username');if(y.blocked.includes(me)||x.blocked.includes(n))return toast('You cannot add this user');if(!x.friends.includes(n)){x.friends.push(n);y.friends.push(me)}save();toast('Added '+n);render()}
+const fsf=v=>document.querySelectorAll('.fr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(v.toLowerCase())?'':'none');
 function friendsView(){const x=U(me),t=view.tab;
-let h=`<div class="top"><b>👥 Friends</b>${['online','all','blocked'].map(k=>`<span class="tab ${t==k?'on':''}" onclick="view.tab='${k}';render()">${k[0].toUpperCase()+k.slice(1)}</span>`).join('')}<span class="tab add ${t=='add'?'on2':''}" onclick="view.tab='add';render()">Add Friend</span></div><div class="body">`;
-if(t=='add')h+=`<h2>Add Friend</h2><p class="mu">Enter their exact username.</p><div class="row"><input id="af" placeholder="Username" style="margin:0"><button id="ab2" style="white-space:nowrap">Add friend</button></div>`;
+const tabs=['online','all','blocked'].map(k=>`<span class="tab ${t==k?'on':''}" onclick="view.tab='${k}';render()">${k[0].toUpperCase()+k.slice(1)}</span>`).join('');
+let b;
+if(t=='add')b=`<h2 class="h2">Add Friend</h2><p class="mu" style="margin:4px 0 16px">You can add friends with their username.</p><div class="sb">${I('search',18)}<input id="af" placeholder="Enter a username"><button id="ab2">Add friend</button></div>`;
 else{const l=(t=='blocked'?x.blocked:x.friends).filter(u=>U(u)&&(t!='online'||online(u)));
-h+=`<div class="mu" style="margin-bottom:8px">${t=='online'?'Online':t=='all'?'All friends':'Blocked'}: ${l.length}</div>`+(l.map(u=>`<div class="fr" data-ctx="friend:${u}"><div class="avw">${av(u,38)}<i class="dot ${dot(u)}"></i></div><div><b>${dn(u)}</b> ${badges(u)}<div class="mu">${esc(u)}</div></div><span class="sp"></span>${t=='blocked'?`<button class="g" onclick="blk('${u}',0)">Unblock</button>`:`<button class="g" onclick="dm('${u}')">💬</button>`}</div>`).join('')||`<p class="mu">${t=='online'?'No friends online right now.':t=='blocked'?'You have not blocked anyone.':'Add a friend to get started.'}</p>`)}
-return h+'</div>'}
+b=`<div class="sb">${I('search',20)}<input id="fs" placeholder="Search" oninput="fsf(this.value)"></div><div class="lh">${t=='online'?'Online':t=='all'?'All friends':'Blocked'} — ${l.length}</div>`+(l.map(u=>`<div class="fr" data-ctx="friend:${u}" ${t=='blocked'?'':`onclick="dm('${u}')"`}><div class="avw">${av(u,40)}<i class="dot ${dot(u)}"></i></div><div><b>${dn(u)}</b> ${badges(u)}<div class="mu">${esc(u)}</div></div><span class="sp"></span>${t=='blocked'?`<button class="g" onclick="blk('${u}',0)">Unblock</button>`:`<button class="cb" title="Message" onclick="event.stopPropagation();dm('${u}')">${I('chat',18)}</button><button class="cb" title="More" onclick="event.stopPropagation();ctx.friend(event,'${u}')">${I('dots',18)}</button>`}</div>`).join('')||`<p class="mu" style="padding-top:20px">${t=='online'?'No friends online right now.':t=='blocked'?'You have not blocked anyone.':'Add a friend to get started.'}</p>`)}
+return`<div class="top">${I('friends',22)}<b>Friends</b><i class="sep"></i>${tabs}<span class="tab add ${t=='add'?'on2':''}" onclick="view.tab='add';render()">Add Friend</span><span class="sp"></span><span class="tab" title="New message" onclick="quick()">${I('chat',20)}</span></div><div class="fb"><div class="fl">${b}</div><aside class="an"><h2>Active Now</h2><div class="ac"><b>It’s quiet for now…</b><span class="mu">When a friend starts an activity, like playing a game or hanging out on voice, we’ll show it here!</span></div></aside></div>`}
 
 /* ---------- servers ---------- */
 function addServer(){modal(`<h2>Create a server</h2><label>SERVER NAME</label><input id="sn" maxlength="32"><label>SERVER ICON</label><input id="si" type="file" accept="image/*"><button id="sc" style="width:100%">Create server</button><hr><h2>Join a server</h2><label>INVITE CODE</label><input id="sj"><button class="g" id="sjb" style="width:100%">Join server</button>`);
-$('#sc').onclick=async()=>{const n=$('#sn').value.trim();if(!n)return toast('Give your server a name');let ic='';const f=$('#si').files[0];if(f)try{ic=await img(f,128,0)}catch{}const id=rid(),c=rid().toUpperCase();db.servers[id]={name:n,icon:ic,owner:me,members:[me],bans:[],timeouts:{},roles:[],mr:{},msgs:[],code:c};db.inv[c]=id;save();closeModal();view={t:'srv',id};render()};
-$('#sjb').onclick=()=>{const id=db.inv[$('#sj').value.trim().toUpperCase()],s=db.servers[id];if(!s)return toast('Invalid invite code');if(s.bans.includes(me))return toast('You are banned from this server');if(!s.members.includes(me))s.members.push(me);save();closeModal();view={t:'srv',id};render()}}
-function invite(id){const c=db.servers[id].code;navigator.clipboard?.writeText(c);modal(`<h2>Invite friends</h2><p class="mu">Send this code. They choose + then Join a server. Copied to your clipboard.</p><input readonly value="${c}" onclick="this.select()" style="font-size:20px;text-align:center;letter-spacing:3px"><button style="width:100%" onclick="closeModal()">Done</button>`)}
-function roles(id){const s=db.servers[id];modal(`<h2>Roles</h2>${s.roles.map(r=>`<div class="row"><i class="sw" style="background:${r.color}"></i><span style="color:${r.color}">${esc(r.name)}</span><span class="sp"></span><button class="r" onclick="delRole('${id}','${r.id}')">Delete</button></div>`).join('')||'<p class="mu">No roles yet. Create one below, then right-click a member to assign it.</p>'}<hr><label>NEW ROLE</label><input id="rn" maxlength="24" placeholder="Role name"><div class="row"><input id="rc" type="color" value="#5865f2" style="height:40px;margin:0"><button id="ra">Add role</button></div>${s.bans.length?`<hr><label>BANNED</label>${s.bans.map(b=>`<div class="row"><span>${esc(b)}</span><span class="sp"></span><button class="g" onclick="unban('${id}','${b}')">Unban</button></div>`).join('')}`:''}`);
+$('#sc').onclick=async()=>{const n=$('#sn').value.trim();if(!n)return toast('Give your server a name');let ic='';const f=$('#si').files[0];if(f)try{ic=await img(f,128,0)}catch{}const id=rid(),c=rid().toUpperCase();db.servers[id]={name:n,icon:ic,owner:me,members:[me],bans:[],timeouts:{},roles:[],mr:{},msgs:[],code:c};db.inv[c]=id;save();closeModal();go({t:'srv',id})};
+$('#sjb').onclick=()=>{const id=db.inv[$('#sj').value.trim().toUpperCase()],s=db.servers[id];if(!s)return toast('Invalid invite code');if(s.bans.includes(me))return toast('You are banned from this server');if(!s.members.includes(me))s.members.push(me);save();closeModal();go({t:'srv',id})}}
+function invite(id){const c=db.servers[id].code;navigator.clipboard?.writeText(c);modal(`<h2>Invite friends</h2><p class="mu" style="margin-bottom:10px">Send this code. They click + then Join a server. It is copied to your clipboard.</p><input readonly value="${c}" onclick="this.select()" style="font-size:20px;text-align:center;letter-spacing:3px"><button style="width:100%" onclick="closeModal()">Done</button>`)}
+function roles(id){const s=db.servers[id];modal(`<h2>Roles</h2>${s.roles.map(r=>`<div class="row"><i class="sw" style="background:${r.color}"></i><span style="color:${r.color}">${esc(r.name)}</span><span class="sp"></span><button class="r" onclick="delRole('${id}','${r.id}')">Delete</button></div>`).join('')||'<p class="mu">No roles yet. Create one below, then right-click a member to assign it.</p>'}<hr><label>NEW ROLE</label><input id="rn" maxlength="24" placeholder="Role name"><div class="row"><input id="rc" type="color" value="#5865f2" style="height:42px;margin:0"><button id="ra">Add role</button></div>${s.bans.length?`<hr><label>BANNED</label>${s.bans.map(b=>`<div class="row"><span>${esc(b)}</span><span class="sp"></span><button class="g" onclick="unban('${id}','${b}')">Unban</button></div>`).join('')}`:''}`);
 $('#ra').onclick=()=>{const n=$('#rn').value.trim();if(!n)return toast('Name the role');s.roles.push({id:rid(),name:n,color:$('#rc').value});save();roles(id);render()}}
 const delRole=(id,r)=>{const s=db.servers[id];s.roles=s.roles.filter(x=>x.id!=r);for(const u in s.mr)s.mr[u]=s.mr[u].filter(x=>x!=r);save();roles(id);render()};
 const unban=(id,u)=>{const s=db.servers[id];s.bans=s.bans.filter(x=>x!=u);save();roles(id)};
@@ -132,35 +160,37 @@ const tmo=(s,u,min)=>{min?s.timeouts[u]=Date.now()+min*6e4:delete s.timeouts[u];
 function togRole(s,u,r){const a=s.mr[u]=s.mr[u]||[];a.includes(r)?a.splice(a.indexOf(r),1):a.push(r);save();render()}
 const ctx={
 friend:(e,u)=>{const b=U(me).blocked.includes(u);menu(e,[{l:'Message',f:()=>dm(u)},{l:'Profile',f:()=>showProfile(u)},'-',b?{l:'Unblock',f:()=>blk(u,0)}:{l:'Block',d:1,f:()=>blk(u,1)},...(!b&&U(me).friends.includes(u)?[{l:'Remove friend',d:1,f:()=>unf(u)}]:[])])},
-srv:(e,id)=>{const s=db.servers[id],o=s.owner==me;menu(e,[{l:'Invite',f:()=>invite(id)},...(o?[{l:'Manage roles',f:()=>roles(id)},'-',{l:'Delete server',d:1,f:()=>{if(confirm('Delete this server for everyone?')){delete db.inv[s.code];delete db.servers[id];save();view={t:'friends',tab:'online'};render()}}}]:['-',{l:'Leave server',d:1,f:()=>{s.members=s.members.filter(m=>m!=me);save();render()}}])])},
+srv:(e,id)=>{const s=db.servers[id],o=s.owner==me;menu(e,[{l:'Invite',f:()=>invite(id)},...(o?[{l:'Manage roles',f:()=>roles(id)},'-',{l:'Delete server',d:1,f:()=>{if(confirm('Delete this server for everyone?')){delete db.inv[s.code];delete db.servers[id];save();go({t:'friends',tab:'online'})}}}]:['-',{l:'Leave server',d:1,f:()=>{s.members=s.members.filter(m=>m!=me);save();render()}}])])},
 mem:(e,u)=>{const s=db.servers[view.id];if(!s)return;const it=[{l:'Profile',f:()=>showProfile(u)}];
 if(s.owner==me&&u!=me)it.push('-',...s.roles.map(r=>({l:`${(s.mr[u]||[]).includes(r.id)?'✓ ':''}Role: ${esc(r.name)}`,f:()=>togRole(s,u,r.id)})),'-',{l:'Timeout 5 minutes',f:()=>tmo(s,u,5)},{l:'Timeout 1 hour',f:()=>tmo(s,u,60)},{l:'Timeout 1 day',f:()=>tmo(s,u,1440)},{l:'Remove timeout',f:()=>tmo(s,u,0)},'-',{l:'Kick',d:1,f:()=>kick(s,u,0)},{l:'Ban',d:1,f:()=>kick(s,u,1)});
 menu(e,it)}};
 
 /* ---------- chat ---------- */
 function chat(title,msgs,s,lock){const x=U(me),l=msgs.filter(m=>!x.blocked.includes(m.u));
-return`<div class="top"><b>${title}</b></div><div id="msgs" class="msgs">${l.map((m,i)=>`<div class="msg ${i==l.length-1?'slide':''}"><span onclick="showProfile('${m.u}')">${av(m.u,40)}</span><div><b style="color:${rc(s,m.u)}">${dn(m.u)}</b> ${badges(m.u)}<span class="mu"> ${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div>${esc(m.x)}</div></div></div>`).join('')||'<p class="mu">This is the start of the conversation.</p>'}</div><div class="inw"><input id="inp" autocomplete="off" ${lock?'disabled':''} placeholder="${lock||'Message'}"></div>`}
+return`<div class="top">${title}</div><div id="msgs" class="msgs">${l.map((m,i)=>`<div class="msg ${i==l.length-1?'slide':''}"><span onclick="showProfile('${m.u}')">${av(m.u,40)}</span><div><b style="color:${rc(s,m.u)}">${dn(m.u)}</b> ${badges(m.u)}<span class="mu"> ${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div>${esc(m.x)}</div></div></div>`).join('')||'<p class="mu" style="padding:8px 16px">This is the start of the conversation.</p>'}</div><div class="inw"><input id="inp" autocomplete="off" ${lock?'disabled':''} placeholder="${lock||'Message'}"></div>`}
 function send(t){const m={u:me,x:t.slice(0,2000),ts:Date.now()};
 if(view.t=='srv'){const s=db.servers[view.id];if(s.timeouts[me]>Date.now()||!s.members.includes(me))return;s.msgs.push(m);s.msgs=s.msgs.slice(-300)}
 else{const o=view.id;if(U(me).blocked.includes(o)||U(o).blocked.includes(me))return;const k=[me,o].sort().join('|');(db.dms[k]=db.dms[k]||[]).push(m);db.dms[k]=db.dms[k].slice(-300)}
 save();render();$('#inp')?.focus()}
 
 /* ---------- main render ---------- */
-function render(){if(!me||!U(me))return authView();
+function render(){if(!me||!U(me))return authView();beat();
 const iv=$('#inp')?.value,f=document.activeElement?.id=='inp';
 if(view.t=='srv'){const s=db.servers[view.id];if(!s||!s.members.includes(me))view={t:'friends',tab:'online'}}
-const x=U(me),s=db.servers[view.id];let m,side;
-if(view.t=='srv'){m=chat('# general',s.msgs,s,s.timeouts[me]>Date.now()?'You are timed out':'');
-side=`<div class="sh">${esc(s.name)}</div><div class="ch on"># general</div>${s.owner==me?`<div class="ch" onclick="roles('${view.id}')">⚙ Manage roles</div>`:''}`}
-else{if(view.t=='dm'){const o=view.id,k=[me,o].sort().join('|');m=chat('@ '+dn(o),db.dms[k]||[],null,x.blocked.includes(o)?'You blocked this user':U(o).blocked.includes(me)?'You cannot message this user':'')}else m=friendsView();
-side=`<div class="find">Find or start a conversation</div><div class="nav ${view.t=='friends'?'on':''}" onclick="view={t:'friends',tab:'online'};render()">👥 Friends</div><div class="mu" style="padding:14px 10px 4px">Direct messages</div>${x.friends.map(u=>`<div class="nav ${view.t=='dm'&&view.id==u?'on':''}" data-ctx="friend:${u}" onclick="dm('${u}')"><div class="avw">${av(u,32)}<i class="dot ${dot(u)}"></i></div>${dn(u)}</div>`).join('')}`}
-const rail=`<div class="ri ${view.t!='srv'?'on':''}" onclick="view={t:'friends',tab:'online'};render()" title="Home">💬</div><hr class="rs">${Object.entries(db.servers).filter(([i,v])=>v.members.includes(me)).map(([i,v])=>`<div class="ri ${view.t=='srv'&&view.id==i?'on':''}" data-ctx="srv:${i}" onclick="view={t:'srv',id:'${i}'};render()" title="${esc(v.name)}">${v.icon?`<img src="${v.icon}">`:esc(v.name.slice(0,2))}</div>`).join('')}<div class="ri add" onclick="addServer()" title="Create or join a server">+</div>`;
-const mem=view.t=='srv'?`<aside class="mem"><div class="mu" style="padding:0 8px 8px">Members: ${s.members.length}</div>${s.members.map(u=>`<div class="mrow ${online(u)?'':'offl'}" data-ctx="mem:${u}" onclick="showProfile('${u}')"><div class="avw">${av(u,32)}<i class="dot ${dot(u)}"></i></div><span style="color:${rc(s,u)}">${dn(u)}${u==s.owner?' 👑':''}</span></div>`).join('')}</aside>`:'';
-$('#root').innerHTML=`<div id="app"><nav class="rail">${rail}</nav><aside class="side"><div class="sc">${side}</div><div class="up"><div id="upb" onclick="pop()"><div class="avw">${av(me,32)}<i class="dot ${dot(me)}"></i></div><div><b>${dn(me)}</b><span class="mu">${ST[x.status||'online']}</span></div></div></div></aside><main>${m}</main>${mem}</div>`;
+const x=U(me),s=db.servers[view.id];let m,side,title;
+if(view.t=='srv'){title='# '+esc(s.name);m=chat('<span class="mu" style="font-size:22px">#</span> general',s.msgs,s,s.timeouts[me]>Date.now()?'You are timed out':'');
+side=`<div class="sh">${esc(s.name)}${I('down',18)}</div><div class="ch on"><span style="font-size:20px">#</span>general</div>${s.owner==me?`<div class="ch" onclick="roles('${view.id}')">${I('gear',20)}Manage roles</div>`:''}`}
+else{if(view.t=='dm'){const o=view.id,k=[me,o].sort().join('|');title='@ '+dn(o);m=chat(`${av(o,26)}<b>${dn(o)}</b>${badges(o)}`,db.dms[k]||[],null,x.blocked.includes(o)?'You blocked this user':U(o).blocked.includes(me)?'You cannot message this user':'')}else{title=I('friends',20)+' Friends';m=friendsView()}
+side=`<div class="fh"><div class="find" onclick="quick()">Find or start a conversation</div></div><div class="sc"><div class="nav ${view.t=='friends'?'on':''}" onclick="go({t:'friends',tab:'online'})">${I('friends',24)}Friends</div><div class="nav" onclick="memoModal()">${I('memo',24)}Memo</div><div class="dmh">Direct Messages<span onclick="go({t:'friends',tab:'add'})" title="Add a friend">${I('plus',18)}</span></div>${x.friends.map(u=>`<div class="nav dm ${view.t=='dm'&&view.id==u?'on':''}" data-ctx="friend:${u}" onclick="dm('${u}')"><div class="avw">${av(u,34)}<i class="dot ${dot(u)}"></i></div>${dn(u)}</div>`).join('')}</div>`}
+if(view.t=='srv')side=`<div class="sc">${side}</div>`;
+const rail=`<div class="ri home ${view.t!='srv'?'on':''}" onclick="go({t:'friends',tab:'online'})" title="Home">${I('logo',30)}</div><div class="rs"></div>${Object.entries(db.servers).filter(([i,v])=>v.members.includes(me)).map(([i,v])=>`<div class="ri ${view.t=='srv'&&view.id==i?'on':''}" data-ctx="srv:${i}" onclick="go({t:'srv',id:'${i}'})" title="${esc(v.name)}">${v.icon?`<img src="${v.icon}">`:esc(v.name.slice(0,2))}</div>`).join('')}<div class="ri add" onclick="addServer()" title="Create or join a server">${I('plus',24)}</div>`;
+const members=view.t=='srv'?`<aside class="mem"><div class="mu" style="padding:0 8px 8px">Members — ${s.members.length}</div>${s.members.map(u=>`<div class="mrow ${online(u)?'':'offl'}" data-ctx="mem:${u}" onclick="showProfile('${u}')"><div class="avw">${av(u,34)}<i class="dot ${dot(u)}"></i></div><span style="color:${rc(s,u)}">${dn(u)}${u==s.owner?' 👑':''}</span></div>`).join('')}</aside>`:'';
+$('#root').innerHTML=`<div id="app"><div class="tb">${title}<div class="tbr">${I('inbox',20)}${I('help',20)}</div></div><div class="wrap"><nav class="rail">${rail}</nav><aside class="side">${side}</aside><main class="${nav?'fade':''}">${m}</main>${members}</div><div class="up"><div id="upb" onclick="pop()" title="Your profile"><div class="avw">${av(me,36)}<i class="dot ${dot(me)}"></i></div><div style="min-width:0"><b>${dn(me)}</b><span class="mu">${ST[x.status||'online'][0]}</span></div></div><button class="ib ${muted?'mute':''}" title="Mute" onclick="muted=!muted;render()">${I('mic',20)}</button><button class="ib ${deaf?'mute':''}" title="Deafen" onclick="deaf=!deaf;render()">${I('head',20)}</button><button class="ib" title="User settings" onclick="editProfile()">${I('gear',20)}</button></div></div>`;
+nav=0;
 const i=$('#inp');if(i){if(iv)i.value=iv;if(f)i.focus();i.onkeydown=e=>{const t=i.value.trim();if(e.key=='Enter'&&t){i.value='';send(t)}};const g=$('#msgs');g.scrollTop=g.scrollHeight}
-$('#ab2')&&($('#ab2').onclick=addFriend,$('#af').onkeydown=e=>{if(e.key=='Enter')addFriend()})}
-addEventListener('storage',e=>{if(e.key==K&&e.newValue){db=JSON.parse(e.newValue);render()}});
+if($('#ab2')){$('#ab2').onclick=addFriend;$('#af').onkeydown=e=>{if(e.key=='Enter')addFriend()}}}
+addEventListener('storage',e=>{if(e.key==K&&e.newValue){db=JSON.parse(e.newValue);if(me)render()}});
 const beat=()=>{try{if(me){const s=seen();s[me]=Date.now();localStorage[SK]=JSON.stringify(s)}}catch{}};beat();setInterval(beat,10000);
-setInterval(()=>{if(me&&view.t=='friends'&&view.tab!='add')render()},20000);
+setInterval(()=>{if(me&&view.t=='friends'&&view.tab!='add'&&!document.activeElement?.matches('input'))render()},20000);
 render();
 </script></body></html>
