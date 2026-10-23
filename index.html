@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Memocord</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Memocord — The place to talk</title>
+<meta name="description" content="Memocord — hang out, chat with friends, share images and GIFs, and build your community. Your people, your conversations.">
+<meta name="theme-color" content="#ff6b45">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Memocord">
+<meta property="og:title" content="Memocord — The place to talk">
+<meta property="og:description" content="Chat with friends, share moments, and find your community. Memocord — your people, your conversations.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Memocord — The place to talk">
+<meta name="twitter:description" content="Chat with friends, share moments, and find your community. Memocord — your people, your conversations.">
 <style>
 :root{--rail:#101013;--side:#17171b;--main:#1e1e23;--card:#26262c;--line:#2e2e35;--tx:#ececef;--mu:#9a9da6;--br:#ff6b45}
 *{box-sizing:border-box;margin:0}html,body{height:100%}
@@ -176,16 +185,17 @@ const dmList=()=>[...new Set([...U(me).friends,...Object.keys(db.dms).filter(k=>
 function beep(){try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=720;g.gain.setValueAtTime(.1,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.3);o.start();o.stop(a.currentTime+.3)}catch{}}
 
 /* ===== Supabase sync ===== */
-const save=()=>{clearTimeout(saveT);saveT=setTimeout(push,300)};
-const pull=async()=>{const{data}=await sb.from('state').select('data').eq('id',1).maybeSingle();db=blank(data?.data)};
-const push=async()=>{if(!ready||!me)return;const r=rid();mine.add(r);db.rev=r;const{data:rw,error}=await sb.from('state').update({data:db}).eq('id',1).select('id');if(error)toast('Sync failed: '+error.message);else if(!rw?.length)toast('Sync failed: no permission to save')};
+const save=()=>{clearTimeout(saveT);saveT=setTimeout(()=>push().catch(e=>toast('Sync failed: '+e.message)),250)};
+const pull=async()=>{const{data,error}=await sb.from('state').select('data').eq('id',1).maybeSingle();if(error)throw error;db=blank(data?.data)};
+/* Shared-state sync: update the configured singleton row, and attempt an insert if it has not been created yet. Supabase RLS must allow signed-in users to write it. */
+const push=async()=>{if(!ready||!me||!sb)return;const r=rid();mine.add(r);db.rev=r;let res=await sb.from('state').update({data:db}).eq('id',1).select('id');if(!res.error&&!res.data?.length)res=await sb.from('state').insert({id:1,data:db}).select('id');if(res.error)toast('Sync failed: '+res.error.message+' (check Supabase state-table RLS policies)');else if(!res.data?.length)toast('Sync failed: Supabase did not allow saving the shared state')};
 function ensure(){let ch=0,s=db.servers[SID];
 if(!db.users[BOT]){db.users[BOT]={display:BOT,friends:[],b:['bot'],owned:[],links:[],joined:Date.now()};ch=1}
 if(!s){s=db.servers[SID]={name:CFG.starter.name,owner:OWNER,members:[],msgs:{},ch:mkCh(CFG.starter.channels),v2:1,emojis:{}};ch=1}
 if(!s.v2){s.ch=mkCh(CFG.starter.channels);s.v2=1;ch=1}
 if(!s.members.includes(me)){s.members.push(me);ch=1}if(ch)save()}
 function connect(){chan?.unsubscribe();chan=sb.channel('mc',{config:{presence:{key:me}}});
-chan.on('postgres_changes',{event:'UPDATE',schema:'public',table:'state'},p=>{const d=p.new.data;if(!d||mine.has(d.rev))return;const b=totU();db=blank(d);if(banned(me)){toast('Your account was banned');return logout()}const a=totU();
+chan.on('postgres_changes',{event:'*',schema:'public',table:'state'},p=>{const d=p.new?.data;if(!d||mine.has(d.rev))return;const b=totU();db=blank(d);if(banned(me)){toast('Your account was banned');return logout()}const a=totU();
 if(a>b){const s=set(me);if(s.sound)beep();toast('You have a new message');if(s.desk&&window.Notification&&Notification.permission=='granted')new Notification(CFG.name,{body:'You have a new message'})}render()})
 .on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()}).on('broadcast',{event:'sig'},({payload})=>onSig(payload))
 .subscribe(st=>{if(st=='SUBSCRIBED')chan.track({at:Date.now(),vc:call.vc})})}
@@ -353,7 +363,8 @@ const oldChat=chat;
 chat=function(head,msgs,lock,ph,s){const where=view.t==='srv'?'srv':'dm';return `<div class="top">${head}</div><div id="msgs" class="msgs">${msgs.filter(m=>U(m.u)).map(m=>`<div class="msg" data-ctx="message:${where}|${m.ts}"><span onclick="prof('${m.u}')">${av(m.u,40)}</span><div style="min-width:0;flex:1">${nameH(m.u)} <span class="mu">${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div class="msgtext">${fmt(m.x||'',m.u,s)}</div>${m.img?`<img class="msgimg" data-ctx="image:${esc(m.img)}" src="${esc(m.img)}" alt="Sent image">`:''}</div></div>`).join('')||'<p class="mu" style="padding:8px 16px">This is the start of the conversation.</p>'}</div><div class="inw"><div id="attachpreview"></div><div class="composer"><button class="toolbtn" onclick="$('#attach').click()" title="Upload image">＋</button><input id="attach" type="file" accept="image/*" hidden><textarea id="inp" rows="1" autocomplete="off" ${lock?'disabled':''} placeholder="${lock?CFG.text.lockedPost:ph}"></textarea><button class="toolbtn" onclick="gifMenu()" title="GIFs">GIF</button><button class="toolbtn" onclick="emojiMenu()" title="Emojis">☻</button><button onclick="sendFromComposer()" title="Send">➤</button></div></div>`};
 /* Keep the existing renderer but wire the new composer and custom context actions. */
 const oldDraw=draw;
-draw=function(){oldDraw();const i=$('#inp');if(i){i.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendFromComposer()}};const af=$('#attach');if(af)af.onchange=()=>{const f=af.files[0];if(!f)return;if(!f.type.startsWith('image/'))return toast('Choose an image');const r=new FileReader();r.onload=()=>{pendingImage=r.result;$('#attachpreview').innerHTML=`<div class="row"><img class="preview-image" src="${r.result}"><button class="g" onclick="pendingImage=null;$('#attachpreview').innerHTML=''">Remove</button></div>`};r.readAsDataURL(f)}}};
+draw=function(){oldDraw();const i=$('#inp');if(i){i.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendFromComposer()}};const af=$('#attach');if(af)af.onchange=()=>{const f=af.files[0];if(!f)return;if(!f.type.startsWith('image/'))return toast('Choose an image');loadComposerImage(f)};i.onpaste=e=>{const items=[...(e.clipboardData?.items||[])],it=items.find(x=>x.type.startsWith('image/'));if(!it)return;const f=it.getAsFile();if(f){e.preventDefault();loadComposerImage(f);toast('Image pasted — press send to share')}}}};
+function loadComposerImage(f){if(!f||!f.type.startsWith('image/'))return toast('Choose an image');if(f.size>8*1024*1024)return toast('Image must be under 8 MB');const r=new FileReader();r.onload=()=>{pendingImage=r.result;const p=$('#attachpreview');if(p)p.innerHTML=`<div class="row"><img class="preview-image" src="${r.result}"><button class="g" onclick="pendingImage=null;$('#attachpreview').innerHTML=''">Remove</button></div>`};r.onerror=()=>toast('Could not read image');r.readAsDataURL(f)}
 const oldCtxItems=ctxItems;
 ctxItems=function(k,id){if(k==='message'){const [where,mid]=id.split('|');const arr=where==='srv'?(cs().msgs[view.c]||[]):(db.dms[[me,view.id].sort().join('|')]||[]),m=arr.find(x=>String(x.ts)===mid);if(!m)return[];const a=[['Copy text',()=>copy(m.x||'')]];if(m.img)a.push(['Copy image',()=>copyImage(m.img)],['Save image',()=>saveImage(m.img)]);if(m.u===me||isA(me)||(where==='srv'&&cs().owner===me))a.push(['Delete message',()=>deleteMsg(mid,where),'dn']);return a}if(k==='image')return[['Copy image',()=>copyImage(id)],['Save image',()=>saveImage(id)]];if(k==='channel'){const [sid0,cid]=id.split('|');return canEdit(db.servers[sid0],sid0)?[['Edit channel name',()=>editChannelPrompt(sid0,cid)]]:[]}return oldCtxItems(k,id)};
 const baseCtxListener=addEventListener;
