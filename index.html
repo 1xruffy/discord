@@ -1,252 +1,223 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chatcord</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Memocord</title>
 <style>
-:root{--rail:#0e0e11;--side:#131316;--main:#1a1a1e;--card:#232328;--sel:#2c2c32;--line:#2b2b31;--tx:#e6e7ea;--mu:#9a9da6;--br:#5865f2;--rd:#da373c}
+:root{--rail:#0e0e11;--side:#131316;--main:#1a1a1e;--card:#232328;--line:#2b2b31;--tx:#e6e7ea;--mu:#9a9da6;--br:#5865f2}
 *{box-sizing:border-box;margin:0}html,body{height:100%}
-body{font:16px/1.375 "gg sans","Noto Sans","Segoe UI",system-ui,sans-serif;background:var(--rail);color:var(--tx);overflow:hidden}
-svg{display:block;flex:none}button,input,select{font:inherit;color:inherit}
-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;border:0;border-radius:8px;padding:9px 16px;background:var(--br);font-weight:600;transition:filter .15s,transform .15s,background .15s}
-button:hover{filter:brightness(1.12)}button:active{transform:scale(.97)}button.g{background:#34343a}button.r{background:var(--rd)}
-input,select{background:#0e0e11;border:1px solid var(--line);border-radius:8px;padding:11px 12px;width:100%;outline:0;transition:box-shadow .15s,border-color .15s;margin:6px 0 12px}
-input:focus{border-color:var(--br);box-shadow:0 0 0 3px #5865f244}select{width:auto;margin:0;padding:4px 6px;background:var(--card)}
-label{font-size:12px;font-weight:700;color:var(--mu)}h2{margin-bottom:10px}hr{border:0;border-top:1px solid var(--line);margin:12px 0}
-a{color:#00a8fc;cursor:pointer}.mu{color:var(--mu);font-size:14px}.row{display:flex;gap:8px;align-items:center;margin:8px 0}.sp{flex:1}
+body{font:16px/1.4 system-ui,"Segoe UI",sans-serif;background:var(--rail);color:var(--tx);overflow:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;border-radius:8px;padding:9px 16px;background:var(--br);font-weight:600;transition:filter .15s,transform .15s}
+button:hover{filter:brightness(1.12)}button:active{transform:scale(.96)}button.g{background:#34343a}button.r{background:#da373c}
+input{background:#0e0e11;border:1px solid var(--line);border-radius:8px;padding:11px 12px;width:100%;outline:0;margin:6px 0 12px;transition:.15s}
+input:focus{border-color:var(--br);box-shadow:0 0 0 3px #5865f244}
+label{font-size:12px;font-weight:700;color:var(--mu)}h2{margin-bottom:10px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.mu{color:var(--mu);font-size:14px}.row{display:flex;gap:8px;align-items:center;margin:8px 0}.sp{flex:1}a{color:#00a8fc;cursor:pointer}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#ffffff1c;border-radius:4px}
-.pop{animation:pop .2s cubic-bezier(.2,1.3,.4,1)}@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}}
-.slide{animation:sl .3s ease}@keyframes sl{from{opacity:0;transform:translateY(12px)}}
-.fade{animation:fd .28s ease}@keyframes fd{from{opacity:0;transform:translateX(10px)}}
-.auth{height:100vh;display:grid;place-items:center;background:linear-gradient(130deg,#5865f2,#131316,#8b5cf6,#131316);background-size:300% 300%;animation:bg 14s ease infinite}@keyframes bg{50%{background-position:100% 100%}}
-.card{width:min(440px,92vw);background:#1e1f25;padding:32px;border-radius:14px;box-shadow:0 12px 50px #000a}.card h1{text-align:center;font-size:24px}.card button{display:flex;width:100%;margin:6px 0 12px;padding:12px}.card p{text-align:center}
-#app{display:flex;flex-direction:column;height:100vh}
-.tb{height:40px;flex:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px;position:relative;background:var(--rail)}
-.tbr{position:absolute;right:16px;display:flex;gap:18px;color:var(--mu)}.tbr svg:hover{color:#fff}
-.wrap{flex:1;display:flex;min-height:0}
-.rail{width:72px;flex:none;padding:6px 0 80px;display:flex;flex-direction:column;align-items:center;gap:8px;overflow-y:auto;scrollbar-width:none}
-.ri{width:50px;height:50px;border-radius:50%;background:#232328;display:grid;place-items:center;cursor:pointer;position:relative;font-weight:700;color:#d5d7dc;flex:none;transition:border-radius .2s,background .2s,transform .2s,color .2s}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}}
+@keyframes sl{from{opacity:0;transform:translateY(12px)}}
+@keyframes fd{from{opacity:0;transform:translateX(10px)}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 0 0 4px #23a55a33}}
+@keyframes tin{from{opacity:0;transform:translate(-50%,20px) scale(.9)}}
+@keyframes tout{to{opacity:0;transform:translate(-50%,10px)}}
+@keyframes bg{50%{background-position:100% 100%}}
+@keyframes msgin{from{opacity:0;transform:translateY(14px) scale(.98)}}
+.pop{animation:pop .2s cubic-bezier(.2,1.3,.4,1)}
+.auth{height:100vh;display:grid;place-items:center;background:linear-gradient(130deg,#5865f2,#131316,#8b5cf6,#131316);background-size:300% 300%;animation:bg 14s ease infinite}
+.spin{width:44px;height:44px;border:4px solid #ffffff33;border-top-color:#fff;border-radius:50%;animation:rot .8s linear infinite}
+.card{width:min(420px,92vw);background:#1e1f25;padding:32px;border-radius:14px;box-shadow:0 12px 50px #000a}
+.card h1{text-align:center;font-size:24px;animation:sl .5s .1s backwards}.card input,.card button{animation:sl .4s .2s backwards}.card button{width:100%;margin:6px 0 12px;padding:12px}.card p{text-align:center}
+#app{display:flex;height:100vh}
+.rail{width:72px;flex:none;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:8px;overflow-y:auto;scrollbar-width:none}
+.ri{width:50px;height:50px;border-radius:50%;background:var(--card);display:grid;place-items:center;cursor:pointer;position:relative;font-weight:700;flex:none;transition:border-radius .2s,background .2s,transform .2s}
 .ri img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .ri::before{content:"";position:absolute;left:-11px;top:50%;width:4px;height:8px;margin-top:-4px;background:#fff;border-radius:0 4px 4px 0;opacity:0;transition:.2s}
 .ri:hover::before{opacity:1;height:22px;margin-top:-11px}.ri.on::before{opacity:1;height:40px;margin-top:-20px}
-.ri:hover,.ri.on{border-radius:16px;background:var(--br);color:#fff}.ri:hover{transform:scale(1.05)}.ri.home{background:var(--br);color:#fff}.ri.home:not(.on){border-radius:50%}.ri.home:hover{border-radius:16px}
-.ri.add{color:#3ba55d;background:#232328}.ri.add:hover{background:#3ba55d;color:#fff}.rs{width:32px;border-top:2px solid var(--line);margin:2px 0}
-.side{width:264px;flex:none;background:var(--side);border-top:1px solid var(--line);border-left:1px solid var(--line);border-top-left-radius:12px;display:flex;flex-direction:column;min-height:0}
-.fh{padding:10px;border-bottom:1px solid var(--line)}.find{height:34px;background:#1d1d22;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:500;cursor:pointer;transition:.15s}.find:hover{background:#26262c}
-.sc{flex:1;overflow-y:auto;padding:8px 8px 80px}
-.sh{display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;font-weight:700;border-bottom:1px solid var(--line);margin:-8px -8px 8px}
-.nav,.ch{display:flex;align-items:center;gap:14px;min-height:44px;padding:0 12px;border-radius:8px;color:var(--mu);font-weight:500;cursor:pointer;transition:background .15s,color .15s,transform .15s}
-.nav:hover,.ch:hover{background:#ffffff0a;color:var(--tx)}.nav.on,.ch.on{background:var(--sel);color:#fff}.nav.dm{min-height:48px;padding:0 10px}
-.dmh{display:flex;justify-content:space-between;align-items:center;padding:18px 12px 6px;font-size:14px;color:var(--mu)}.dmh svg{cursor:pointer;transition:.15s}.dmh svg:hover{color:#fff;transform:rotate(90deg)}
+.ri:hover,.ri.on{border-radius:16px;background:var(--br)}.ri:hover{transform:scale(1.05)}.ri:active{transform:translateY(2px) scale(.94)}
+.ri.home{background:var(--br)}.ri.add{color:#3ba55a;font-size:24px}.ri.add:hover{background:#3ba55a;color:#fff}.rs{width:32px;border-top:2px solid var(--line)}
+.side{width:240px;flex:none;background:var(--side);border:1px solid var(--line);border-right:0;border-bottom:0;border-radius:12px 0 0 0;overflow-y:auto;padding:8px 8px 76px}
+.sh{height:44px;display:flex;align-items:center;font-weight:700;padding:0 8px;border-bottom:1px solid var(--line);margin:-8px -8px 8px}
+.nav{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 10px;border-radius:8px;color:var(--mu);font-weight:500;cursor:pointer;transition:background .15s,color .15s,transform .15s}
+.nav:hover{background:#ffffff0a;color:var(--tx);transform:translateX(3px)}.nav.on{background:#2c2c32;color:#fff}
+.dmh{padding:16px 10px 6px;font-size:13px;color:var(--mu);font-weight:600}
 main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
-.top{height:48px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 16px;font-weight:600}.sep{width:4px;height:4px;border-radius:50%;background:#4a4a52}
-.tab{padding:4px 12px;border-radius:8px;cursor:pointer;color:var(--mu);font-weight:500;transition:.15s}.tab:hover{background:#ffffff0d;color:var(--tx)}.tab.on{background:#303036;color:#fff}.tab.add{background:var(--br);color:#fff;font-weight:600}.tab.add:hover{filter:brightness(1.12)}.tab.add.on2{background:#3f48b5}
-.fb{flex:1;display:flex;min-height:0}.fl{flex:1;padding:16px 28px;overflow-y:auto;min-width:0}.h2{font-size:20px}
-.sb{display:flex;align-items:center;gap:10px;border:1px solid #3a3a42;border-radius:10px;padding:0 10px 0 14px;height:48px;margin-bottom:22px;color:var(--mu);transition:border-color .15s}.sb:focus-within{border-color:var(--br)}
-.sb input{border:0;background:none;margin:0;padding:0;box-shadow:none!important;flex:1;color:var(--tx)}.sb button{padding:7px 14px;white-space:nowrap}
-.lh{font-weight:700;font-size:15px;padding-bottom:12px;color:#fff}
-.fr{display:flex;align-items:center;gap:12px;padding:12px 10px;border-top:1px solid var(--line);border-radius:8px;cursor:pointer;transition:background .15s}.fr:hover{background:#ffffff08;border-radius:10px}.fr b{font-weight:600}
-.cb{width:36px;height:36px;border-radius:50%;background:#2a2a30;padding:0;display:grid;place-items:center;color:#c4c7cd}.cb:hover{color:#fff;background:#38383f;filter:none}
-.an{width:340px;flex:none;border-left:1px solid var(--line);padding:20px 16px;overflow-y:auto}.an h2{font-size:22px;margin-bottom:14px}.ac{background:var(--card);border-radius:12px;padding:22px 18px;text-align:center}.ac b{display:block;font-size:17px;margin-bottom:6px}
-.msgs{flex:1;overflow-y:auto;padding:16px 8px}.msg{display:flex;gap:16px;padding:6px 16px;border-radius:6px}.msg:hover{background:#ffffff06}.msg>span{cursor:pointer;flex:none;height:40px}.msg div{word-break:break-word}
+main.fade{animation:fd .28s ease}
+.top{height:48px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px;font-weight:600}
+.tab{padding:4px 12px;border-radius:8px;cursor:pointer;color:var(--mu);transition:.15s}.tab:hover{background:#ffffff0d;color:var(--tx)}.tab.on{background:#303036;color:#fff}.tab.add{background:var(--br);color:#fff}
+.fl{flex:1;padding:16px 28px;overflow-y:auto}
+.fr{display:flex;align-items:center;gap:12px;padding:12px 10px;border-top:1px solid var(--line);border-radius:8px;cursor:pointer;transition:background .15s}.fr:hover{background:#ffffff08}
+.cb{width:36px;height:36px;border-radius:50%;background:#2a2a30;padding:0;transition:.15s}.cb:hover{transform:scale(1.12)}
+.msgs{flex:1;overflow-y:auto;padding:16px 8px}.msg{display:flex;gap:16px;padding:6px 16px;border-radius:6px;transition:background .15s}.msg:hover{background:#ffffff06}.msg.slide{animation:msgin .35s cubic-bezier(.2,1.2,.4,1)}.msg>span{cursor:pointer;flex:none}.msg div{word-break:break-word}
 .inw{padding:0 16px 24px}.inw input{background:#242429;border:0;border-radius:10px;padding:14px 16px;margin:0}
-.mem{width:240px;flex:none;background:var(--side);border-left:1px solid var(--line);padding:16px 8px;overflow-y:auto}.mrow{display:flex;gap:12px;align-items:center;padding:6px 8px;border-radius:8px;cursor:pointer;transition:.15s}.mrow:hover{background:#ffffff0d}.offl{opacity:.45}
-.av{border-radius:50%;object-fit:cover;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}.avw{position:relative;display:inline-flex;flex:none}
-.dot{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;border:3px solid var(--side);background:#80848e}.dot.online{background:#23a55a}.dot.idle{background:#f0b232}.dot.dnd{background:#f23f43}
-.fr .dot{border-color:var(--main)}.up .dot{border-color:#18181c}.pc .dot{border-color:#1a1a1e}.avw .dot{width:14px;height:14px}
-.bd{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-size:12px;vertical-align:middle;margin-left:4px}
-.up{position:fixed;left:8px;bottom:8px;width:320px;height:60px;background:#18181c;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;padding:0 8px;gap:2px;z-index:20;box-shadow:0 4px 18px #0008}
-#upb{display:flex;gap:10px;align-items:center;padding:5px 8px;border-radius:8px;cursor:pointer;flex:1;min-width:0;transition:.15s}#upb:hover{background:#ffffff14}#upb b{display:block;font-size:15px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#upb .mu{font-size:12.5px}
-.ib{width:34px;height:34px;padding:0;border-radius:8px;background:none;color:#c4c7cd;display:grid;place-items:center}.ib:hover{background:#ffffff14;filter:none;color:#fff}.ib.mute{background:#3a1d20;color:#f2575c}
-.ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:50;animation:fi .2s}@keyframes fi{from{opacity:0}}
+.mem{width:220px;flex:none;background:var(--side);border-left:1px solid var(--line);padding:16px 8px;overflow-y:auto}
+.mrow{display:flex;gap:12px;align-items:center;padding:6px 8px;border-radius:8px;cursor:pointer;transition:.15s}.mrow:hover{background:#ffffff0d}.offl{opacity:.45}
+.av{border-radius:50%;object-fit:cover;display:grid;place-items:center;font-weight:700;color:#fff;flex:none;transition:transform .2s}
+.mrow:hover .av,.nav:hover .av,.fr:hover .av,.msg>span:hover .av{transform:scale(1.1)}
+.avw{position:relative;display:inline-flex;flex:none}
+.dot{position:absolute;right:-3px;bottom:-3px;width:14px;height:14px;border-radius:50%;border:3px solid var(--side);background:#80848e}
+.dot.online{background:#23a55a;animation:pulse 2.4s ease infinite}.dot.idle{background:#f0b232}.dot.dnd{background:#f23f43}
+.bd{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-size:12px;vertical-align:middle;margin-left:4px;transition:transform .2s}.bd:hover{transform:scale(1.3) rotate(-10deg)}
+.up{position:fixed;left:8px;bottom:8px;width:320px;height:58px;background:#18181c;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;padding:0 8px;gap:4px;z-index:20;box-shadow:0 4px 18px #0008}
+#upb{display:flex;gap:10px;align-items:center;padding:5px 8px;border-radius:8px;cursor:pointer;flex:1;min-width:0;transition:.15s}#upb:hover{background:#ffffff14}#upb b{display:block;font-size:15px;line-height:1.15}
+.ib{width:34px;height:34px;padding:0;background:none;color:#c4c7cd}.ib:hover{background:#ffffff14;filter:none}
+.ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:50;animation:fd .2s}
 .md{background:#1e1f25;padding:24px;border-radius:14px;width:min(440px,92vw);max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px #000}.md .pc{margin:-24px -24px 0}
-.pc{background:#1a1a1e;border-radius:14px;position:relative}.bn{height:110px;background:var(--br);background-size:cover;background-position:center;border-radius:14px 14px 0 0}
-.pav{position:relative;margin:-46px 0 0 16px;display:inline-flex}.pav .av{border:6px solid #1a1a1e}.pav .dot{right:2px;bottom:2px;width:26px;height:26px;border-width:5px}
-.note{position:absolute;left:116px;top:76px;max-width:200px;background:#242429;border-radius:16px;padding:9px 14px;font-style:italic;color:var(--mu);font-size:14px;line-height:1.3;cursor:default}.note.own{cursor:pointer}.note.own:hover{background:#2c2c32}
-.pb{padding:6px 18px 16px}.nm{display:flex;align-items:center;gap:2px;font-size:22px;font-weight:700}
-.upop{position:fixed;left:8px;bottom:76px;width:340px;z-index:40;background:#1a1a1e;border:1px solid #2f2f36;border-radius:14px;box-shadow:0 10px 40px #000c;transform-origin:bottom left;padding-bottom:14px}.upop .pc{border-radius:14px 14px 0 0}
-.promo{margin:0 16px 10px;padding:14px;border-radius:12px;border:1.5px solid transparent;background:linear-gradient(#1a1a1e,#1a1a1e) padding-box,linear-gradient(90deg,#a855f7,#5865f2) border-box;position:relative}.promo b{display:block;margin-bottom:10px}.promo .row{margin:0}.promo button{flex:1}.promo .x{position:absolute;right:10px;top:12px;cursor:pointer;color:var(--mu);padding:0;background:none}
-.pcard{margin:0 16px 10px;background:var(--card);border-radius:12px;padding:4px 0}.pr{display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer;color:#c9ccd1;transition:.15s}.pr:hover{background:#ffffff0a}.pr span{flex:1}.pcard hr{margin:0 16px}.pr.dng{color:#f2575c}
-.sl{display:none;padding:0 0 6px 30px}.sl.open{display:block;animation:sl .2s}.sl div{padding:8px 16px;cursor:pointer;border-radius:6px;display:flex;align-items:center;gap:12px}.sl div:hover{background:#ffffff0f}.sd{width:12px;height:12px;border-radius:50%;display:inline-block}
+.pc{background:#1a1a1e;border-radius:14px;position:relative}.bn{height:100px;background:var(--br);background-size:cover;background-position:center;border-radius:14px 14px 0 0}
+.pav{margin:-42px 0 0 16px;display:inline-flex;position:relative}.pav .av{border:6px solid #1a1a1e}.pav .dot{width:24px;height:24px;border:5px solid #1a1a1e}
+.note{position:absolute;left:112px;top:70px;max-width:190px;background:#242429;border-radius:16px;padding:8px 12px;font-style:italic;color:var(--mu);font-size:14px}
+.pb{padding:6px 18px 16px}.nm{font-size:22px;font-weight:700}
 .menu{position:fixed;z-index:60;background:#0c0c0e;border:1px solid var(--line);padding:6px;border-radius:8px;min-width:190px;box-shadow:0 6px 24px #000c}.menu hr{margin:4px 0}
-.mi{padding:8px 10px;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14.5px}.mi:hover{background:var(--br)}.mi.dng{color:#f2575c}.mi.dng:hover{background:var(--rd);color:#fff}
-.sw{width:18px;height:18px;border-radius:50%;display:inline-block}
-.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#0c0c0e;border:1px solid var(--line);padding:11px 20px;border-radius:10px;z-index:99;animation:pop .2s}
-
+.mi{padding:8px 10px;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14.5px}.mi:hover{background:var(--br)}.mi.dng{color:#f2575c}.mi.dng:hover{background:#da373c;color:#fff}
+.sd{width:12px;height:12px;border-radius:50%;display:inline-block}.sw{width:18px;height:18px;border-radius:50%;display:inline-block}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#0c0c0e;border:1px solid var(--line);padding:11px 20px;border-radius:10px;z-index:99;animation:tin .3s cubic-bezier(.2,1.3,.4,1),tout .3s 2.3s forwards}
 .stg{position:fixed;inset:10px;z-index:45;display:flex;background:#1c1c20;border:1px solid #2f2f36;border-radius:14px;overflow:hidden;box-shadow:0 20px 80px #000}
-.sn{width:300px;flex:none;background:#17171b;padding:14px 16px;overflow-y:auto;border-right:1px solid var(--line)}
-.sprof{display:flex;gap:12px;align-items:center;padding:4px 4px 16px;cursor:pointer}.sprof b{font-size:16px}.sprof .mu{display:flex;gap:4px;align-items:center;font-size:13px}
-.sb.ssb{height:40px;margin:0 0 12px;border-radius:10px}
-.si{display:flex;align-items:center;gap:12px;height:40px;padding:0 10px;border-radius:8px;color:var(--mu);font-weight:500;cursor:pointer;transition:.15s}.si:hover{background:#ffffff0a;color:var(--tx)}.si.on{background:#2c2c32;color:#fff}.si.dngt{color:#f2575c}.si.dngt:hover{background:var(--rd);color:#fff}
-.ss{margin-left:17px;border-left:2px solid #2f2f36;padding-left:16px;height:36px;display:flex;align-items:center;color:var(--mu);cursor:pointer;font-size:15px;transition:.15s}.ss:hover{color:var(--tx)}.ss.on{color:#fff;border-left-color:#fff}
-.sg{font-size:13px;color:var(--mu);padding:16px 10px 4px;font-weight:500}.nw{margin-left:auto;background:var(--br);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
-.sr{flex:1;display:flex;flex-direction:column;min-width:0}.srh{height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--line);font-weight:600}
-.sbody{flex:1;overflow-y:auto;padding:56px 24px 140px;scroll-behavior:smooth}.sin{max-width:700px;margin:0 auto}.sin h2{font-size:24px;margin:0 0 20px}
-.srow{display:flex;align-items:center;gap:14px;min-height:56px}.srow b{flex:1;font-weight:600;font-size:15px}.sv{font-size:15px}.srow>button{min-width:100px;background:#2c2c32}.srow>button.r{background:var(--rd)}.srow>button:disabled{filter:none;transform:none}
-.lr{cursor:pointer}.lr:hover{color:#fff}.lr.dis{cursor:default;opacity:.55}
-.tg{width:42px;height:24px;border-radius:12px;background:#4a4a52;position:relative;cursor:pointer;transition:.2s;flex:none}.tg::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.tg.on{background:#23a55a}.tg.on::after{left:21px}
-.prof{display:flex;gap:28px;flex-wrap:wrap}.pf{flex:1;min-width:260px}.pv{width:300px}.pv .pc{border:1px solid var(--line)}
+.sn{width:240px;flex:none;background:#17171b;padding:14px;overflow-y:auto}.sg{font-size:13px;color:var(--mu);padding:8px 10px;font-weight:600}
+.si{display:flex;align-items:center;gap:8px;height:40px;padding:0 10px;border-radius:8px;color:var(--mu);font-weight:500;cursor:pointer;transition:.15s}.si:hover{background:#ffffff0a;color:var(--tx)}.si.on{background:#2c2c32;color:#fff}.si.dngt{color:#f2575c}
+.nw{margin-left:auto;color:#eb459e}
+.sr{flex:1;display:flex;flex-direction:column;min-width:0}.srh{height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--line)}
+.sbody{flex:1;overflow-y:auto;padding:40px 24px}.sin{max-width:700px;margin:0 auto;animation:sl .3s ease}
+.prof{display:flex;gap:28px;flex-wrap:wrap}.pf{flex:1;min-width:240px}.pv{width:300px}
+.ac{background:var(--card);border-radius:12px;padding:18px}.ac b{display:block;margin-bottom:6px}
+.tg{width:42px;height:24px;border-radius:12px;background:#4a4a52;position:relative;cursor:pointer;transition:.2s;flex:none}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s cubic-bezier(.3,1.5,.5,1),width .15s}.tg:active::after{width:24px}.tg.on{background:#23a55a}.tg.on::after{left:21px}
+.go .fr,.go .nav,.go .mrow{animation:sl .4s cubic-bezier(.2,.8,.2,1) backwards}
+.go .fr:nth-child(4),.go .nav:nth-child(5),.go .mrow:nth-child(3){animation-delay:.05s}.go .fr:nth-child(5),.go .nav:nth-child(6),.go .mrow:nth-child(4){animation-delay:.1s}.go .fr:nth-child(6),.go .nav:nth-child(7),.go .mrow:nth-child(5){animation-delay:.15s}.go .fr:nth-child(n+7),.go .nav:nth-child(n+8),.go .mrow:nth-child(n+6){animation-delay:.2s}
+.go .ri{animation:pop .4s backwards}.go .ri:nth-child(3){animation-delay:.05s}.go .ri:nth-child(4){animation-delay:.1s}.go .ri:nth-child(n+5){animation-delay:.15s}
 .rm *{animation:none!important;transition:none!important}
-@media(max-width:700px){.sn{width:190px}.stg{inset:0;border-radius:0}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media(max-width:800px){.mem,.an{display:none}}@media(max-width:600px){.side{display:none}}
-</style></head><body><div id="root"></div>
+@media(max-width:800px){.mem{display:none}}@media(max-width:600px){.side{display:none}.stg .sn{width:140px}}
+</style></head><body><div id="root"><div class="auth"><div class="spin"></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const P={user:'<path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm-9 9c0-4 4-6 9-6s9 2 9 6v1H3v-1Z"/>',shield:'<path d="M12 2 4 5v6c0 5 3.400 9.300 8 11 4.600-1.700 8-6 8-11V5l-8-3Z"/>',bell:'<path d="M12 22a2.500 2.500 0 0 0 2.400-2h-4.800A2.500 2.500 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5-6.700V3a2 2 0 0 0-4 0v1.300A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2Z"/>',palette:'<path d="M12 2a10 10 0 1 0 0 20c1.500 0 2-1 1.600-2-.4-1 .2-2 1.400-2H17a5 5 0 0 0 5-5c0-5-4.500-11-10-11Z"/>',friends:'<path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 20c0-3 3.500-5 7-5s7 2 7 5v1H2v-1Zm15-4.800c3 .1 5 1.600 5 3.800v2h-4v-1.500c0-1.800-.4-3.300-1-4.300Z"/>',chat:'<path d="M12 3C6.500 3 2 6.600 2 11c0 2.200 1.100 4.200 3 5.600V21l4-2.200c.6.100 1.300.2 2 .2 5.500 0 10-3.600 10-8s-4.500-8-10-8Z"/>',dots:'<circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>',search:'<path d="M10 3a7 7 0 1 0 4.200 12.600l5.100 5.100 1.400-1.400-5.100-5.100A7 7 0 0 0 10 3Zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>',mic:'<path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.900V21h2v-3.100A7 7 0 0 0 19 11h-2Z"/>',head:'<path d="M12 3a9 9 0 0 0-9 9v6a3 3 0 0 0 3 3h1v-8H5v-1a7 7 0 0 1 14 0v1h-2v8h1a3 3 0 0 0 3-3v-6a9 9 0 0 0-9-9Z"/>',gear:'<circle cx="12" cy="12" r="7.500" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="2.100 1.900"/><circle cx="12" cy="12" r="5.500" fill="none" stroke="currentColor" stroke-width="2.500"/>',inbox:'<path d="M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm1 2v8h4l1 2h4l1-2h4V6H5Z"/>',help:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 15h2v-2h-2v2Zm1-11a4 4 0 0 0-4 4h2a2 2 0 1 1 3 1.700c-1.200.8-2 1.500-2 3.300h2c0-1 .5-1.300 1.400-2A4 4 0 0 0 12 6Z"/>',plus:'<path d="M13 5h-2v6H5v2h6v6h2v-6h6v-2h-6V5Z"/>',memo:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5 1.500 3.500L17 12l-3.500 1.500L12 17l-1.500-3.500L7 12l3.500-1.500L12 7Z"/>',pen:'<path d="M3 17.200V21h3.800L18 9.800 14.200 6 3 17.200ZM20.700 7a1 1 0 0 0 0-1.400l-2.300-2.300a1 1 0 0 0-1.400 0l-1.800 1.800L19 8.800 20.700 7Z"/>',chev:'<path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"/>',down:'<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>',x:'<path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2"/>',medal:'<circle cx="12" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 14l-2 7 6-3 6 3-2-7" fill="none" stroke="currentColor" stroke-width="2"/>',out:'<path d="M10 4H5v16h5M15 8l4 4-4 4M9 12h10" fill="none" stroke="currentColor" stroke-width="2"/>',logo:'<path d="M5 5h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H9l-4 3v-3a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z"/><circle cx="8.500" cy="12" r="1.700" fill="#5865f2"/><circle cx="15.500" cy="12" r="1.700" fill="#5865f2"/>'};
-const I=(n,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="currentColor">${P[n]}</svg>`;
-const K='chatcord_v1',SK='chatcord_seen',MEMO_KEY='MEMO-PLACEHOLDER-KEY',BTC='bc1qPLACEHOLDERADDRESS0000000000000000000';
-let db;try{db=JSON.parse(localStorage[K])}catch{}db=db||{users:{},servers:{},dms:{},inv:{}};
-const mem0={},ss={get:k=>{try{return sessionStorage.getItem(k)}catch{return mem0[k]}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch{mem0[k]=v}},del:k=>{try{sessionStorage.removeItem(k)}catch{delete mem0[k]}}};
-let me=ss.get('me'),view={t:'friends',tab:'online'},nav=1,muted=1,deaf=0;
-const go=v=>{view=v;nav=1;render()};
-const save=()=>{try{localStorage[K]=JSON.stringify(db)}catch{toast('Storage full. Use a smaller image.')}};
-const U=u=>db.users[u],dn=u=>esc(U(u)?.display||u),rid=()=>Math.random().toString(36).slice(2,10);
-const sha=async t=>{const o=[];try{o.push([...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('cc:'+t)))].map(b=>b.toString(16).padStart(2,'0')).join(''))}catch{}let h=5381,g=52711;for(const c of 'cc:'+t){h=(h*33^c.codePointAt(0))>>>0;g=(g*31+c.codePointAt(0))>>>0}o.push('x'+h+'-'+g);return o};
-const hasMemo=u=>u==='9584'||U(u)?.memo;
-const seen=()=>{try{return JSON.parse(localStorage[SK]||'{}')}catch{return{}}};
-const online=u=>U(u)&&U(u).status!=='invisible'&&Date.now()-(seen()[u]||0)<30000;
-const dot=u=>online(u)?(U(u).status||'online'):'off';
+/* ===== CONFIG: paste your Supabase values here ===== */
+const SB_URL='https://hdcuxxrwalqjlkmrscex.supabase.co',SB_KEY='sb_publishable_QlDQPKJaRBmKghxDx7kJEg_narCjl91',OWNER='9584',BTC='bc1qYOURBTCADDRESSHERE';
+let sb;try{sb=supabase.createClient(SB_URL,SB_KEY)}catch{}
+const em=u=>u.toLowerCase()+'@memocord.app',rid=()=>Math.random().toString(36).slice(2,10),mine=new Set();
+const blank=d=>({users:{},servers:{},dms:{},...d});
+let db=blank(),me=null,view={t:'friends',tab:'online'},nav=1,onl={},orders=[],myOrder=null,chan,saveT,ready=0,sp='profile';
+const U=u=>db.users[u],dn=u=>esc(U(u)?.display||u),go=v=>{view=v;nav=1;render()};
 const ST={online:['Online','#23a55a'],idle:['Idle','#f0b232'],dnd:['Do Not Disturb','#f23f43'],invisible:['Invisible','#80848e']};
-function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2600)}
-const B={own:['👑','#f0b232','Server Owner'],dev:['🛠','#5865f2','Active Developer'],bird:['☁','#e3e5e8','Early Supporter'],memo:['✦','#eb459e','Memo']};
-const bk=u=>u==='9584'?['own','dev','bird','memo']:U(u)?.memo?['memo']:[];
-const badges=u=>U(u)?.noBd?'':bk(u).map(k=>`<span class="bd" style="background:${B[k][1]}" title="${B[k][2]}">${B[k][0]}</span>`).join('');
+const online=u=>U(u)&&U(u).status!=='invisible'&&!!onl[u],dot=u=>online(u)?(U(u).status||'online'):'off';
+const hasMemo=u=>u===OWNER||U(u)?.memo;
+const B={own:['👑','#f0b232','Server Owner'],dev:['🛠','#5865f2','Active Developer'],bird:['☁','#8e9297','Early Supporter'],memo:['✦','#eb459e','Memo']};
+const bk=u=>u===OWNER?['own','dev','bird','memo']:U(u)?.memo?['memo']:[];
+const badges=u=>bk(u).map(k=>`<span class="bd" style="background:${B[k][1]}" title="${B[k][2]}">${B[k][0]}</span>`).join('');
 const av=(u,s=40)=>{const x=U(u);return x?.avatar?`<img class="av" src="${x.avatar}" style="width:${s}px;height:${s}px">`:`<div class="av" style="width:${s}px;height:${s}px;font-size:${s/2}px;background:hsl(${[...u].reduce((a,c)=>a+c.charCodeAt(0),0)*37%360} 50% 45%)">${esc((x?.display||u)[0].toUpperCase())}</div>`};
-const card=(u,own)=>{const x=U(u);return`<div class="pc"><div class="bn" style="${x.banner?`background-image:url(${x.banner})`:''}"></div><div class="pav">${av(u,84)}<i class="dot ${dot(u)}"></i></div>${x.note||own?`<div class="note ${own?'own':''}" ${own?'onclick="setNote()"':''}>${esc(x.note||'What have you been reading?')}</div>`:''}<div class="pb"><div class="nm">${dn(u)}${badges(u)}</div><div class="mu">${esc(u)}</div></div></div>`};
-const showProfile=u=>modal(card(u));
+const card=u=>{const x=U(u);return`<div class="pc"><div class="bn" style="${x.banner?`background-image:url(${x.banner})`:''}"></div><div class="pav">${av(u,80)}<i class="dot ${dot(u)}"></i></div>${x.note?`<div class="note">${esc(x.note)}</div>`:''}<div class="pb"><div class="nm">${dn(u)}${badges(u)}</div><div class="mu">${esc(u)}</div></div></div>`};
 const rc=(s,u)=>(s&&(s.mr[u]||[]).map(i=>s.roles.find(r=>r.id==i)).find(Boolean)?.color)||'#f2f3f5';
-
-/* ---------- overlays ---------- */
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2600)}
 function modal(h){closeModal();const o=document.createElement('div');o.className='ov';o.innerHTML=`<div class="md pop">${h}</div>`;o.onmousedown=e=>{if(e.target==o)o.remove()};document.body.append(o)}
-const closeModal=()=>$('.ov')?.remove(),closeMenu=()=>document.querySelectorAll('.menu').forEach(m=>m.remove());
-function menu(e,items){e.preventDefault();closeMenu();const m=document.createElement('div');m.className='menu pop';m.innerHTML=items.map((i,n)=>i==='-'?'<hr>':`<div class="mi ${i.d?'dng':''}" data-n="${n}">${i.l}</div>`).join('');document.body.append(m);const r=m.getBoundingClientRect();m.style.left=Math.min(e.clientX,innerWidth-r.width-8)+'px';m.style.top=Math.min(e.clientY,innerHeight-r.height-8)+'px';m.onclick=ev=>{const n=ev.target.dataset.n;if(n!=null){closeMenu();items[n].f()}}}
-document.addEventListener('click',e=>{closeMenu();if(!e.target.closest('.upop,#upb'))$('.upop')?.remove()});
+const closeModal=()=>$('.ov')?.remove(),closeMenu=()=>document.querySelectorAll('.menu').forEach(m=>m.remove()),prof=u=>modal(card(u));
+function menu(e,items){e.preventDefault();e.stopPropagation();closeMenu();const m=document.createElement('div');m.className='menu pop';m.innerHTML=items.map((i,n)=>i==='-'?'<hr>':`<div class="mi ${i.d?'dng':''}" data-n="${n}">${i.l}</div>`).join('');document.body.append(m);const r=m.getBoundingClientRect();m.style.left=Math.max(8,Math.min(e.clientX,innerWidth-r.width-8))+'px';m.style.top=Math.max(8,Math.min(e.clientY,innerHeight-r.height-8))+'px';m.onclick=ev=>{const n=ev.target.closest('.mi')?.dataset.n;if(n!=null){closeMenu();items[n].f()}}}
+document.addEventListener('click',closeMenu);
 document.addEventListener('contextmenu',e=>{const t=e.target.closest('[data-ctx]');if(!t||!me)return;const[k,id]=t.dataset.ctx.split(':');ctx[k](e,id)});
+addEventListener('keydown',e=>{if(e.key=='Escape'){if($('.ov'))closeModal();else $('.stg')?.remove()}});
 const img=(f,max,anim)=>new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{if(f.type=='image/gif'&&anim){f.size<1.5e6?ok(r.result):no();return}const i=new Image();i.onerror=no;i.onload=()=>{const k=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.85))};i.src=r.result};r.readAsDataURL(f)});
 
-/* ---------- auth ---------- */
-function authView(mode='login'){const L=mode=='login';
-$('#root').innerHTML=`<div class="auth"><div class="card pop"><h1>${L?'Welcome back!':'Create an account'}</h1><p class="mu" style="margin:6px 0 20px">${L?'We are so excited to see you again!':'Pick a username and password.'}</p><label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><input id="ap" type="password"><button id="ab">${L?'Log In':'Continue'}</button><p class="mu">${L?'Need an account? <a onclick="authView(\'reg\')">Register</a>':'<a onclick="authView()">Already have an account?</a>'}</p></div></div>`;
+/* ===== Supabase sync ===== */
+const save=()=>{clearTimeout(saveT);saveT=setTimeout(push,300)};
+const pull=async()=>{const{data}=await sb.from('state').select('data').eq('id',1).maybeSingle();db=blank(data?.data)};
+const push=async()=>{if(!ready||!me)return;const r=rid();mine.add(r);db.rev=r;const{error}=await sb.from('state').update({data:db}).eq('id',1);if(error)toast('Sync failed: '+error.message)};
+const loadOrders=async()=>{const{data}=await sb.from('orders').select('*').order('created_at',{ascending:false});orders=data||[];myOrder=orders.find(o=>o.username==me)||null};
+function connect(){chan?.unsubscribe();chan=sb.channel('mc',{config:{presence:{key:me}}});
+chan.on('postgres_changes',{event:'UPDATE',schema:'public',table:'state'},p=>{const d=p.new.data;if(!d||mine.has(d.rev))return;db=blank(d);render()})
+.on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()})
+.subscribe(st=>{if(st=='SUBSCRIBED')chan.track({at:Date.now()})})}
+async function boot(){if(!sb){$('#root').innerHTML='<div class="auth"><div class="card"><h1>Almost there</h1><p class="mu">Add your Supabase URL and anon key at the top of the script.</p></div></div>';return}
+try{const{data}=await sb.auth.getSession(),x=data.session;if(x){await pull();me=x.user.user_metadata.username;ready=1;await loadOrders();connect()}}catch(e){toast('Offline: '+e.message)}render()}
+async function logout(){try{await push();chan?.unsubscribe();await sb.auth.signOut()}catch{}me=null;ready=0;onl={};myOrder=null;$('.stg')?.remove();authView()}
+
+/* ===== auth ===== */
+function authView(L=1){
+$('#root').innerHTML=`<div class="auth"><div class="card pop"><h1>${L?'Welcome back!':'Create an account'}</h1><p class="mu" style="margin:6px 0 20px">${L?'We are so excited to see you again!':'Pick a username and password.'}</p><label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><input id="ap" type="password" autocomplete="${L?'current-password':'new-password'}"><button id="ab">${L?'Log In':'Continue'}</button><p class="mu">${L?'Need an account? <a onclick="authView(0)">Register</a>':'<a onclick="authView(1)">Already have an account?</a>'}</p></div></div>`;
 $('#ap').onkeydown=$('#au').onkeydown=e=>{if(e.key=='Enter')$('#ab').click()};$('#au').focus();
 $('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;
 if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');
-const hs=await sha(p),h=hs[0];
-if(L){if(!db.users[u]||!hs.includes(db.users[u].pass))return toast('Wrong username or password')}
-else{if(p.length<6)return toast('Password needs at least 6 characters');if(db.users[u])return toast('That username is taken');db.users[u]={pass:h,display:u,friends:[],blocked:[],status:'online'};save()}
-me=u;ss.set('me',u);ss.del('sid');go({t:'friends',tab:'online'})}catch(e){toast('Error: '+e.message)}}}
+let key=u,r;
+if(L){r=await sb.auth.signInWithPassword({email:em(u),password:p});if(r.error)return toast('Wrong username or password');await pull();key=Object.keys(db.users).find(k=>k.toLowerCase()==u.toLowerCase())||u;if(!db.users[key])return toast('Account data missing')}
+else{if(p.length<6)return toast('Password needs at least 6 characters');r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();db.users[u]={display:u,friends:[],blocked:[],status:'online'}}
+me=key;ready=1;if(!L)save();await loadOrders();connect();go({t:'friends',tab:'online'})}catch(e){toast('Error: '+e.message)}}}
 
-/* ---------- profile ---------- */
-function pop(){if($('.upop'))return $('.upop').remove();const d=document.createElement('div');d.className='upop pop';const st=U(me).status||'online';
-d.innerHTML=card(me,1)+(hasMemo(me)?'':`<div class="promo"><b>Amp up your profile</b><button class="x" onclick="this.parentNode.remove()">${I('x',16)}</button><div class="row"><button class="g" onclick="memoModal()">${I('memo',16)}&nbsp;Get Memo</button><button class="g" onclick="editProfile()">Customize</button></div></div>`)+
-`<div class="pcard"><div class="pr" onclick="editProfile()">${I('pen',20)}<span>Edit Profile</span></div><hr><div class="pr" onclick="$('#stl').classList.toggle('open')"><i class="sd" style="background:${ST[st][1]}"></i><span>${ST[st][0]}</span>${I('chev',18)}</div><div class="sl" id="stl">${Object.entries(ST).map(([k,v])=>`<div onclick="setStatus('${k}')"><i class="sd" style="background:${v[1]}"></i>${v[0]}</div>`).join('')}</div><hr><div class="pr" onclick="showBadges()">${I('medal',20)}<span>Badges</span></div></div><div class="pcard"><div class="pr dng" onclick="logout()">${I('out',20)}<span>Log out</span></div></div>`;document.body.append(d)}
-const setStatus=v=>{U(me).status=v;save();$('.upop')?.remove();render()};
-function setNote(){const n=prompt('Set a note',U(me).note||'');if(n!=null){U(me).note=n.slice(0,60);save();$('.upop')?.remove();render()}}
-function showBadges(){$('.upop')?.remove();modal('<h2>Badges</h2>'+(bk(me).map(k=>`<div class="row"><span class="bd" style="background:${B[k][1]}">${B[k][0]}</span>${B[k][2]}</div>`).join('')||'<p class="mu">No badges yet.</p>'))}
-function logout(){try{const x=U(me);x.sess=(x.sess||[]).filter(s=>s.id!=ss.get('sid'));save()}catch{}ss.del('me');ss.del('sid');me=null;$('.upop')?.remove();$('.stg')?.remove();authView()}
-function quick(){modal(`<h2>Where would you like to go?</h2><input id="qs" placeholder="Search friends"><div id="ql"></div>`);const f=()=>{const q=$('#qs').value.toLowerCase();$('#ql').innerHTML=U(me).friends.filter(u=>(u+(U(u).display||'')).toLowerCase().includes(q)).map(u=>`<div class="mi" onclick="closeModal();dm('${u}')">${av(u,28)}${dn(u)}</div>`).join('')||'<p class="mu">No matches</p>'};$('#qs').oninput=f;f();$('#qs').focus()}
-
-/* ---------- friends ---------- */
+/* ===== friends ===== */
 const dm=u=>go({t:'dm',id:u});
 function blk(u,on){const x=U(me);if(on){x.blocked.includes(u)||x.blocked.push(u);x.friends=x.friends.filter(f=>f!=u);U(u).friends=U(u).friends.filter(f=>f!=me)}else x.blocked=x.blocked.filter(f=>f!=u);save();toast(on?'Blocked '+u:'Unblocked '+u);render()}
 function unf(u){U(me).friends=U(me).friends.filter(f=>f!=u);U(u).friends=U(u).friends.filter(f=>f!=me);save();render()}
-function addFriend(){const x=U(me),n=$('#af').value.trim(),y=U(n);if(!y||n==me)return toast('No user with that username');if(y.blocked.includes(me)||x.blocked.includes(n))return toast('You cannot add this user');if(y.noFr)return toast('This user is not accepting friend requests');if(!x.friends.includes(n)){x.friends.push(n);y.friends.push(me)}save();toast('Added '+n);render()}
-const fsf=v=>document.querySelectorAll('.fr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(v.toLowerCase())?'':'none');
+function addFriend(){const x=U(me),n=$('#af').value.trim(),y=U(n);if(!y||n==me)return toast('No user with that username');if(y.blocked.includes(me)||x.blocked.includes(n))return toast('You cannot add this user');if(!x.friends.includes(n)){x.friends.push(n);y.friends.push(me)}save();toast('Added '+n);render()}
 function friendsView(){const x=U(me),t=view.tab;
 const tabs=['online','all','blocked'].map(k=>`<span class="tab ${t==k?'on':''}" onclick="view.tab='${k}';render()">${k[0].toUpperCase()+k.slice(1)}</span>`).join('');
 let b;
-if(t=='add')b=`<h2 class="h2">Add Friend</h2><p class="mu" style="margin:4px 0 16px">You can add friends with their username.</p><div class="sb">${I('search',18)}<input id="af" placeholder="Enter a username"><button id="ab2">Add friend</button></div>`;
+if(t=='add')b=`<h2>Add Friend</h2><p class="mu" style="margin-bottom:12px">You can add friends with their username.</p><div class="row"><input id="af" placeholder="Enter a username" style="margin:0"><button id="ab2">Add friend</button></div>`;
 else{const l=(t=='blocked'?x.blocked:x.friends).filter(u=>U(u)&&(t!='online'||online(u)));
-b=`<div class="sb">${I('search',20)}<input id="fs" placeholder="Search" oninput="fsf(this.value)"></div><div class="lh">${t=='online'?'Online':t=='all'?'All friends':'Blocked'} — ${l.length}</div>`+(l.map(u=>`<div class="fr" data-ctx="friend:${u}" ${t=='blocked'?'':`onclick="dm('${u}')"`}><div class="avw">${av(u,40)}<i class="dot ${dot(u)}"></i></div><div><b>${dn(u)}</b> ${badges(u)}<div class="mu">${esc(u)}</div></div><span class="sp"></span>${t=='blocked'?`<button class="g" onclick="blk('${u}',0)">Unblock</button>`:`<button class="cb" title="Message" onclick="event.stopPropagation();dm('${u}')">${I('chat',18)}</button><button class="cb" title="More" onclick="event.stopPropagation();ctx.friend(event,'${u}')">${I('dots',18)}</button>`}</div>`).join('')||`<p class="mu" style="padding-top:20px">${t=='online'?'No friends online right now.':t=='blocked'?'You have not blocked anyone.':'Add a friend to get started.'}</p>`)}
-return`<div class="top">${I('friends',22)}<b>Friends</b><i class="sep"></i>${tabs}<span class="tab add ${t=='add'?'on2':''}" onclick="view.tab='add';render()">Add Friend</span><span class="sp"></span><span class="tab" title="New message" onclick="quick()">${I('chat',20)}</span></div><div class="fb"><div class="fl">${b}</div><aside class="an"><h2>Active Now</h2><div class="ac"><b>It’s quiet for now…</b><span class="mu">When a friend starts an activity, like playing a game or hanging out on voice, we’ll show it here!</span></div></aside></div>`}
+b=`<div class="mu" style="font-weight:700;padding-bottom:12px">${t=='online'?'Online':t=='all'?'All friends':'Blocked'} — ${l.length}</div>`+(l.map(u=>`<div class="fr" data-ctx="friend:${u}" ${t=='blocked'?'':`onclick="dm('${u}')"`}><div class="avw">${av(u,40)}<i class="dot ${dot(u)}"></i></div><div><b>${dn(u)}</b>${badges(u)}<div class="mu">${esc(u)}</div></div><span class="sp"></span>${t=='blocked'?`<button class="g" onclick="blk('${u}',0)">Unblock</button>`:`<button class="cb" onclick="event.stopPropagation();dm('${u}')">💬</button><button class="cb" onclick="ctx.friend(event,'${u}')">⋯</button>`}</div>`).join('')||`<p class="mu">${t=='online'?'No friends online right now.':t=='blocked'?'You have not blocked anyone.':'Add a friend to get started.'}</p>`)}
+return`<div class="top">👥 <b>Friends</b>${tabs}<span class="tab add ${t=='add'?'on':''}" onclick="view.tab='add';render()">Add Friend</span></div><div class="fl">${b}</div>`}
 
-/* ---------- servers ---------- */
+/* ===== servers ===== */
 function addServer(){modal(`<h2>Create a server</h2><label>SERVER NAME</label><input id="sn" maxlength="32"><label>SERVER ICON</label><input id="si" type="file" accept="image/*"><button id="sc" style="width:100%">Create server</button><hr><h2>Join a server</h2><label>INVITE CODE</label><input id="sj"><button class="g" id="sjb" style="width:100%">Join server</button>`);
-$('#sc').onclick=async()=>{const n=$('#sn').value.trim();if(!n)return toast('Give your server a name');let ic='';const f=$('#si').files[0];if(f)try{ic=await img(f,128,0)}catch{}const id=rid(),c=rid().toUpperCase();db.servers[id]={name:n,icon:ic,owner:me,members:[me],bans:[],timeouts:{},roles:[],mr:{},msgs:[],code:c};db.inv[c]=id;save();closeModal();go({t:'srv',id})};
-$('#sjb').onclick=()=>{const id=db.inv[$('#sj').value.trim().toUpperCase()],s=db.servers[id];if(!s)return toast('Invalid invite code');if(s.bans.includes(me))return toast('You are banned from this server');if(!s.members.includes(me))s.members.push(me);save();closeModal();go({t:'srv',id})}}
-function invite(id){const c=db.servers[id].code;navigator.clipboard?.writeText(c);modal(`<h2>Invite friends</h2><p class="mu" style="margin-bottom:10px">Send this code. They click + then Join a server. It is copied to your clipboard.</p><input readonly value="${c}" onclick="this.select()" style="font-size:20px;text-align:center;letter-spacing:3px"><button style="width:100%" onclick="closeModal()">Done</button>`)}
-function roles(id){const s=db.servers[id];modal(`<h2>Roles</h2>${s.roles.map(r=>`<div class="row"><i class="sw" style="background:${r.color}"></i><span style="color:${r.color}">${esc(r.name)}</span><span class="sp"></span><button class="r" onclick="delRole('${id}','${r.id}')">Delete</button></div>`).join('')||'<p class="mu">No roles yet. Create one below, then right-click a member to assign it.</p>'}<hr><label>NEW ROLE</label><input id="rn" maxlength="24" placeholder="Role name"><div class="row"><input id="rc" type="color" value="#5865f2" style="height:42px;margin:0"><button id="ra">Add role</button></div>${s.bans.length?`<hr><label>BANNED</label>${s.bans.map(b=>`<div class="row"><span>${esc(b)}</span><span class="sp"></span><button class="g" onclick="unban('${id}','${b}')">Unban</button></div>`).join('')}`:''}`);
+$('#sc').onclick=async()=>{const n=$('#sn').value.trim();if(!n)return toast('Give your server a name');let ic='';const f=$('#si').files[0];if(f)try{ic=await img(f,128,0)}catch{}const id=rid();db.servers[id]={name:n,icon:ic,owner:me,members:[me],bans:[],timeouts:{},roles:[],mr:{},msgs:[],code:rid().toUpperCase()};save();closeModal();go({t:'srv',id})};
+$('#sjb').onclick=()=>{const c=$('#sj').value.trim().toUpperCase(),e=Object.entries(db.servers).find(([i,v])=>v.code==c);if(!e)return toast('Invalid invite code');const[id,s]=e;if(s.bans.includes(me))return toast('You are banned from this server');if(!s.members.includes(me))s.members.push(me);save();closeModal();go({t:'srv',id})}}
+function invite(id){const c=db.servers[id].code;navigator.clipboard?.writeText(c);modal(`<h2>Invite friends</h2><p class="mu" style="margin-bottom:10px">Send this code. They click + then Join a server. Copied to your clipboard.</p><input readonly value="${c}" onclick="this.select()" style="font-size:20px;text-align:center;letter-spacing:3px"><button style="width:100%" onclick="closeModal()">Done</button>`)}
+function roles(id){const s=db.servers[id];modal(`<h2>Roles</h2>${s.roles.map(r=>`<div class="row"><i class="sw" style="background:${r.color}"></i><span style="color:${r.color}">${esc(r.name)}</span><span class="sp"></span><button class="r" onclick="delRole('${id}','${r.id}')">Delete</button></div>`).join('')||'<p class="mu">No roles yet. Right-click a member to assign one.</p>'}<hr><input id="rn" maxlength="24" placeholder="Role name"><div class="row"><input id="rc" type="color" value="#5865f2" style="height:42px;margin:0"><button id="ra">Add role</button></div>${s.bans.length?`<hr><label>BANNED</label>${s.bans.map(b=>`<div class="row"><span>${esc(b)}</span><span class="sp"></span><button class="g" onclick="unban('${id}','${b}')">Unban</button></div>`).join('')}`:''}`);
 $('#ra').onclick=()=>{const n=$('#rn').value.trim();if(!n)return toast('Name the role');s.roles.push({id:rid(),name:n,color:$('#rc').value});save();roles(id);render()}}
 const delRole=(id,r)=>{const s=db.servers[id];s.roles=s.roles.filter(x=>x.id!=r);for(const u in s.mr)s.mr[u]=s.mr[u].filter(x=>x!=r);save();roles(id);render()};
 const unban=(id,u)=>{const s=db.servers[id];s.bans=s.bans.filter(x=>x!=u);save();roles(id)};
 function kick(s,u,ban){s.members=s.members.filter(m=>m!=u);delete s.mr[u];if(ban)s.bans.push(u);save();toast((ban?'Banned ':'Kicked ')+u);render()}
-const tmo=(s,u,min)=>{min?s.timeouts[u]=Date.now()+min*6e4:delete s.timeouts[u];save();toast(min?`Timed out ${u}`:'Timeout removed');render()};
+const tmo=(s,u,min)=>{min?s.timeouts[u]=Date.now()+min*6e4:delete s.timeouts[u];save();toast(min?'Timed out '+u:'Timeout removed');render()};
 function togRole(s,u,r){const a=s.mr[u]=s.mr[u]||[];a.includes(r)?a.splice(a.indexOf(r),1):a.push(r);save();render()}
 const ctx={
-friend:(e,u)=>{const b=U(me).blocked.includes(u);menu(e,[{l:'Message',f:()=>dm(u)},{l:'Profile',f:()=>showProfile(u)},'-',b?{l:'Unblock',f:()=>blk(u,0)}:{l:'Block',d:1,f:()=>blk(u,1)},...(!b&&U(me).friends.includes(u)?[{l:'Remove friend',d:1,f:()=>unf(u)}]:[])])},
-srv:(e,id)=>{const s=db.servers[id],o=s.owner==me;menu(e,[{l:'Invite',f:()=>invite(id)},...(o?[{l:'Manage roles',f:()=>roles(id)},'-',{l:'Delete server',d:1,f:()=>{if(confirm('Delete this server for everyone?')){delete db.inv[s.code];delete db.servers[id];save();go({t:'friends',tab:'online'})}}}]:['-',{l:'Leave server',d:1,f:()=>{s.members=s.members.filter(m=>m!=me);save();render()}}])])},
-mem:(e,u)=>{const s=db.servers[view.id];if(!s)return;const it=[{l:'Profile',f:()=>showProfile(u)}];
+friend:(e,u)=>{const b=U(me).blocked.includes(u);menu(e,[{l:'Message',f:()=>dm(u)},{l:'Profile',f:()=>prof(u)},'-',b?{l:'Unblock',f:()=>blk(u,0)}:{l:'Block',d:1,f:()=>blk(u,1)},...(!b&&U(me).friends.includes(u)?[{l:'Remove friend',d:1,f:()=>unf(u)}]:[])])},
+srv:(e,id)=>{const s=db.servers[id],o=s.owner==me;menu(e,[{l:'Invite',f:()=>invite(id)},...(o?[{l:'Manage roles',f:()=>roles(id)},'-',{l:'Delete server',d:1,f:()=>{if(confirm('Delete this server for everyone?')){delete db.servers[id];save();go({t:'friends',tab:'online'})}}}]:['-',{l:'Leave server',d:1,f:()=>{s.members=s.members.filter(m=>m!=me);save();render()}}])])},
+mem:(e,u)=>{const s=db.servers[view.id];if(!s)return;const it=[{l:'Profile',f:()=>prof(u)}];
 if(s.owner==me&&u!=me)it.push('-',...s.roles.map(r=>({l:`${(s.mr[u]||[]).includes(r.id)?'✓ ':''}Role: ${esc(r.name)}`,f:()=>togRole(s,u,r.id)})),'-',{l:'Timeout 5 minutes',f:()=>tmo(s,u,5)},{l:'Timeout 1 hour',f:()=>tmo(s,u,60)},{l:'Timeout 1 day',f:()=>tmo(s,u,1440)},{l:'Remove timeout',f:()=>tmo(s,u,0)},'-',{l:'Kick',d:1,f:()=>kick(s,u,0)},{l:'Ban',d:1,f:()=>kick(s,u,1)});
 menu(e,it)}};
 
-/* ---------- chat ---------- */
-function chat(title,msgs,s,lock){const x=U(me),l=msgs.filter(m=>!x.blocked.includes(m.u));
-return`<div class="top">${title}</div><div id="msgs" class="msgs">${l.map((m,i)=>`<div class="msg ${i==l.length-1?'slide':''}"><span onclick="showProfile('${m.u}')">${av(m.u,40)}</span><div><b style="color:${rc(s,m.u)}">${dn(m.u)}</b> ${badges(m.u)}<span class="mu"> ${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div>${esc(m.x)}</div></div></div>`).join('')||'<p class="mu" style="padding:8px 16px">This is the start of the conversation.</p>'}</div><div class="inw"><input id="inp" autocomplete="off" ${lock?'disabled':''} placeholder="${lock||'Message'}"></div>`}
+/* ===== chat ===== */
+function chat(head,msgs,s,lock){const x=U(me),l=msgs.filter(m=>!x.blocked.includes(m.u));
+return`<div class="top">${head}</div><div id="msgs" class="msgs">${l.map((m,i)=>`<div class="msg ${i==l.length-1?'slide':''}"><span onclick="prof('${m.u}')">${av(m.u,40)}</span><div><b style="color:${rc(s,m.u)}">${dn(m.u)}</b>${badges(m.u)} <span class="mu">${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div>${esc(m.x)}</div></div></div>`).join('')||'<p class="mu" style="padding:8px 16px">This is the start of the conversation.</p>'}</div><div class="inw"><input id="inp" autocomplete="off" ${lock?'disabled':''} placeholder="${lock||'Message'}"></div>`}
 function send(t){const m={u:me,x:t.slice(0,2000),ts:Date.now()};
 if(view.t=='srv'){const s=db.servers[view.id];if(s.timeouts[me]>Date.now()||!s.members.includes(me))return;s.msgs.push(m);s.msgs=s.msgs.slice(-300)}
 else{const o=view.id;if(U(me).blocked.includes(o)||U(o).blocked.includes(me))return;const k=[me,o].sort().join('|');(db.dms[k]=db.dms[k]||[]).push(m);db.dms[k]=db.dms[k].slice(-300)}
-save();render();$('#inp')?.focus()}
+save();render()}
+const setStatus=v=>{U(me).status=v;save();render()};
+const userMenu=e=>menu(e,[...Object.entries(ST).map(([k,v])=>({l:`<i class="sd" style="background:${v[1]}"></i>${v[0]}`,f:()=>setStatus(k)})),'-',{l:'Edit profile',f:()=>settings('profile')},{l:'Log out',d:1,f:logout}]);
 
-/* ---------- main render ---------- */
-function render(){if(!me||!U(me))return authView();if(!ensureSess()){ss.del('me');ss.del('sid');me=null;$('.stg')?.remove();return authView()}beat();applyLook();
+function render(){if(!me||!U(me))return authView();
+document.documentElement.style.setProperty('--br',U(me).accent||'#5865f2');document.documentElement.classList.toggle('rm',!!U(me).rm);
 const iv=$('#inp')?.value,f=document.activeElement?.id=='inp';
 if(view.t=='srv'){const s=db.servers[view.id];if(!s||!s.members.includes(me))view={t:'friends',tab:'online'}}
-const x=U(me),s=db.servers[view.id];let m,side,title;
-if(view.t=='srv'){title='# '+esc(s.name);m=chat('<span class="mu" style="font-size:22px">#</span> general',s.msgs,s,s.timeouts[me]>Date.now()?'You are timed out':'');
-side=`<div class="sh">${esc(s.name)}${I('down',18)}</div><div class="ch on"><span style="font-size:20px">#</span>general</div>${s.owner==me?`<div class="ch" onclick="roles('${view.id}')">${I('gear',20)}Manage roles</div>`:''}`}
-else{if(view.t=='dm'){const o=view.id,k=[me,o].sort().join('|');title='@ '+dn(o);m=chat(`${av(o,26)}<b>${dn(o)}</b>${badges(o)}`,db.dms[k]||[],null,x.blocked.includes(o)?'You blocked this user':U(o).blocked.includes(me)?'You cannot message this user':'')}else{title=I('friends',20)+' Friends';m=friendsView()}
-side=`<div class="fh"><div class="find" onclick="quick()">Find or start a conversation</div></div><div class="sc"><div class="nav ${view.t=='friends'?'on':''}" onclick="go({t:'friends',tab:'online'})">${I('friends',24)}Friends</div><div class="nav" onclick="memoModal()">${I('memo',24)}Memo</div><div class="dmh">Direct Messages<span onclick="go({t:'friends',tab:'add'})" title="Add a friend">${I('plus',18)}</span></div>${x.friends.map(u=>`<div class="nav dm ${view.t=='dm'&&view.id==u?'on':''}" data-ctx="friend:${u}" onclick="dm('${u}')"><div class="avw">${av(u,34)}<i class="dot ${dot(u)}"></i></div>${dn(u)}</div>`).join('')}</div>`}
-if(view.t=='srv')side=`<div class="sc">${side}</div>`;
-const rail=`<div class="ri home ${view.t!='srv'?'on':''}" onclick="go({t:'friends',tab:'online'})" title="Home">${I('logo',30)}</div><div class="rs"></div>${Object.entries(db.servers).filter(([i,v])=>v.members.includes(me)).map(([i,v])=>`<div class="ri ${view.t=='srv'&&view.id==i?'on':''}" data-ctx="srv:${i}" onclick="go({t:'srv',id:'${i}'})" title="${esc(v.name)}">${v.icon?`<img src="${v.icon}">`:esc(v.name.slice(0,2))}</div>`).join('')}<div class="ri add" onclick="addServer()" title="Create or join a server">${I('plus',24)}</div>`;
-const members=view.t=='srv'?`<aside class="mem"><div class="mu" style="padding:0 8px 8px">Members — ${s.members.length}</div>${s.members.map(u=>`<div class="mrow ${online(u)?'':'offl'}" data-ctx="mem:${u}" onclick="showProfile('${u}')"><div class="avw">${av(u,34)}<i class="dot ${dot(u)}"></i></div><span style="color:${rc(s,u)}">${dn(u)}${u==s.owner?' 👑':''}</span></div>`).join('')}</aside>`:'';
-$('#root').innerHTML=`<div id="app"><div class="tb">${title}<div class="tbr">${I('inbox',20)}${I('help',20)}</div></div><div class="wrap"><nav class="rail">${rail}</nav><aside class="side">${side}</aside><main class="${nav?'fade':''}">${m}</main>${members}</div><div class="up"><div id="upb" onclick="pop()" title="Your profile"><div class="avw">${av(me,36)}<i class="dot ${dot(me)}"></i></div><div style="min-width:0"><b>${dn(me)}</b><span class="mu">${ST[x.status||'online'][0]}</span></div></div><button class="ib ${muted?'mute':''}" title="Mute" onclick="muted=!muted;render()">${I('mic',20)}</button><button class="ib ${deaf?'mute':''}" title="Deafen" onclick="deaf=!deaf;render()">${I('head',20)}</button><button class="ib" title="User settings" onclick="settings('account')">${I('gear',20)}</button></div></div>`;
+const x=U(me),s=db.servers[view.id];let m,side;
+if(view.t=='srv'){m=chat('<b>#</b> <b>general</b>',s.msgs,s,s.timeouts[me]>Date.now()?'You are timed out':'');
+side=`<div class="sh">${esc(s.name)}</div><div class="nav on"># general</div><div class="nav" onclick="invite('${view.id}')">＋ Invite people</div>${s.owner==me?`<div class="nav" onclick="roles('${view.id}')">⚙ Manage roles</div>`:''}`}
+else{if(view.t=='dm'&&!U(view.id))view={t:'friends',tab:'online'};
+if(view.t=='dm'){const o=view.id,k=[me,o].sort().join('|');m=chat(`${av(o,26)}<b>${dn(o)}</b>${badges(o)}`,db.dms[k]||[],null,x.blocked.includes(o)?'You blocked this user':U(o).blocked.includes(me)?'You cannot message this user':'')}else m=friendsView();
+side=`<div class="nav ${view.t=='friends'?'on':''}" onclick="go({t:'friends',tab:'online'})">👥 Friends</div><div class="nav" onclick="settings('memo')">✦ Memo</div><div class="dmh">DIRECT MESSAGES</div>${x.friends.map(u=>`<div class="nav ${view.t=='dm'&&view.id==u?'on':''}" data-ctx="friend:${u}" onclick="dm('${u}')"><div class="avw">${av(u,32)}<i class="dot ${dot(u)}"></i></div>${dn(u)}</div>`).join('')}`}
+const rail=`<div class="ri home ${view.t!='srv'?'on':''}" onclick="go({t:'friends',tab:'online'})" title="Home">💬</div><div class="rs"></div>${Object.entries(db.servers).filter(([i,v])=>v.members.includes(me)).map(([i,v])=>`<div class="ri ${view.t=='srv'&&view.id==i?'on':''}" data-ctx="srv:${i}" onclick="go({t:'srv',id:'${i}'})" title="${esc(v.name)}">${v.icon?`<img src="${v.icon}">`:esc(v.name.slice(0,2))}</div>`).join('')}<div class="ri add" onclick="addServer()" title="Create or join a server">+</div>`;
+const members=view.t=='srv'?`<aside class="mem"><div class="mu" style="padding:0 8px 8px">Members — ${s.members.length}</div>${s.members.map(u=>`<div class="mrow ${online(u)?'':'offl'}" data-ctx="mem:${u}" onclick="prof('${u}')"><div class="avw">${av(u,32)}<i class="dot ${dot(u)}"></i></div><span style="color:${rc(s,u)}">${dn(u)}${u==s.owner?' 👑':''}</span></div>`).join('')}</aside>`:'';
+$('#root').innerHTML=`<div id="app" class="${nav?'go':''}"><nav class="rail">${rail}</nav><aside class="side">${side}</aside><main class="${nav?'fade':''}">${m}</main>${members}<div class="up"><div id="upb" onclick="userMenu(event)"><div class="avw">${av(me,36)}<i class="dot ${dot(me)}"></i></div><div style="min-width:0"><b>${dn(me)}</b><span class="mu">${ST[x.status||'online'][0]}</span></div></div><button class="ib" title="User settings" onclick="settings('profile')">⚙</button></div></div>`;
 nav=0;
 const i=$('#inp');if(i){if(iv)i.value=iv;if(f)i.focus();i.onkeydown=e=>{const t=i.value.trim();if(e.key=='Enter'&&t){i.value='';send(t)}};const g=$('#msgs');g.scrollTop=g.scrollHeight}
 if($('#ab2')){$('#ab2').onclick=addFriend;$('#af').onkeydown=e=>{if(e.key=='Enter')addFriend()}}}
 
-/* ---------- settings ---------- */
-const cnt=()=>Object.values(db.dms).reduce((a,l)=>a+l.length,0)+Object.values(db.servers).reduce((a,v)=>a+v.msgs.length,0);
-function beep(){try{const c=new AudioContext(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.25);o.start();o.stop(c.currentTime+.25)}catch{}}
-const applyLook=()=>{document.documentElement.style.setProperty('--br',U(me).accent||'#5865f2');document.documentElement.classList.toggle('rm',!!U(me).rm)};
-const ua=()=>{const u=navigator.userAgent;return(/Edg\//.test(u)?'Edge':/Firefox/.test(u)?'Firefox':/Chrome/.test(u)?'Chrome':/Safari/.test(u)?'Safari':'Browser')+' on '+(/Windows/.test(u)?'Windows':/Android/.test(u)?'Android':/iPhone|iPad/.test(u)?'iOS':/Mac/.test(u)?'macOS':/Linux/.test(u)?'Linux':'an unknown OS')};
-function ensureSess(){const x=U(me);x.sess=x.sess||[];let id=ss.get('sid');if(!id){id=rid();ss.set('sid',id);x.sess.push({id,ua:ua(),t:Date.now()});save();return 1}return x.sess.some(s=>s.id==id)}
-const editProfile=()=>settings('profile'),memoModal=()=>settings('memo');
-let sp='account',sub='info',shown={};
-const T={account:'Account',profile:'My Profile',privacy:'Data & Privacy',msg:'Messaging Permissions',notif:'Notifications',memo:'Memo',voice:'Voice & Video',look:'Appearance'};
-const NAV=[['account','Account','user'],['privacy','Data & Privacy','shield'],['msg','Messaging Permissions','chat'],['notif','Notifications','bell'],'Billing',['memo','Memo','memo'],'Experience',['voice','Voice & Video','mic'],['look','Appearance','palette',1]];
-const mk=(s,k)=>k=='email'?'*'.repeat(Math.max(3,s.split('@')[0].length))+'@'+s.split('@')[1]:'*'.repeat(Math.max(0,s.length-4))+s.slice(-4);
-const tgRow=(l,d,k,inv)=>{const on=inv?!U(me)[k]:!!U(me)[k];return`<div class="srow"><div style="flex:1"><b>${l}</b><div class="mu">${d}</div></div><div class="tg ${on?'on':''}" onclick="tgl('${k}')"></div></div>`};
-const tgl=k=>{U(me)[k]=!U(me)[k];save();render();settings()};
-const row=(l,v,b)=>`<div class="srow"><b>${l}</b><span class="sv">${v}</span>${b||''}</div>`;
-const lrow=(l,v,f,dis)=>`<div class="srow lr ${dis?'dis':''}" ${dis?'':`onclick="${f}"`}><b>${l}</b><span class="sv">${v}</span>${I('chev',22)}</div>`;
-const contact=(l,k)=>{const v=U(me)[k];return row(l,v?`${shown[k]?esc(v):esc(mk(v,k))} <a onclick="shown.${k}=!shown.${k};settings()">${shown[k]?'Hide':'Reveal'}</a>`:'Not set',`<button class="g" onclick="editField('${k}')">${v?'Edit':'Add'}</button>`)};
+/* ===== settings ===== */
+const T={profile:'My Profile',account:'Account',memo:'Memo',look:'Appearance'};
+const tgRow=(l,d,k)=>`<div class="row"><div style="flex:1"><b>${l}</b><div class="mu">${d}</div></div><div class="tg ${U(me)[k]?'on':''}" onclick="U(me)['${k}']=!U(me)['${k}'];save();render();settings()"></div></div>`;
+const memoBuy=()=>{const o=myOrder;if(!o)return`<p class="mu" style="margin-bottom:14px">Unlock custom banners and animated profile pictures. Send BTC to the address below, then submit your transaction ID. Your license key is generated once the owner confirms payment.</p><label>BTC ADDRESS</label><input readonly value="${BTC}" onclick="this.select()"><button class="g" onclick="navigator.clipboard?.writeText('${BTC}');toast('Address copied')">Copy address</button><hr><label>TRANSACTION ID</label><input id="tx" placeholder="Paste your BTC transaction ID"><button onclick="buyMemo()">I have paid</button>`;
+return o.status=='pending'?`<div class="ac"><b>Payment pending</b><span class="mu">Order ${esc(o.id.slice(0,8))} is waiting for confirmation. Your key will appear here.</span></div><button class="g" style="margin-top:12px" onclick="loadOrders().then(()=>settings())">Refresh</button>`:`<label>YOUR LICENSE KEY</label><input readonly id="mk" value="${esc(o.license_key||'')}" onclick="this.select()"><button onclick="actMemo()">Activate Memo</button>`};
+const ownerPanel=()=>`<hr style="margin:32px 0"><h2>Owner: pending orders</h2>${orders.filter(o=>o.status=='pending').map(o=>`<div class="row"><div style="min-width:0"><b>${esc(o.username)}</b><div class="mu" style="word-break:break-all">${esc(o.txid)}</div></div><span class="sp"></span><button onclick="approve('${o.id}')">Approve</button></div>`).join('')||'<p class="mu">No pending orders.</p>'}<button class="g" onclick="loadOrders().then(()=>settings())">Refresh</button>`;
 const PG={
-account:()=>{const n=(U(me).sess||[]).length;return`<h2 id="a-info">Account Info</h2>${row('Display Name',dn(me),`<button class="g" onclick="editField('dn')">Edit</button>`)}${row('Username',esc(me),'<button class="g" disabled title="Usernames are permanent" style="opacity:.45;cursor:not-allowed">Edit</button>')}${contact('Email','email')}${contact('Phone Number','phone')}<hr style="margin:32px 0"><h2 id="a-sec">Password &amp; Security</h2>${row('Password','',`<button class="g" onclick="pwModal()">Edit</button>`)}${lrow('Multi-Factor Authentication','Needs a server','',1)}${lrow('Logged-in Devices',n+' device'+(n==1?'':'s'),'devices()')}<hr style="margin:32px 0"><h2 id="a-status">Account Status</h2>${row('Delete Account','',`<button class="r" onclick="delAcct()">Delete</button>`)}<p class="mu">Deleting removes your account and any servers you own.</p>`},
-profile:()=>{const x=U(me),m=hasMemo(me);return`<h2>My Profile</h2><div class="prof"><div class="pf"><label>DISPLAY NAME</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate)':'(static image)'}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}>${m?'':'<p class="mu" style="margin:-4px 0 12px">Custom banners and animated avatars need Memo. <a onclick="settings(\'memo\')">Get Memo</a></p>'}<label>NOTE</label><input id="en" maxlength="60" value="${esc(x.note||'')}" placeholder="What have you been reading?"><button onclick="saveProfile()">Save changes</button></div><div class="pv">${card(me)}</div></div>`},
-privacy:()=>`<h2>Data &amp; Privacy</h2>${tgRow('Show badges on my profile','Turn off to hide your badges from other people.','noBd',1)}${row('Blocked users',(U(me).blocked||[]).length+' blocked',`<button class="g" onclick="$('.stg').remove();go({t:'friends',tab:'blocked'})">Manage</button>`)}${row('Download my data','',`<button class="g" onclick="exportData()">Download</button>`)}`,
-msg:()=>`<h2>Messaging Permissions</h2>${tgRow('Allow friend requests','When off, nobody can add you as a friend.','noFr',1)}<p class="mu">You can only message people you have added as friends.</p>`,
-notif:()=>`<h2>Notifications</h2>${tgRow('Message sounds','Play a sound when a new message arrives from another tab.','noSnd',1)}`,
-memo:()=>hasMemo(me)?`<h2>Memo</h2><div class="ac" style="text-align:left"><b>✦ Memo is active</b><span class="mu">Custom banners and animated profile pictures are unlocked. Change them under My Profile.</span></div>`:`<h2>Memo</h2><p class="mu" style="margin-bottom:14px">Unlock custom banners and animated profile pictures. Send BTC to this address, then enter the license key you receive.</p><label>BTC ADDRESS (placeholder)</label><input readonly value="${BTC}" onclick="this.select()"><button class="g" onclick="navigator.clipboard?.writeText('${BTC}');toast('Address copied')">Copy address</button><hr><label>LICENSE KEY</label><input id="mk"><button onclick="actMemo()">Activate</button>`,
-voice:()=>`<h2>Voice &amp; Video</h2><div class="srow"><div style="flex:1"><b>Mute</b><div class="mu">Matches the mic button in the bottom-left panel.</div></div><div class="tg ${muted?'on':''}" onclick="muted=!muted;render();settings()"></div></div><div class="srow"><div style="flex:1"><b>Deafen</b><div class="mu">Matches the headphones button.</div></div><div class="tg ${deaf?'on':''}" onclick="deaf=!deaf;render();settings()"></div></div><p class="mu">Voice chat is not built yet, so these only change the status icons.</p>`,
-look:()=>{const a=U(me).accent||'#5865f2';return`<h2>Appearance</h2><div class="srow"><div style="flex:1"><b>Accent color</b><div class="mu">Changes buttons, highlights and the home icon.</div></div></div><div class="row" style="gap:10px;margin-bottom:12px">${['#5865f2','#eb459e','#23a55a','#f0b232','#f23f43','#00a8fc','#9b59b6'].map(c=>`<i class="sw" style="background:${c};width:32px;height:32px;cursor:pointer;outline:${a==c?'3px solid #fff':'none'}" onclick="setAccent('${c}')"></i>`).join('')}<input type="color" value="${a}" onchange="setAccent(this.value)" style="width:44px;height:34px;padding:2px;margin:0"></div>${tgRow('Reduce motion','Turns off animations and transitions.','rm',0)}`}};
-function settings(p){const old=$('.sbody')?.scrollTop||0,chg=p&&p!=sp;if(p){sp=p;if(chg)sub='info'}let o=$('.stg');if(!o){o=document.createElement('div');o.className='stg pop';document.body.append(o)}$('.upop')?.remove();
-o.innerHTML=`<div class="sn"><div class="sprof" onclick="settings('profile')">${av(me,48)}<div><b>${dn(me)}</b><div class="mu">Edit Profiles ${I('pen',12)}</div></div></div><div class="sb ssb">${I('search',18)}<input id="sq" placeholder="Search" oninput="sfilter(this.value)"></div>${NAV.map(n=>typeof n=='string'?`<div class="sg">${n}</div>`:`<div class="si ${sp==n[0]?'on':''}" data-q="${n[1]}" onclick="settings('${n[0]}')">${I(n[2],20)}${n[1]}${n[3]?'<span class="nw">NEW</span>':''}</div>`+(n[0]=='account'&&sp=='account'?[['info','Account Info'],['sec','Password & Security'],['status','Account Status']].map(s=>`<div class="ss ${sub==s[0]?'on':''}" data-q="${s[1]}" onclick="subgo('${s[0]}')">${s[1].replace('&','&amp;')}</div>`).join(''):'')).join('')}<hr><div class="si dngt" onclick="logout()">${I('out',20)}Log out</div></div><div class="sr"><div class="srh"><span>${T[sp]}</span><button class="ib" onclick="$('.stg').remove()" title="Close (Esc)">${I('x',20)}</button></div><div class="sbody"><div class="sin">${PG[sp]()}</div></div></div>`;
-const b=$('.sbody');b.style.scrollBehavior='auto';b.scrollTop=chg?0:old;b.style.scrollBehavior=''}
-const sfilter=v=>document.querySelectorAll('.si[data-q],.ss').forEach(e=>e.style.display=e.dataset.q.toLowerCase().includes(v.toLowerCase())?'':'none');
-const subgo=s=>{sub=s;document.querySelectorAll('.ss').forEach(e=>e.classList.toggle('on',e.getAttribute('onclick').includes("'"+s+"'")));document.getElementById('a-'+s)?.scrollIntoView({behavior:'smooth',block:'start'})};
+profile:()=>{const x=U(me),m=hasMemo(me);return`<div class="prof"><div class="pf"><label>DISPLAY NAME</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate)':''}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}><label>NOTE</label><input id="en" maxlength="60" value="${esc(x.note||'')}" placeholder="What have you been reading?"><button onclick="saveProfile()">Save changes</button></div><div class="pv">${card(me)}</div></div>`},
+account:()=>`<h2>Change password</h2><label>CURRENT PASSWORD</label><input id="p0" type="password"><label>NEW PASSWORD</label><input id="p1" type="password"><button onclick="chgPw()">Update password</button><hr style="margin:32px 0"><h2>Delete account</h2><p class="mu" style="margin-bottom:10px">Removes your profile and any servers you own. Enter your password to confirm.</p><input id="dp" type="password"><button class="r" onclick="delAcct()">Delete account</button>`,
+memo:()=>(hasMemo(me)?`<div class="ac"><b>✦ Memo is active</b><span class="mu">Custom banners and animated profile pictures are unlocked. Change them under My Profile.</span></div>`:memoBuy())+(me===OWNER?ownerPanel():''),
+look:()=>{const a=U(me).accent||'#5865f2';return`<h2>Appearance</h2><b>Accent color</b><div class="row" style="gap:10px;margin:10px 0 18px">${['#5865f2','#eb459e','#23a55a','#f0b232','#f23f43','#00a8fc','#9b59b6'].map(c=>`<i class="sw" style="background:${c};width:32px;height:32px;cursor:pointer;outline:${a==c?'3px solid #fff':'none'}" onclick="U(me).accent='${c}';save();render();settings()"></i>`).join('')}</div>${tgRow('Reduce motion','Turns off animations and transitions.','rm')}`}};
+function settings(p){if(p)sp=p;let o=$('.stg');if(!o){o=document.createElement('div');o.className='stg pop';document.body.append(o)}
+o.innerHTML=`<div class="sn"><div class="sg">User Settings</div>${Object.entries(T).map(([k,v])=>`<div class="si ${sp==k?'on':''}" onclick="settings('${k}')">${v}${k=='memo'&&!hasMemo(me)?'<span class="nw">✦</span>':''}</div>`).join('')}<hr><div class="si dngt" onclick="logout()">Log out</div></div><div class="sr"><div class="srh"><b>${T[sp]}</b><button class="g" onclick="$('.stg').remove()">✕ Esc</button></div><div class="sbody"><div class="sin">${PG[sp]()}</div></div></div>`}
 async function saveProfile(){const x=U(me),m=hasMemo(me),n=$('#ed').value.trim(),a=$('#ea').files[0],b=$('#eb').files[0];try{if(a)x.avatar=await img(a,128,m);if(b&&m)x.banner=await img(b,640,m)}catch{return toast('Image failed. Animated GIFs must be under 1.5 MB.')}if(n)x.display=n;x.note=$('#en').value.trim().slice(0,60);save();render();settings();toast('Profile saved')}
-const actMemo=()=>{if($('#mk').value.trim()===MEMO_KEY){U(me).memo=1;save();render();settings();toast('Memo activated')}else toast('Invalid license key')};
-const setAccent=c=>{U(me).accent=c;save();applyLook();settings()};
-const F={dn:['Display Name','text',32],email:['Email','email',80],phone:['Phone Number','tel',20]};
-function editField(k){const x=U(me),f=F[k],cur=k=='dn'?x.display:x[k]||'';modal(`<h2>Edit ${f[0]}</h2><input id="ef" type="${f[1]}" maxlength="${f[2]}" value="${esc(cur)}"><div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Cancel</button><button id="efs">Save</button></div>`);$('#ef').focus();
-const sv=()=>{const v=$('#ef').value.trim();if(k=='email'&&v&&!/^\S+@\S+\.\S+$/.test(v))return toast('Enter a valid email');if(k=='phone'&&v&&!/^\+?[\d\s()-]{6,20}$/.test(v))return toast('Enter a valid phone number');if(k=='dn'){if(!v)return toast('Display name cannot be empty');x.display=v}else x[k]=v;save();closeModal();render();$('.stg')&&settings()};$('#efs').onclick=sv;$('#ef').onkeydown=e=>{if(e.key=='Enter')sv()}}
-function pwModal(){modal(`<h2>Change password</h2><label>CURRENT PASSWORD</label><input id="p0" type="password"><label>NEW PASSWORD</label><input id="p1" type="password"><label>CONFIRM NEW PASSWORD</label><input id="p2" type="password"><div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Cancel</button><button id="pws">Done</button></div>`);
-$('#pws').onclick=async()=>{try{const x=U(me);if(!(await sha($('#p0').value)).includes(x.pass))return toast('Current password is wrong');const n=$('#p1').value;if(n.length<6)return toast('New password needs at least 6 characters');if(n!==$('#p2').value)return toast('Passwords do not match');x.pass=(await sha(n))[0];x.sess=x.sess.filter(s=>s.id==ss.get('sid'));save();closeModal();toast('Password changed. Other devices were logged out.');settings()}catch(e){toast('Error: '+e.message)}}}
-function devices(){const x=U(me),sid=ss.get('sid');modal(`<h2>Logged-in devices</h2>${x.sess.map(s=>`<div class="row"><div><b>${esc(s.ua)}</b>${s.id==sid?' <span class="mu">(this device)</span>':''}<div class="mu">Signed in ${new Date(s.t).toLocaleString()}</div></div><span class="sp"></span>${s.id==sid?'':`<button class="r" onclick="revoke('${s.id}')">Log out</button>`}</div>`).join('')}`)}
-const revoke=id=>{const x=U(me);x.sess=x.sess.filter(s=>s.id!=id);save();devices();settings()};
-function exportData(){const x=U(me),d={username:me,...Object.fromEntries(Object.entries(x).filter(([k])=>!['pass','sess'].includes(k))),dms:Object.fromEntries(Object.entries(db.dms).filter(([k])=>k.split('|').includes(me)))};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='my-chatcord-data.json';a.click()}
-function delAcct(){modal(`<h2>Delete account</h2><p class="mu" style="margin-bottom:10px">This permanently deletes your account and any servers you own. Enter your password to confirm.</p><input id="dp" type="password"><div class="row"><span class="sp"></span><button class="g" onclick="closeModal()">Cancel</button><button class="r" id="dpb">Delete account</button></div>`);
-$('#dpb').onclick=async()=>{const x=U(me);if(!(await sha($('#dp').value)).includes(x.pass))return toast('Wrong password');const u=me;for(const[id,v]of Object.entries(db.servers)){if(v.owner==u){delete db.inv[v.code];delete db.servers[id]}else{v.members=v.members.filter(m=>m!=u);delete v.mr[u];delete v.timeouts[u]}}for(const o of Object.values(db.users)){o.friends=o.friends.filter(f=>f!=u);o.blocked=o.blocked.filter(f=>f!=u)}delete db.users[u];save();closeModal();$('.stg')?.remove();ss.del('me');ss.del('sid');me=null;authView()}}
-addEventListener('storage',e=>{if(e.key==K&&e.newValue){const n=cnt();db=JSON.parse(e.newValue);if(me&&U(me)&&cnt()>n&&!U(me).noSnd)beep();if(me)render()}});
-addEventListener('keydown',e=>{if(e.key=='Escape'){if($('.ov'))closeModal();else $('.stg')?.remove()}});
-const beat=()=>{try{if(me){const s=seen();s[me]=Date.now();localStorage[SK]=JSON.stringify(s)}}catch{}};beat();setInterval(beat,10000);
-setInterval(()=>{if(me&&view.t=='friends'&&view.tab!='add'&&!document.activeElement?.matches('input'))render()},20000);
-render();
+async function buyMemo(){const t=$('#tx').value.trim();if(t.length<10)return toast('Enter your transaction ID');const{error}=await sb.from('orders').insert({username:me,txid:t});if(error)return toast(error.message);await loadOrders();settings();toast('Order submitted')}
+async function approve(id){const h=crypto.randomUUID().replace(/-/g,'').slice(0,16).toUpperCase(),k='MEMO-'+h.match(/.{4}/g).join('-');const{error}=await sb.from('orders').update({status:'approved',license_key:k}).eq('id',id);if(error)return toast(error.message);await loadOrders();settings();toast('Approved. Key: '+k)}
+const actMemo=()=>{if(myOrder&&myOrder.status=='approved'&&$('#mk').value.trim()===myOrder.license_key){U(me).memo=1;save();render();settings();toast('Memo activated')}else toast('Invalid license key')};
+async function chgPw(){const ck=await sb.auth.signInWithPassword({email:em(me),password:$('#p0').value});if(ck.error)return toast('Current password is wrong');const n=$('#p1').value;if(n.length<6)return toast('New password needs at least 6 characters');const up=await sb.auth.updateUser({password:n});toast(up.error?up.error.message:'Password changed')}
+async function delAcct(){const ck=await sb.auth.signInWithPassword({email:em(me),password:$('#dp').value});if(ck.error)return toast('Wrong password');const u=me;
+for(const[id,v]of Object.entries(db.servers)){if(v.owner==u)delete db.servers[id];else{v.members=v.members.filter(m=>m!=u);delete v.mr[u];delete v.timeouts[u]}}
+for(const o of Object.values(db.users)){o.friends=o.friends.filter(f=>f!=u);o.blocked=o.blocked.filter(f=>f!=u)}
+delete db.users[u];await push();await sb.auth.signOut();chan?.unsubscribe();$('.stg')?.remove();me=null;ready=0;authView()}
+boot();
 </script></body></html>
