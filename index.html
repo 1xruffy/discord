@@ -165,14 +165,14 @@ addEventListener('click',()=>$('.cm')?.remove());
 addEventListener('contextmenu',e=>{const t=e.target.closest('[data-ctx]');if(!t||!me)return;const k=t.dataset.ctx,i=k.indexOf(':'),it=ctxItems(k.slice(0,i),k.slice(i+1));if(!it.length)return;e.preventDefault();$('.cm')?.remove();cmf=it.map(x=>x[1]);const m=document.createElement('div');m.className='cm pop';m.innerHTML=it.map((x,j)=>`<div class="${x[2]||''}" onclick="cmf[${j}]()">${x[0]}</div>`).join('');m.style.left=Math.min(e.clientX,innerWidth-200)+'px';m.style.top=Math.min(e.clientY,innerHeight-it.length*38-20)+'px';document.body.append(m)});
 function ctxItems(k,id){const o=[];
 if(k=='srv'){const s=db.servers[id];if(!s)return o;if(canEdit(s,id))o.push(['Edit server',()=>ssettings(id,'general')]);if(dev()||canEdit(s,id))o.push(['Copy server ID',()=>copy(id)]);if(s.owner!=me&&id!=SID)o.push(['Leave server',()=>leave(id),'dn'])}
-else if(k=='usr'&&U(id)){o.push(['Profile',()=>prof(id)]);if(id!=me&&id!=BOT)o.push(['Message',()=>dm(id)]);if(dev())o.push(['Copy user ID',()=>copy(uid(id))])}
+else if(k=='usr'&&U(id)){o.push(['Profile',()=>prof(id)]);if(id!=me&&id!=BOT){o.push(['Message',()=>dm(id)]);const hasDM=(db.dms[[me,id].sort().join('|')]||[]).length>0||U(me).friends.includes(id)||(U(me).closedDMs||[]).includes(id);if(hasDM)o.push(['Close DM',()=>closeDM(id),'dn'])}if(dev())o.push(['Copy user ID',()=>copy(uid(id))])}
 return o}
 const img=(f,max,anim,png)=>new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{if(f.type=='image/gif'&&anim){f.size<L.gifBytes?ok(r.result):no();return}const i=new Image();i.onerror=no;i.onload=()=>{const k=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(png?c.toDataURL('image/png'):c.toDataURL('image/jpeg',.85))};i.src=r.result};r.readAsDataURL(f)});
 async function up(f,max,anim,kind){const d=await img(f,max,anim);try{const b=await(await fetch(d)).blob(),path=`${kind}/${uid(me)}-${Date.now()}.${b.type=='image/gif'?'gif':'jpg'}`;const{error}=await sb.storage.from(CFG.supabase.bucket).upload(path,b,{contentType:b.type,upsert:true});if(error)throw error;return sb.storage.from(CFG.supabase.bucket).getPublicUrl(path).data.publicUrl}catch{return d}}
 function applyTheme(){const s=set(me),r=document.documentElement;r.style.setProperty('--br',U(me)?.accent||CFG.accent);document.body.style.fontSize=s.fs+'px';document.body.classList.toggle('compact',!!s.compact);document.body.classList.toggle('noanim',!!s.reduce)}
 const unread=o=>(db.dms[[me,o].sort().join('|')]||[]).filter(m=>m.u==o&&m.ts>(U(me)?.read?.[o]||0)).length;
 const totU=()=>me&&U(me)?Object.keys(db.dms).filter(k=>k.split('|').includes(me)).reduce((a,k)=>a+unread(k.split('|').find(x=>x!=me)||me),0):0;
-const dmList=()=>[...new Set([...U(me).friends,...Object.keys(db.dms).filter(k=>k.split('|').includes(me)).map(k=>k.split('|').find(x=>x!=me))])].filter(u=>U(u));
+const dmList=()=>[...new Set([...U(me).friends,...Object.keys(db.dms).filter(k=>k.split('|').includes(me)).map(k=>k.split('|').find(x=>x!=me))])].filter(u=>U(u)&&!(U(me).closedDMs||[]).includes(u));
 function beep(){try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=720;g.gain.setValueAtTime(.1,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.3);o.start();o.stop(a.currentTime+.3)}catch{}}
 
 /* ===== Supabase sync ===== */
@@ -206,7 +206,8 @@ else{await pull();if(findU(u))return toast('That username is taken');r=await sb.
 me=key;ready=1;ensure();if(!Lg)save();connect();go({t:'srv',s:SID,c:'general'})}catch(e){toast('Error: '+e.message)}}}
 
 /* ===== friends, profile ===== */
-const dm=u=>go({t:'dm',id:u});
+const dm=u=>{if(U(me)){U(me).closedDMs=(U(me).closedDMs||[]).filter(x=>x!==u);save()}go({t:'dm',id:u})};
+function closeDM(u){if(!U(me)||u===me)return;U(me).closedDMs=[...new Set([...(U(me).closedDMs||[]),u])];save();if(view.t==='dm'&&view.id===u)go({t:'friends',tab:'online'});else render();toast('DM closed. You can reopen it by messaging this user.')}
 function addF(n){const x=U(me),y=U(n);if(!y||n==me)return toast('No user with that username');if(!x.friends.includes(n)){x.friends.push(n);y.friends.push(me)}save();toast('Added '+n);render()}
 function unf(u){U(me).friends=U(me).friends.filter(f=>f!=u);U(u).friends=U(u).friends.filter(f=>f!=me);save();render()}
 function prof(u){const x=U(u),own=u==me,g=x.game&&set(u).showAct?x.game:0,fr=U(me).friends.includes(u);
