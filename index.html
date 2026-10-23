@@ -5,64 +5,73 @@
 *{box-sizing:border-box;margin:0}html,body{height:100%}
 body{font:15px/1.4 Inter,system-ui,"Segoe UI",sans-serif;background:var(--rail);color:var(--tx);overflow:hidden}
 button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;border:0;border-radius:8px;padding:9px 14px;background:var(--br);font-weight:600;color:#fff;transition:filter .15s,transform .15s}
-button:hover{filter:brightness(1.1)}button:active{transform:scale(.96)}button.g{background:#34343b}button.r{background:#da373c}
+button{cursor:pointer;border:0;border-radius:8px;padding:9px 14px;background:var(--br);font-weight:600;color:#fff;transition:filter .15s,transform .15s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button:hover{filter:brightness(1.1)}button:active{transform:scale(.96)}button.g{background:#34343b}button.r{background:#da373c}button:disabled{opacity:.6;cursor:default}
 input,select{background:#121215;border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;outline:0;margin:6px 0 12px}input:focus{border-color:var(--br)}
+input[type=file]{padding:6px}input[type=color]{padding:2px;height:40px;width:80px}input[type=checkbox]{width:18px;height:18px;margin:0;accent-color:var(--br)}
+input[type=file]::file-selector-button{background:var(--br);color:#fff;border:0;border-radius:6px;padding:7px 12px;margin-right:10px;font:inherit;font-weight:600;cursor:pointer}
+input[type=file]::file-selector-button:hover{filter:brightness(1.1)}input[type=file]:disabled::file-selector-button{background:#34343b;color:var(--mu);cursor:default}
 label{font-size:12px;font-weight:700;color:var(--mu)}h2{margin-bottom:10px}hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 .mu{color:var(--mu);font-size:13px}.row{display:flex;gap:8px;align-items:center;margin:8px 0}.sp{flex:1}.ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#ffffff1c;border-radius:4px}
 @keyframes pop{from{opacity:0;transform:scale(.94) translateY(8px)}}@keyframes fd{from{opacity:0}}
-.pop{animation:pop .2s cubic-bezier(.2,1.3,.4,1)}
+.pop{animation:pop .2s cubic-bezier(.2,1.3,.4,1)}.noanim *{animation:none!important;transition:none!important}.compact .msg{padding:1px 16px}
+svg.ic{flex:none;vertical-align:middle}
 .auth{min-height:100vh;display:grid;place-items:center;background:#111114;position:relative;overflow:hidden;padding:24px 0}
 .auth::before,.auth::after{content:"";position:absolute;width:38%;height:55%;background:repeating-linear-gradient(0deg,#ff6b4518 0 1px,transparent 1px 38px),repeating-linear-gradient(90deg,#ff6b4518 0 1px,transparent 1px 38px);border:1px solid #ff6b4512;border-radius:10px;pointer-events:none}
 .auth::before{left:-2%;top:-4%;transform:perspective(700px) rotateX(8deg) rotateY(6deg) skewY(-2deg)}
 .auth::after{right:-3%;bottom:-6%;transform:perspective(700px) rotateX(-8deg) rotateY(-6deg) skewY(2deg)}
 .auth .glow{position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(transparent,#ff6b4514);pointer-events:none}
 .card{position:relative;z-index:1;width:min(420px,92vw);background:#18181d;padding:28px;border-radius:16px;border:1px solid #2a2a31;box-shadow:0 20px 60px #000b}
-.card .bk{font-size:13px;font-weight:600;color:#c4c7cd;cursor:pointer}.card .bk:hover{color:#fff}
-.card .lg{display:flex;align-items:center;justify-content:center;gap:10px;font-size:22px;font-weight:800;margin:6px 0 22px}
+.card .bk{font-size:13px;font-weight:600;color:#c4c7cd;cursor:pointer}.card .lg{display:flex;align-items:center;justify-content:center;gap:10px;font-size:22px;font-weight:800;margin:6px 0 22px}
 .card h1{text-align:center;font-size:24px;font-weight:800}.card .sub{text-align:center;color:var(--mu);margin:6px 0 22px}
 .card label{display:block;font-size:12px;font-weight:800;letter-spacing:.4px;color:#b5b8c0}
 .card input,.card select{background:#101013;border:1px solid #26262d;border-radius:9px;height:42px;padding:0 12px;margin:8px 0 16px}
-.card select{font-weight:600;padding:0 10px}
 .pw{position:relative}.pw button{position:absolute;right:4px;top:8px;width:34px;height:42px;background:none;padding:0;color:#b5b8c0}
-.bdr{display:flex;gap:8px}.chk{display:flex;gap:10px;align-items:center;font-size:13px;margin:6px 0 14px}.chk input{width:16px;height:16px;margin:0;accent-color:var(--br)}
+.bdr{display:flex;gap:8px}.chk{display:flex;gap:10px;align-items:center;font-size:13px;margin:6px 0 14px}.chk input{width:16px;height:16px;margin:0}
 .warn{background:#3a2c14;border:1px solid #6b5220;color:#f0b232;border-radius:8px;padding:9px 11px;font-size:12.5px;margin-bottom:16px}
-.card .go{width:100%;height:44px;padding:0;margin:0 0 16px;font-size:15px;background:#ff6b45;border-radius:9px}
-.card .ft{display:flex;justify-content:center;gap:6px;font-size:12px;color:var(--mu)}.card .ft u{cursor:pointer}
-.card p{text-align:center}a{color:var(--br);cursor:pointer;font-weight:700}
+.card .go{width:100%;height:44px;padding:0;margin:0 0 16px;font-size:15px}.card .ft{display:flex;justify-content:center;gap:6px;font-size:12px;color:var(--mu)}.card p{text-align:center}a{color:var(--br);cursor:pointer;font-weight:700}
 #app{display:flex;height:100vh}
-.rail{width:72px;flex:none;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:8px}
-.ri{width:48px;height:48px;border-radius:50%;background:var(--card);display:grid;place-items:center;cursor:pointer;font-weight:700;transition:.2s}.ri:hover,.ri.on{border-radius:15px;background:var(--br)}.rs{width:30px;border-top:2px solid var(--line)}
+.rail{width:72px;flex:none;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:8px;overflow-y:auto}
+.ri{position:relative;width:48px;height:48px;border-radius:50%;background:var(--card);display:grid;place-items:center;cursor:pointer;font-weight:700;transition:.2s;flex:none;overflow:visible}.ri img{width:100%;height:100%;border-radius:inherit;object-fit:cover}
+.ri:hover,.ri.on{border-radius:15px;background:var(--br)}.rs{width:30px;border-top:2px solid var(--line)}.ri.add{color:#2ecc71}.ri.add:hover{background:#2ecc71;color:#fff}
+.nb{position:absolute;right:-4px;bottom:-4px;min-width:18px;height:18px;border-radius:9px;background:#da373c;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px;border:3px solid var(--rail);box-sizing:content-box}
 .side{width:250px;flex:none;background:var(--side);border-top-left-radius:12px;border:1px solid var(--line);border-right:0;overflow-y:auto;padding:0 8px 72px}
-.sh{height:84px;margin:0 -8px 8px;padding:10px 14px;display:flex;align-items:flex-end;font-weight:800;font-size:17px;background:repeating-linear-gradient(45deg,#ff6b45,#ff6b45 14px,#ff8a62 14px,#ff8a62 28px);text-shadow:0 1px 4px #0008}
+.sh{height:84px;margin:0 -8px 8px;padding:10px 14px;display:flex;align-items:flex-end;font-weight:800;font-size:17px;background:repeating-linear-gradient(45deg,var(--br),var(--br) 14px,#ffffff22 14px,#ffffff22 28px);text-shadow:0 1px 4px #0008}
 .nav{display:flex;align-items:center;gap:8px;min-height:36px;padding:0 10px;border-radius:8px;color:var(--mu);font-weight:500;cursor:pointer}.nav:hover{background:#ffffff0a;color:var(--tx)}.nav.on{background:#2e2e35;color:#fff}
 .vu{display:flex;gap:8px;align-items:center;padding:3px 10px 3px 34px;font-size:14px;color:var(--mu)}.dmh{padding:14px 10px 6px;font-size:12px;color:var(--mu);font-weight:700}
+.ub{background:#da373c;color:#fff;font-size:11px;font-weight:800;border-radius:9px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 5px}
 main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
 .top{height:48px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px;font-weight:600}
 .tab{padding:4px 12px;border-radius:8px;cursor:pointer;color:var(--mu)}.tab:hover{background:#ffffff0d}.tab.on{background:#34343b;color:#fff}.tab.add{background:#2ecc71;color:#06280f}
 .fl{flex:1;padding:16px 28px;overflow-y:auto}.fr{display:flex;align-items:center;gap:12px;padding:10px;border-top:1px solid var(--line);border-radius:8px;cursor:pointer}.fr:hover{background:#ffffff08}
 .msgs{flex:1;overflow-y:auto;padding:16px 8px}.msg{display:flex;gap:14px;padding:5px 16px;border-radius:6px}.msg:hover{background:#ffffff06}.msg.ping{background:#ff6b4516;border-left:3px solid var(--br)}.msg>span{cursor:pointer;flex:none}.msg div{word-break:break-word}
-.mn{background:#ff6b4533;color:#ffb199;border-radius:4px;padding:0 3px}
-.inw{padding:0 16px 20px}.inw input{background:#2a2a30;border:0;border-radius:10px;padding:14px 16px;margin:0}
+.mn{background:#ff6b4533;color:#ffb199;border-radius:4px;padding:0 3px}.em{width:22px;height:22px;vertical-align:-5px;object-fit:contain}
+.inw{padding:0 16px 20px;position:relative}.inw input{background:#2a2a30;border:0;border-radius:10px;padding:14px 16px;margin:0}
+.ep{position:absolute;left:16px;right:16px;bottom:70px;background:#121215;border:1px solid var(--line);border-radius:10px;padding:6px;z-index:5}
+.ep div{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:6px;cursor:pointer}.ep div:hover,.ep div:first-child{background:#ffffff10}.ep img{width:28px;height:28px;object-fit:contain}
+.cm{position:fixed;z-index:90;background:#0c0c0e;border:1px solid var(--line);border-radius:10px;padding:6px;min-width:180px;box-shadow:0 10px 30px #000a}
+.cm div{padding:8px 10px;border-radius:6px;cursor:pointer;font-size:14px}.cm div:hover{background:var(--br)}.cm div.dn{color:#f2575c}.cm div.dn:hover{background:#da373c;color:#fff}
 .mem{width:240px;flex:none;background:var(--side);border-left:1px solid var(--line);padding:12px 8px;overflow-y:auto}.mg{font-size:12px;font-weight:700;color:var(--mu);padding:12px 8px 4px}
+.cat{font-size:11px;font-weight:800;color:var(--mu);padding:14px 6px 4px;letter-spacing:.5px}
 .mrow{display:flex;gap:10px;align-items:center;padding:5px 8px;border-radius:8px;cursor:pointer;background-size:cover}.mrow:hover{background-color:#ffffff0d}.offl{opacity:.45}
 .av{border-radius:50%;object-fit:cover;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}
 .avw,.aw{position:relative;display:inline-flex;flex:none}.deco{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:2}
 .dot{position:absolute;right:-3px;bottom:-3px;width:13px;height:13px;border-radius:50%;border:3px solid var(--side);background:#80848e;z-index:3}.dot.on{background:#23a55a}
-.bd{display:inline-block;font-size:10px;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:6px;vertical-align:1px;color:#fff}
+.bd{display:inline-flex;align-items:center;font-size:10px;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:6px;vertical-align:1px;color:#fff}
 .up{position:fixed;left:8px;bottom:8px;width:296px;height:56px;background:#1c1c21;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;padding:0 8px;gap:8px;z-index:20}
-.ib{width:34px;height:34px;padding:0;background:none;font-size:18px}.ib:hover{background:#ffffff14}
+.ib{width:34px;height:34px;padding:0;background:none}.ib:hover{background:#ffffff14}
 .ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:50;animation:fd .2s}
 .md{background:#1e1f25;padding:24px;border-radius:14px;width:min(440px,92vw);max-height:92vh;overflow-y:auto}.md.pf{padding:0;background:linear-gradient(180deg,#9b3de0,#e0149c);width:min(420px,94vw)}
 .bn{height:96px;background:linear-gradient(135deg,var(--br),#a855f7);background-size:cover;background-position:center}.pb{padding:0 16px 16px}.pn{background:#0000004d;border-radius:10px;padding:10px 12px;margin-top:8px}.pn b{display:block;font-size:11px;letter-spacing:.5px;opacity:.75;margin-bottom:4px}
 .pn input{margin:0;background:transparent;border:0;padding:2px 0}.ch{display:inline-block;background:#0000004d;border-radius:6px;padding:3px 9px;margin:2px 4px 2px 0;font-size:13px}
 .toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#0c0c0e;border:1px solid var(--line);padding:11px 20px;border-radius:10px;z-index:99}
 .stg{position:fixed;inset:10px;z-index:45;display:flex;background:#1c1c20;border:1px solid #2f2f36;border-radius:14px;overflow:hidden}
-.sn{width:220px;flex:none;background:#17171b;padding:14px}.si{padding:9px 10px;border-radius:8px;color:var(--mu);cursor:pointer}.si:hover{background:#ffffff0a}.si.on{background:#2e2e35;color:#fff}
+.sn{width:220px;flex:none;background:#17171b;padding:14px;overflow-y:auto}.si{padding:9px 10px;border-radius:8px;color:var(--mu);cursor:pointer}.si:hover{background:#ffffff0a}.si.on{background:#2e2e35;color:#fff}
 .sr{flex:1;display:flex;flex-direction:column;min-width:0}.srh{height:54px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--line)}
 .sbody{flex:1;overflow-y:auto;padding:32px 24px}.sin{max-width:720px;margin:0 auto}
-.ac{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px}
+.ac{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px}.beta{background:#f0b232;color:#000;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;margin-left:6px}
+.tg{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}.tg b{display:block}
 .shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:22px}.item{background:var(--card);border-radius:12px;overflow:hidden}.pvw{height:100px;display:grid;place-items:center;background:#131318}.im{padding:12px}
 .plp{width:85%;height:34px;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-weight:600}
 #cp{position:fixed;right:16px;bottom:16px;z-index:60;background:#18181c;border:1px solid var(--line);border-radius:12px;padding:10px;max-width:380px}#cp video{width:100%;border-radius:8px;margin-top:8px;background:#000}#cp audio{display:none}
@@ -70,95 +79,184 @@ main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:
 </style></head><body><div id="root"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
+/* =====================================================================
+   CONFIG — change everything about Memocord from this one block
+   ===================================================================== */
+const CFG={
+ name:'Memocord',                 // app name
+ owner:'9584',                    // username of the main admin
+ bot:'Memocord',                  // system account that sends ban/deletion notices
+ accent:'#ff6b45',                // default accent colour
+ supabase:{url:'https://hdcuxxrwalqjlkmrscex.supabase.co',key:'sb_publishable_QlDQPKJaRBmKghxDx7kJEg_narCjl91',bucket:'media'},
+ limits:{msg:2000,keep:300,nameHours:24,links:5,gifBytes:1.5e6,emojis:50,servers:10,minAge:13,pass:6,emojiPx:64,iconPx:128,avatarPx:256,bannerPx:960},
+ // starter server: [category,[ [name,type('t' text|'v' voice),locked(1)] ]]
+ starter:{id:'memocord',name:'Memocord',channels:[
+  ['INFORMATION',[['rules','t',1],['announcements','t',1],['staff-announcements','t',1],['faq','t',1]]],
+  ['COMMUNITY',[['general'],['media'],['memes'],['gaming']]],
+  ['FEEDBACK',[['suggestions'],['feedback']]],
+  ['VOICE',[['General','v'],['Gaming','v']]]]},
+ newServer:[['TEXT',[['general']]],['VOICE',[['Lounge','v']]]],
+ colors:{brand:'#ff6b45',own:'#a855f7',og:'#f0b232',name:'#f2f3f5'},
+ badges:{own:['crown','#f0b232','Owner'],dev:['DEV','#5865f2','Developer'],og:['OG','#e0a020','OG'],friend:['FRIEND','#2ecc71','Friend'],memo:['MEMO','#eb459e','Memo'],bot:['BOT','#5865f2','Bot']},
+ giveable:['dev','og','friend','memo'],
+ rings:{gold:['#f7c948','#b8860b'],neon:['#00f0ff','#a855f7'],ember:['#ffb347','#e0301e'],aurora:['#43e97b','#38f9d7']},
+ plates:{moon:'linear-gradient(90deg,#120a22,#4a3492)',sunset:'linear-gradient(90deg,#ff6b45,#a855f7)',ocean:'linear-gradient(90deg,#0f4c75,#00b4d8)'},
+ memoDesc:'Custom banners, animated avatars and custom emojis everywhere',
+ text:{lockedPost:'Only admins can post here. You can still read.',welcome:'We are so excited to see you again!',tagline:'It’s free. Like, actually free.'},
+ defaults:{sound:true,desk:false,showAct:true,compact:false,fs:15,reduce:false,dev:false}
+};
+
+/* ===== icons (hand-drawn SVG, no emoji) ===== */
+const IC={hash:'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18',mega:'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6',spk:'M11 5L6 9H3v6h3l5 4zM15.5 8.5a5 5 0 010 7M18 6a8.5 8.5 0 010 12',users:'M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7M21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8',bag:'M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2',gear:'M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2',power:'M12 3v9M6.5 6.5a8 8 0 1011 0',phone:'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2',mic:'M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM5 11a7 7 0 0014 0M12 18v3',micoff:'M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM5 11a7 7 0 0014 0M12 18v3M3 3l18 18',screen:'M3 5h18v12H3zM8 21h8M12 17v4',stop:'M6 6h12v12H6z',link:'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1',x:'M6 6l12 12M18 6L6 18',crown:'M3 8l4 4 5-7 5 7 4-4-2 11H5z',lock:'M6 11h12v9H6zM8 11V7a4 4 0 018 0v4',plus:'M12 5v14M5 12h14',star:'M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-2.8-5.3 2.8 1.1-6L3.4 9.4l6-.8z',smile:'M12 3a9 9 0 100 18 9 9 0 000-18zM8.5 14a4.5 4.5 0 007 0M9 9.5v.5M15 9.5v.5',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',eye:'M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12zM12 9a3 3 0 100 6 3 3 0 000-6'};
+const ic=(n,s=18,f)=>IC[n]?`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${IC[n]}"/></svg>`:'';
+const bear=(w=38)=>`<svg width="${w}" height="${w*.79}" viewBox="0 0 38 30"><circle cx="6" cy="6" r="5.5" fill="currentColor"/><circle cx="32" cy="6" r="5.5" fill="currentColor"/><rect x="1" y="4" width="36" height="25" rx="12" fill="currentColor"/><circle cx="12" cy="15" r="2.6" fill="#fff"/><circle cx="26" cy="15" r="2.6" fill="#fff"/><path d="M15 21q4 4 8 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+
+/* ===== core ===== */
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const SB_URL='https://hdcuxxrwalqjlkmrscex.supabase.co',SB_KEY='sb_publishable_QlDQPKJaRBmKghxDx7kJEg_narCjl91',OWNER='9584';
-let sb;try{sb=supabase.createClient(SB_URL,SB_KEY)}catch{}
+const OWNER=CFG.owner,BOT=CFG.bot,SID=CFG.starter.id,L=CFG.limits;
+let sb;try{sb=supabase.createClient(CFG.supabase.url,CFG.supabase.key)}catch{}
 const em=u=>u.toLowerCase()+'@memocord.app',rid=()=>Math.random().toString(36).slice(2,10),mine=new Set(),blank=d=>({users:{},servers:{},dms:{},keys:{},...d});
-let db=blank(),me=null,view={t:'friends',tab:'online'},chan,saveT,ready=0,onl={},sp='profile',call={peers:{},vc:null,dm:null,ms:null,scr:null};
+let db=blank(),me=null,view={t:'friends',tab:'online'},chan,saveT,ready=0,onl={},sp='profile',call={peers:{},vc:null,dm:null,ms:null,scr:null},cmf=[];
 const U=u=>db.users[u],isA=u=>u===OWNER,banned=u=>!!U(u)?.banned,dn=u=>banned(u)?'Deleted User':esc(U(u)?.display||u),go=v=>{view=v;render()};
+const set=u=>({...CFG.defaults,...(U(u)?.set||{})}),dev=()=>set(me).dev;
 const online=u=>U(u)&&!!onl[u],uid=u=>{let h=5381,g=52711;for(const c of u){h=(h*33^c.codePointAt(0))>>>0;g=(g*31+c.codePointAt(0))>>>0}return String(h).padStart(10,'0')+String(g).padStart(9,'0')};
 const findU=a=>Object.keys(db.users).find(u=>uid(u)==a||u.toLowerCase()==String(a).toLowerCase());
+const sid=()=>db.servers[view.s]?view.s:SID,cs=()=>db.servers[sid()],canEdit=(s,id)=>s&&(s.owner==me||(id==SID&&isA(me)));
+const mkCh=l=>l.flatMap(([cat,cs])=>cs.map(([n,t,k])=>({id:t=='v'?'v-'+n.toLowerCase():n.toLowerCase(),n,t:t||'t',lock:!!k,cat})));
+const copy=t=>{navigator.clipboard?.writeText(t);toast('Copied')};
 
-/* ===== catalog: badges, rings, nameplates ===== */
-const B={own:['👑','#f0b232','Owner'],dev:['DEV','#5865f2','Developer'],og:['OG','#e0a020','OG'],friend:['FRIEND','#2ecc71','Friend'],memo:['MEMO','#eb459e','Memo']};
-const GIVE=['dev','og','friend','memo'];
+/* ===== badges, rings, plates ===== */
+const B=CFG.badges,RING=CFG.rings,PLT=CFG.plates;
 const bk=u=>[...(isA(u)?['own']:[]),...(U(u)?.b||[]),...(U(u)?.memo&&!(U(u).b||[]).includes('memo')?['memo']:[])];
-const badges=u=>banned(u)?'':bk(u).map(k=>`<span class="bd" style="background:${B[k][1]}" title="${B[k][2]}">${B[k][0]}</span>`).join('');
-const RING={gold:['#f7c948','#b8860b'],neon:['#00f0ff','#a855f7'],ember:['#ffb347','#e0301e'],aurora:['#43e97b','#38f9d7']};
-const PLT={moon:'linear-gradient(90deg,#120a22,#4a3492)',sunset:'linear-gradient(90deg,#ff6b45,#a855f7)',ocean:'linear-gradient(90deg,#0f4c75,#00b4d8)'};
+const badges=u=>banned(u)?'':bk(u).map(k=>`<span class="bd" style="background:${B[k][1]}" title="${B[k][2]}">${IC[B[k][0]]?ic(B[k][0],12,1):B[k][0]}</span>`).join('');
 const ring=(d,s)=>RING[d]?`<svg class="deco" viewBox="0 0 100 100" style="width:${s*1.3}px;height:${s*1.3}px"><defs><linearGradient id="r${d}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${RING[d][0]}"/><stop offset="1" stop-color="${RING[d][1]}"/></linearGradient></defs><circle cx="50" cy="50" r="42" fill="none" stroke="url(#r${d})" stroke-width="7"/></svg>`:'';
 const pl=u=>U(u)?.plate&&PLT[U(u).plate]&&!banned(u)?`background-image:${PLT[U(u).plate]};`:'';
-const SHOP={memo:['Memo','Custom banners and animated avatars']};
+const SHOP={memo:['Memo',CFG.memoDesc]};
 for(const k in RING)SHOP['ring:'+k]=[k[0].toUpperCase()+k.slice(1)+' Ring','Profile ring'];for(const k in PLT)SHOP['plate:'+k]=[k[0].toUpperCase()+k.slice(1)+' Nameplate','Nameplate in lists'];
 const hasMemo=u=>isA(u)||U(u)?.memo,owns=id=>isA(me)||(U(me).owned||[]).includes(id)||(id=='memo'&&U(me).memo);
-const av=(u,s=40)=>{const x=U(u),b=x?.banned,h=[...u].reduce((a,c)=>a+c.charCodeAt(0),0)*37%360;return`<span class="aw">${!b&&x?.avatar?`<img class="av" src="${x.avatar}" style="width:${s}px;height:${s}px">`:`<div class="av" style="width:${s}px;height:${s}px;font-size:${s/2}px;background:${b?'#4a4a52':`hsl(${h} 50% 45%)`}">${b?'D':esc((x?.display||u)[0].toUpperCase())}</div>`}${b?'':ring(x?.deco,s)}</span>`};
-const rc=u=>isA(u)?'#a855f7':(U(u)?.b||[]).includes('og')?'#f0b232':'#f2f3f5';
+const av=(u,s=40)=>{const x=U(u),b=x?.banned,h=[...u].reduce((a,c)=>a+c.charCodeAt(0),0)*37%360;return`<span class="aw">${!b&&x?.avatar?`<img class="av" src="${esc(x.avatar)}" style="width:${s}px;height:${s}px">`:`<div class="av" style="width:${s}px;height:${s}px;font-size:${s/2}px;background:${b?'#4a4a52':`hsl(${h} 50% 45%)`}">${b?'D':esc((x?.display||u)[0].toUpperCase())}</div>`}${b?'':ring(x?.deco,s)}</span>`};
+const rc=u=>isA(u)?CFG.colors.own:(U(u)?.b||[]).includes('og')?CFG.colors.og:CFG.colors.name;
 const nameH=u=>`<span style="color:${rc(u)};font-weight:600">${dn(u)}</span>${badges(u)}`;
-const act=u=>U(u)?.game&&!banned(u)?`Playing <b>${esc(U(u).game.n)}</b>`:'';
+const act=u=>U(u)?.game&&!banned(u)&&set(u).showAct?`Playing <b>${esc(U(u).game.n)}</b>`:'';
 const ago=t=>Math.max(1,Math.round((Date.now()-t)/6e4))+'m';
-const fmt=t=>esc(t).replace(/@(everyone|[\w.-]{3,32})/g,(a,n)=>n=='everyone'||findU(n)?`<span class="mn">${a}</span>`:a);
+
+/* ===== custom emojis ===== */
+const emFor=(u,s,n)=>{const e=db.servers[s]?.emojis?.[n];if(e)return e;if(hasMemo(u))for(const x of Object.values(db.servers))if(x.emojis?.[n])return x.emojis[n]};
+const emAll=()=>{const o={};if(hasMemo(me))Object.values(db.servers).forEach(s=>Object.assign(o,s.emojis||{}));if(view.t=='srv')Object.assign(o,cs().emojis||{});return o};
+const fmt=(t,u,s)=>esc(t).replace(/@(everyone|[\w.-]{3,32})/g,(a,n)=>n=='everyone'||findU(n)?`<span class="mn">${a}</span>`:a).replace(/:(\w{2,32}):/g,(a,n)=>{const e=emFor(u,s,n);return e?`<img class="em" src="${esc(e)}" title=":${n}:">`:a});
+function emPop(i){$('.ep')?.remove();const v=i.value.slice(0,i.selectionStart),m=/:(\w+)$/.exec(v);if(!m)return;const l=Object.entries(emAll()).filter(([n])=>n.toLowerCase().startsWith(m[1].toLowerCase())).slice(0,8);if(!l.length)return;
+const d=document.createElement('div');d.className='ep';d.innerHTML=l.map(([n,u])=>`<div data-n="${esc(n)}"><img src="${esc(u)}">:${esc(n)}:</div>`).join('');
+d.onmousedown=e=>{e.preventDefault();const r=e.target.closest('[data-n]');if(r)emPick(i,r.dataset.n)};$('.inw').append(d)}
+function emPick(i,n){const p=i.selectionStart,v=i.value.slice(0,p).replace(/:(\w+)$/,':'+n+': ');i.value=v+i.value.slice(p);i.setSelectionRange(v.length,v.length);i.focus();$('.ep')?.remove()}
+
+/* ===== ui helpers ===== */
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2600)}
 function modal(h,c=''){closeModal();const o=document.createElement('div');o.className='ov';o.innerHTML=`<div class="md pop ${c}">${h}</div>`;o.onmousedown=e=>{if(e.target==o)o.remove()};document.body.append(o)}
 const closeModal=()=>$('.ov')?.remove();
 addEventListener('keydown',e=>{if(e.key=='Escape'){if($('.ov'))closeModal();else $('.stg')?.remove()}});
-const img=(f,max,anim)=>new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{if(f.type=='image/gif'&&anim){f.size<1.5e6?ok(r.result):no();return}const i=new Image();i.onerror=no;i.onload=()=>{const k=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.85))};i.src=r.result};r.readAsDataURL(f)});
+addEventListener('click',()=>$('.cm')?.remove());
+addEventListener('contextmenu',e=>{const t=e.target.closest('[data-ctx]');if(!t||!me)return;const k=t.dataset.ctx,i=k.indexOf(':'),it=ctxItems(k.slice(0,i),k.slice(i+1));if(!it.length)return;e.preventDefault();$('.cm')?.remove();cmf=it.map(x=>x[1]);const m=document.createElement('div');m.className='cm pop';m.innerHTML=it.map((x,j)=>`<div class="${x[2]||''}" onclick="cmf[${j}]()">${x[0]}</div>`).join('');m.style.left=Math.min(e.clientX,innerWidth-200)+'px';m.style.top=Math.min(e.clientY,innerHeight-it.length*38-20)+'px';document.body.append(m)});
+function ctxItems(k,id){const o=[];
+if(k=='srv'){const s=db.servers[id];if(!s)return o;if(canEdit(s,id))o.push(['Edit server',()=>ssettings(id,'general')]);if(dev()||canEdit(s,id))o.push(['Copy server ID',()=>copy(id)]);if(s.owner!=me&&id!=SID)o.push(['Leave server',()=>leave(id),'dn'])}
+else if(k=='usr'&&U(id)){o.push(['Profile',()=>prof(id)]);if(id!=me&&id!=BOT)o.push(['Message',()=>dm(id)]);if(dev())o.push(['Copy user ID',()=>copy(uid(id))])}
+return o}
+const img=(f,max,anim,png)=>new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{if(f.type=='image/gif'&&anim){f.size<L.gifBytes?ok(r.result):no();return}const i=new Image();i.onerror=no;i.onload=()=>{const k=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(png?c.toDataURL('image/png'):c.toDataURL('image/jpeg',.85))};i.src=r.result};r.readAsDataURL(f)});
+async function up(f,max,anim,kind){const d=await img(f,max,anim);try{const b=await(await fetch(d)).blob(),path=`${kind}/${uid(me)}-${Date.now()}.${b.type=='image/gif'?'gif':'jpg'}`;const{error}=await sb.storage.from(CFG.supabase.bucket).upload(path,b,{contentType:b.type,upsert:true});if(error)throw error;return sb.storage.from(CFG.supabase.bucket).getPublicUrl(path).data.publicUrl}catch{return d}}
+function applyTheme(){const s=set(me),r=document.documentElement;r.style.setProperty('--br',U(me)?.accent||CFG.accent);document.body.style.fontSize=s.fs+'px';document.body.classList.toggle('compact',!!s.compact);document.body.classList.toggle('noanim',!!s.reduce)}
+const unread=o=>(db.dms[[me,o].sort().join('|')]||[]).filter(m=>m.u==o&&m.ts>(U(me)?.read?.[o]||0)).length;
+const totU=()=>me&&U(me)?Object.keys(db.dms).filter(k=>k.split('|').includes(me)).reduce((a,k)=>a+unread(k.split('|').find(x=>x!=me)||me),0):0;
+const dmList=()=>[...new Set([...U(me).friends,...Object.keys(db.dms).filter(k=>k.split('|').includes(me)).map(k=>k.split('|').find(x=>x!=me))])].filter(u=>U(u));
+function beep(){try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=720;g.gain.setValueAtTime(.1,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.3);o.start();o.stop(a.currentTime+.3)}catch{}}
 
 /* ===== Supabase sync ===== */
 const save=()=>{clearTimeout(saveT);saveT=setTimeout(push,300)};
 const pull=async()=>{const{data}=await sb.from('state').select('data').eq('id',1).maybeSingle();db=blank(data?.data)};
 const push=async()=>{if(!ready||!me)return;const r=rid();mine.add(r);db.rev=r;const{data:rw,error}=await sb.from('state').update({data:db}).eq('id',1).select('id');if(error)toast('Sync failed: '+error.message);else if(!rw?.length)toast('Sync failed: no permission to save')};
-const CH=[['rules',1],['announcements',1],['staff-announcements',1],['faq',1],['general'],['media'],['memes'],['gaming'],['suggestions'],['feedback']];
-function ensure(){let s=db.servers.memocord;if(!s)s=db.servers.memocord={name:'Memocord',owner:OWNER,members:[],msgs:{},ch:[...CH.map(([n,l])=>({id:n,n,t:'t',lock:!!l})),{id:'v1',n:'General',t:'v'},{id:'v2',n:'Gaming',t:'v'}]};if(!s.members.includes(me)){s.members.push(me);save()}}
+function ensure(){let ch=0,s=db.servers[SID];
+if(!db.users[BOT]){db.users[BOT]={display:BOT,friends:[],b:['bot'],owned:[],links:[],joined:Date.now()};ch=1}
+if(!s){s=db.servers[SID]={name:CFG.starter.name,owner:OWNER,members:[],msgs:{},ch:mkCh(CFG.starter.channels),v2:1,emojis:{}};ch=1}
+if(!s.v2){s.ch=mkCh(CFG.starter.channels);s.v2=1;ch=1}
+if(!s.members.includes(me)){s.members.push(me);ch=1}if(ch)save()}
 function connect(){chan?.unsubscribe();chan=sb.channel('mc',{config:{presence:{key:me}}});
-chan.on('postgres_changes',{event:'UPDATE',schema:'public',table:'state'},p=>{const d=p.new.data;if(!d||mine.has(d.rev))return;db=blank(d);if(banned(me)){toast('Your account was banned');return logout()}render()})
+chan.on('postgres_changes',{event:'UPDATE',schema:'public',table:'state'},p=>{const d=p.new.data;if(!d||mine.has(d.rev))return;const b=totU();db=blank(d);if(banned(me)){toast('Your account was banned');return logout()}const a=totU();
+if(a>b){const s=set(me);if(s.sound)beep();toast('You have a new message');if(s.desk&&window.Notification&&Notification.permission=='granted')new Notification(CFG.name,{body:'You have a new message'})}render()})
 .on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()}).on('broadcast',{event:'sig'},({payload})=>onSig(payload))
 .subscribe(st=>{if(st=='SUBSCRIBED')chan.track({at:Date.now(),vc:call.vc})})}
-async function boot(){try{const{data}=await sb.auth.getSession(),x=data.session;if(x){await pull();me=x.user.user_metadata.username;if(!U(me)||banned(me)){await sb.auth.signOut();me=null}else{ready=1;ensure();connect();view={t:'srv',c:'general'}}}}catch(e){toast('Offline: '+e.message)}render()}
+async function boot(){document.title=CFG.name;try{const{data}=await sb.auth.getSession(),x=data.session;if(x){await pull();me=x.user.user_metadata.username;if(!U(me)||banned(me)){await sb.auth.signOut();me=null}else{ready=1;ensure();connect();view={t:'srv',s:SID,c:'general'}}}}catch(e){toast('Offline: '+e.message)}render()}
 async function logout(){try{endCall();await push();chan?.unsubscribe();await sb.auth.signOut()}catch{}me=null;ready=0;onl={};$('.stg')?.remove();authView()}
 
 /* ===== auth ===== */
-function authView(L=1){const yr=new Date().getFullYear(),M=['January','February','March','April','May','June','July','August','September','October','November','December'];
-const bear='<svg width="38" height="30" viewBox="0 0 38 30"><circle cx="6" cy="6" r="5.5" fill="#ff6b45"/><circle cx="32" cy="6" r="5.5" fill="#ff6b45"/><rect x="1" y="4" width="36" height="25" rx="12" fill="#ff6b45"/><circle cx="12" cy="15" r="2.6" fill="#fff"/><circle cx="26" cy="15" r="2.6" fill="#fff"/><path d="M15 21q4 4 8 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
-$('#root').innerHTML=`<div class="auth"><div class="glow"></div><div class="card pop">${L?'':'<div class="bk" onclick="authView(1)">‹ Back</div>'}<div class="lg">${bear}Memocord</div><h1>${L?'Welcome back!':'Create an account'}</h1><div class="sub">${L?'We are so excited to see you again!':'It’s free. Like, actually free.'}</div>
-${L?'':'<label>EMAIL</label><input id="ae" type="email" autocomplete="email">'}<label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><div class="pw"><input id="ap" type="password" autocomplete="${L?'current-password':'new-password'}"><button type="button" onclick="const i=$('#ap');i.type=i.type=='password'?'text':'password'" title="Show password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-${L?'':`<label>BIRTHDAY</label><div class="bdr"><select id="bm"><option value="">Month</option>${M.map((m,i)=>`<option value="${i}">${m}</option>`).join('')}</select><select id="by"><option value="">Year</option>${Array.from({length:100},(_,i)=>`<option>${yr-i}</option>`).join('')}</select></div><div class="mu" style="margin:-6px 0 12px">We don’t save this, it’s just a check.</div><label class="chk"><input id="tos" type="checkbox">I agree to the&nbsp;<a>Terms of Service</a>&nbsp;and&nbsp;<a>Privacy Policy</a>.</label><div class="warn">ⓘ Usernames can’t be changed after sign up, so choose carefully.</div>`}
-<button class="go" id="ab">${L?'Log in':'Sign up'}</button><p>${L?'Need an account? <a onclick="authView(0)">Register</a>':'Already yapping? <a onclick="authView(1)">Log in</a>'}</p><div class="ft" style="margin-top:14px"><u>Terms</u>·<u>Privacy</u>·<u>Guidelines</u>·<u>Bugs</u></div></div></div>`;
+function authView(Lg=1){const yr=new Date().getFullYear(),M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+$('#root').innerHTML=`<div class="auth"><div class="glow"></div><div class="card pop">${Lg?'':'<div class="bk" onclick="authView(1)">‹ Back</div>'}<div class="lg" style="color:var(--br)">${bear()}<span style="color:#fff">${CFG.name}</span></div><h1>${Lg?'Welcome back!':'Create an account'}</h1><div class="sub">${Lg?CFG.text.welcome:CFG.text.tagline}</div>
+${Lg?'':'<label>EMAIL</label><input id="ae" type="email" autocomplete="email">'}<label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><div class="pw"><input id="ap" type="password" autocomplete="${Lg?'current-password':'new-password'}"><button type="button" onclick="const i=$('#ap');i.type=i.type=='password'?'text':'password'" title="Show password">${ic('eye')}</button></div>
+${Lg?'':`<label>BIRTHDAY</label><div class="bdr"><select id="bm"><option value="">Month</option>${M.map((m,i)=>`<option value="${i}">${m}</option>`).join('')}</select><select id="by"><option value="">Year</option>${Array.from({length:100},(_,i)=>`<option>${yr-i}</option>`).join('')}</select></div><div class="mu" style="margin:-6px 0 12px">We don’t save this, it’s just a check.</div><label class="chk"><input id="tos" type="checkbox">I agree to the&nbsp;<a>Terms of Service</a>&nbsp;and&nbsp;<a>Privacy Policy</a>.</label><div class="warn">Usernames can’t be changed after sign up, so choose carefully.</div>`}
+<button class="go" id="ab">${Lg?'Log in':'Sign up'}</button><p>${Lg?'Need an account? <a onclick="authView(0)">Register</a>':'Already yapping? <a onclick="authView(1)">Log in</a>'}</p></div></div>`;
 $('#ap').onkeydown=e=>{if(e.key=='Enter')$('#ab').click()};$('#au').focus();
-$('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');if(p.length<6)return toast('Password needs 6+ characters');let key=u,r,e0='';
-if(!L){e0=$('#ae').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e0))return toast('Enter a valid email');const bm=$('#bm').value,by=$('#by').value;if(bm===''||!by)return toast('Enter your birthday');if(yr-by-(new Date().getMonth()<+bm?1:0)<13)return toast('You must be 13 or older');if(!$('#tos').checked)return toast('Please agree to the Terms and Privacy Policy')}
-if(L){r=await sb.auth.signInWithPassword({email:em(u),password:p});if(r.error)return toast('Wrong username or password');await pull();key=Object.keys(db.users).find(k=>k.toLowerCase()==u.toLowerCase())||u;if(!U(key))return toast('Account data missing');if(U(key).banned){await sb.auth.signOut();return toast('This account has been banned')}}
-else{r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u,email:e0}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();db.users[u]={display:u,friends:[],b:[],owned:[],links:[],joined:Date.now()}}
-me=key;ready=1;ensure();if(!L)save();connect();go({t:'srv',c:'general'})}catch(e){toast('Error: '+e.message)}}}
+$('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');if(p.length<L.pass)return toast('Password needs '+L.pass+'+ characters');let key=u,r,e0='';
+if(!Lg){e0=$('#ae').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e0))return toast('Enter a valid email');const bm=$('#bm').value,by=$('#by').value;if(bm===''||!by)return toast('Enter your birthday');if(yr-by-(new Date().getMonth()<+bm?1:0)<L.minAge)return toast('You must be '+L.minAge+' or older');if(!$('#tos').checked)return toast('Please agree to the Terms and Privacy Policy')}
+if(Lg){r=await sb.auth.signInWithPassword({email:em(u),password:p});if(r.error)return toast('Wrong username or password');await pull();key=Object.keys(db.users).find(k=>k.toLowerCase()==u.toLowerCase())||u;if(!U(key))return toast('Account data missing');if(U(key).banned){await sb.auth.signOut();return toast('You are banned from '+CFG.name)}}
+else{await pull();if(findU(u))return toast('That username is taken');r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u,email:e0}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();db.users[u]={display:u,friends:[],b:[],owned:[],links:[],joined:Date.now()}}
+me=key;ready=1;ensure();if(!Lg)save();connect();go({t:'srv',s:SID,c:'general'})}catch(e){toast('Error: '+e.message)}}}
 
 /* ===== friends, profile ===== */
 const dm=u=>go({t:'dm',id:u});
 function addF(n){const x=U(me),y=U(n);if(!y||n==me)return toast('No user with that username');if(!x.friends.includes(n)){x.friends.push(n);y.friends.push(me)}save();toast('Added '+n);render()}
 function unf(u){U(me).friends=U(me).friends.filter(f=>f!=u);U(u).friends=U(u).friends.filter(f=>f!=me);save();render()}
-function prof(u){const x=U(u),own=u==me,g=x.game,fr=U(me).friends.includes(u);
-modal(`<div class="bn" style="${x.banner?`background-image:url(${x.banner})`:''}"></div><div class="pb"><div class="row" style="margin-top:-46px;align-items:flex-end"><div class="avw" style="border:5px solid #9b3de0;border-radius:50%;background:#9b3de0">${av(u,84)}<i class="dot ${online(u)?'on':''}" style="border-color:#9b3de0"></i></div><span class="sp"></span>${own?`<button onclick="closeModal();settings('profile')">Edit profile</button>`:`<button onclick="closeModal();dm('${u}')">Message</button>${fr?'':`<button class="g" onclick="addF('${u}');closeModal()">Add</button>`}`}</div>
+function prof(u){const x=U(u),own=u==me,g=x.game&&set(u).showAct?x.game:0,fr=U(me).friends.includes(u);
+modal(`<div class="bn" style="${x.banner?`background-image:url(${esc(x.banner)})`:''}"></div><div class="pb"><div class="row" style="margin-top:-46px;align-items:flex-end"><div class="avw" style="border:5px solid #9b3de0;border-radius:50%;background:#9b3de0">${av(u,84)}<i class="dot ${online(u)?'on':''}" style="border-color:#9b3de0"></i></div><span class="sp"></span>${own?`<button onclick="closeModal();settings('profile')">Edit profile</button>`:`<button onclick="closeModal();dm('${u}')">Message</button>${fr?'':`<button class="g" onclick="addF('${u}');closeModal()">Add</button>`}`}</div>
 <div style="font-size:22px;font-weight:800">${dn(u)}${badges(u)}</div><div class="mu" style="color:#fff9">@${esc(u)}</div>
-${!own?'<div class="pn">1 mutual server: Memocord</div>':''}
 ${g?`<div class="pn"><b>PLAYING</b><div style="font-weight:700">${esc(g.n)}</div><div class="mu" style="color:#fff9">for ${ago(g.ts)}</div></div>`:''}
-${(x.links||[]).length?`<div class="pn"><b>LINKS</b>${x.links.map(l=>`<a class="ch" style="color:#fff" href="${esc(l.u)}" target="_blank" rel="noopener">🔗 ${esc(l.t)}</a>`).join('')}</div>`:''}
-<div class="pn"><b>ROLES IN MEMOCORD</b>${isA(u)?'<span class="ch">🟣 Admin</span>':''}<span class="ch">🟢 Registered</span>${(x.b||[]).includes('og')?'<span class="ch">🟡 OG</span>':''}</div>
-<div class="pn"><b>MEMOCORD SINCE</b>${new Date(x.joined||Date.now()).toLocaleDateString()}</div>
+${(x.links||[]).length?`<div class="pn"><b>LINKS</b>${x.links.map(l=>`<a class="ch" style="color:#fff" href="${esc(l.u)}" target="_blank" rel="noopener">${ic('link',13)} ${esc(l.t)}</a>`).join('')}</div>`:''}
+<div class="pn"><b>ROLES IN ${CFG.name.toUpperCase()}</b>${isA(u)?'<span class="ch">Admin</span>':''}<span class="ch">Registered</span>${(x.b||[]).includes('og')?'<span class="ch">OG</span>':''}</div>
+<div class="pn"><b>${CFG.name.toUpperCase()} SINCE</b>${new Date(x.joined||Date.now()).toLocaleDateString()}</div>
 ${own?'':`<div class="pn"><b>NOTE</b><input placeholder="Click to add a note (only you can see it)" value="${esc((U(me).notes||{})[u]||'')}" onchange="U(me).notes=U(me).notes||{};U(me).notes['${u}']=this.value;save()"></div>`}
-<div class="mu" style="text-align:right;margin-top:6px;color:#fff9">ID ${uid(u).slice(0,8)}</div></div>`,'pf')}
+${dev()?`<div class="mu" style="text-align:right;margin-top:6px;color:#fff9">ID ${uid(u)}</div>`:''}</div>`,'pf')}
 function friendsView(){const x=U(me),t=view.tab;
 const tabs=['online','all'].map(k=>`<span class="tab ${t==k?'on':''}" onclick="view.tab='${k}';render()">${k[0].toUpperCase()+k.slice(1)}</span>`).join('');let b;
 if(t=='add')b=`<h2>Add Friend</h2><div class="row"><input id="af" placeholder="Enter a username" style="margin:0"><button onclick="addF($('#af').value.trim())">Add friend</button></div>`;
-else{const l=x.friends.filter(u=>U(u)&&(t!='online'||online(u)));b=`<div class="mu" style="font-weight:700;padding-bottom:10px">${t.toUpperCase()} — ${l.length}</div>`+(l.map(u=>`<div class="fr" onclick="prof('${u}')"><div class="avw">${av(u,40)}<i class="dot ${online(u)?'on':''}"></i></div><div>${nameH(u)}<div class="mu">${act(u)||esc(u)}</div></div><span class="sp"></span><button class="g" onclick="event.stopPropagation();dm('${u}')">Message</button><button class="g" onclick="event.stopPropagation();dcall('${u}')">📞</button><button class="r" onclick="event.stopPropagation();unf('${u}')">✕</button></div>`).join('')||'<p class="mu">Nobody here yet.</p>')}
+else{const l=x.friends.filter(u=>U(u)&&(t!='online'||online(u)));b=`<div class="mu" style="font-weight:700;padding-bottom:10px">${t.toUpperCase()} — ${l.length}</div>`+(l.map(u=>`<div class="fr" data-ctx="usr:${u}" onclick="prof('${u}')"><div class="avw">${av(u,40)}<i class="dot ${online(u)?'on':''}"></i></div><div>${nameH(u)}<div class="mu">${act(u)||esc(u)}</div></div><span class="sp"></span><button class="g" onclick="event.stopPropagation();dm('${u}')">Message</button><button class="g" onclick="event.stopPropagation();dcall('${u}')">${ic('phone')}</button><button class="r" onclick="event.stopPropagation();unf('${u}')">${ic('x')}</button></div>`).join('')||'<p class="mu">Nobody here yet.</p>')}
 return`<div class="top"><b>Friends</b>${tabs}<span class="tab add" onclick="view.tab='add';render()">Add Friend</span></div><div class="fl">${b}</div>`}
 
-/* ===== chat & commands ===== */
-const ch=()=>{const s=db.servers.memocord;return s.ch.find(c=>c.id==view.c&&c.t=='t')||s.ch.find(c=>c.id=='general')};
-function chat(head,msgs,lock,ph){return`<div class="top">${head}</div><div id="msgs" class="msgs">${msgs.filter(m=>U(m.u)).map(m=>`<div class="msg ${m.u!=me&&(m.x.includes('@everyone')||m.x.toLowerCase().includes('@'+me.toLowerCase()))?'ping':''}"><span onclick="prof('${m.u}')">${av(m.u,40)}</span><div>${nameH(m.u)} <span class="mu">${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div>${fmt(m.x)}</div></div></div>`).join('')||'<p class="mu" style="padding:8px 16px">This is the start of the conversation.</p>'}</div><div class="inw"><input id="inp" autocomplete="off" ${lock?'disabled':''} placeholder="${lock?'Only 9584 can post here. You can still read.':ph}"></div>`}
-function cmd(t){const[c,a]=t.trim().split(/\s+/);if(c!='!ban'&&c!='!unban')return toast('Unknown command');if(!isA(me))return toast('You do not have permission');const tg=findU(a);if(!tg)return toast('No user with that ID');if(tg==OWNER)return toast('You cannot do that to this user');U(tg).banned=c=='!ban'?1:0;save();toast((c=='!ban'?'Banned ':'Unbanned ')+tg);render()}
-function send(t){if(t[0]=='!')return cmd(t);const m={u:me,x:t.slice(0,2000),ts:Date.now()};
-if(view.t=='srv'){const c=ch(),s=db.servers.memocord;if(c.lock&&!isA(me))return toast('Only 9584 can post in #'+c.n);if(t.includes('@everyone')&&!(isA(me)||s.owner==me))return toast('Only admins can use @everyone');(s.msgs[c.id]=s.msgs[c.id]||[]).push(m);s.msgs[c.id]=s.msgs[c.id].slice(-300)}
-else{const k=[me,view.id].sort().join('|');(db.dms[k]=db.dms[k]||[]).push(m);db.dms[k]=db.dms[k].slice(-300)}save();render()}
+/* ===== shop (under Friends) ===== */
+const prev=k=>{const[t,n]=k.split(':');return t=='ring'?`<span class="aw"><div class="av" style="width:52px;height:52px;font-size:24px;background:#5865f2">M</div>${ring(n,52)}</span>`:t=='plate'?`<div class="plp" style="background:${PLT[n]}">Username</div>`:`<div style="color:#eb459e">${ic('star',40,1)}</div>`};
+const item=k=>{const[t,n]=k.split(':'),x=U(me),on=t=='ring'?x.deco==n:t=='plate'?x.plate==n:0;return`<div class="item"><div class="pvw">${prev(k)}</div><div class="im"><b>${SHOP[k][0]}</b><div class="mu" style="margin:2px 0 10px">${SHOP[k][1]}</div>${k=='memo'?(owns(k)?'<button class="g" disabled>Active</button>':'<button class="g" disabled>Redeem a key</button>'):owns(k)?`<button class="${on?'g':''}" onclick="eq('${k}')">${on?'Unequip':'Equip'}</button>`:`<button class="g" disabled>${ic('lock',14)} Locked</button>`}</div></div>`};
+const eq=k=>{const[t,n]=k.split(':'),x=U(me),p=t=='ring'?'deco':'plate';x[p]=x[p]==n?'':n;save();render()};
+function redeem(){const k=$('#rk').value.trim().toUpperCase(),h=uid(k),e=db.keys?.[h];if(!e)return toast('Invalid or used key');const x=U(me);if(e=='memo')x.memo=1;else x.owned=[...new Set([...(x.owned||[]),e])];delete db.keys[h];save();render();toast('Redeemed '+SHOP[e][0]+'!')}
+const shopView=()=>`<div class="top"><b>Shop</b></div><div class="fl"><h2>Redeem a key</h2><p class="mu">Got a key from a developer? Enter it to unlock the item for free.</p><div class="row"><input id="rk" placeholder="MC-XXXXXXXX-XXXXXXXX" style="margin:0"><button onclick="redeem()">Redeem</button></div><hr><h2>Memo</h2><div class="shop">${item('memo')}</div><h2>Profile rings</h2><div class="shop">${Object.keys(RING).map(k=>item('ring:'+k)).join('')}</div><h2>Nameplates</h2><div class="shop">${Object.keys(PLT).map(k=>item('plate:'+k)).join('')}</div></div>`;
 
-/* ===== voice / calls / screen share (WebRTC, signalled over Supabase realtime) ===== */
+/* ===== chat & commands ===== */
+const ch=()=>{const s=cs();return s.ch.find(c=>c.id==view.c&&c.t=='t')||s.ch.find(c=>c.t=='t')};
+function chat(head,msgs,lock,ph,s){return`<div class="top">${head}</div><div id="msgs" class="msgs">${msgs.filter(m=>U(m.u)).map(m=>`<div class="msg ${m.u!=me&&(m.x.includes('@everyone')||m.x.toLowerCase().includes('@'+me.toLowerCase()))?'ping':''}" data-ctx="usr:${m.u}"><span onclick="prof('${m.u}')">${av(m.u,40)}</span><div>${nameH(m.u)} <span class="mu">${new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span><div>${fmt(m.x,m.u,s)}</div></div></div>`).join('')||'<p class="mu" style="padding:8px 16px">This is the start of the conversation.</p>'}</div><div class="inw"><input id="inp" autocomplete="off" ${lock?'disabled':''} placeholder="${lock?CFG.text.lockedPost:ph}"></div>`}
+function dmBot(to,x){const k=[BOT,to].sort().join('|');(db.dms[k]=db.dms[k]||[]).push({u:BOT,x,ts:Date.now()})}
+function cmd(t){const p=t.trim().split(/\s+/),c=p[0].toLowerCase();if(!['!ban','!unban','!banserver'].includes(c))return toast('Unknown command');if(!isA(me))return toast('You do not have permission');
+if(c=='!banserver'){const id=p[1],s=db.servers[id],reason=p.slice(2).join(' ')||'No reason given';if(!s||id==SID)return toast('No server with that ID');delete db.servers[id];ensure();if(U(s.owner))dmBot(s.owner,`"${s.name}" has been deleted "${reason}"`);if(view.s==id)view={t:'srv',s:SID,c:'general'};save();toast('Deleted '+s.name);return render()}
+const tg=findU(p[1]);if(!tg)return toast('No user with that ID');if(tg==OWNER||tg==BOT)return toast('You cannot do that to this user');U(tg).banned=c=='!ban'?1:0;save();toast((c=='!ban'?'Banned ':'Unbanned ')+tg);render()}
+function send(t){if(t[0]=='!')return cmd(t);const m={u:me,x:t.slice(0,L.msg),ts:Date.now()};
+if(view.t=='srv'){const c=ch(),s=cs();if(c.lock&&!(isA(me)||s.owner==me))return toast('Only admins can post in #'+c.n);if(t.includes('@everyone')&&!(isA(me)||s.owner==me))return toast('Only admins can use @everyone');(s.msgs[c.id]=s.msgs[c.id]||[]).push(m);s.msgs[c.id]=s.msgs[c.id].slice(-L.keep)}
+else{if(view.id==BOT)return toast('You cannot reply to this account');const k=[me,view.id].sort().join('|');(db.dms[k]=db.dms[k]||[]).push(m);db.dms[k]=db.dms[k].slice(-L.keep)}save();render()}
+
+/* ===== servers: create / join / leave / settings ===== */
+function newSrv(){modal(`<h2>Create or join a server</h2><label>SERVER NAME</label><input id="sn" maxlength="32" placeholder="My server"><button style="width:100%" onclick="mkSrv()">Create</button><hr><label>OR JOIN WITH A SERVER ID</label><input id="sj" placeholder="Server ID"><button class="g" style="width:100%" onclick="joinSrv()">Join</button>`)}
+function mkSrv(){const n=$('#sn').value.trim();if(!n)return toast('Enter a name');if(Object.values(db.servers).filter(s=>s.owner==me).length>=L.servers)return toast('Server limit reached');const id='s'+Date.now().toString(36)+rid().slice(0,4);db.servers[id]={name:n.slice(0,32),owner:me,members:[me],msgs:{},ch:mkCh(CFG.newServer),emojis:{}};save();closeModal();go({t:'srv',s:id,c:'general'})}
+function joinSrv(){const id=$('#sj').value.trim(),s=db.servers[id];if(!s)return toast('No server with that ID');if(!s.members.includes(me))s.members.push(me);save();closeModal();go({t:'srv',s:id,c:'general'})}
+function leave(id){const s=db.servers[id];s.members=s.members.filter(u=>u!=me);save();if(view.s==id)view={t:'srv',s:SID,c:'general'};render()}
+let ss={s:SID,p:'general'};
+const SSP={general:(id,s)=>`<label>SERVER NAME</label><input id="sv" maxlength="32" value="${esc(s.name)}"><label>SERVER ICON</label><input id="si" type="file" accept="image/*"><button onclick="saveSrv('${id}')">Save changes</button><hr><label>SERVER ID</label><input readonly value="${id}" onclick="this.select()"><p class="mu">${s.members.length} members</p>`,
+emojis:(id,s)=>`<h2>Custom emojis (${Object.keys(s.emojis||{}).length}/${L.emojis})</h2><p class="mu">Use them as :name: in chat. Everyone can use them in this server; Memo users can use them anywhere.</p>`+Object.entries(s.emojis||{}).map(([n,u])=>`<div class="ac row"><img class="em" style="width:32px;height:32px" src="${esc(u)}"><b class="sp">:${esc(n)}:</b><button class="r" onclick="delEm('${id}','${esc(n)}')">${ic('trash',16)}</button></div>`).join('')+`<hr><label>EMOJI NAME</label><input id="en" maxlength="32" placeholder="test"><label>IMAGE</label><input id="ef" type="file" accept="image/*"><button onclick="addEm('${id}')">${ic('plus',16)} Upload emoji</button>`,
+channels:(id,s)=>`<h2>Channels</h2>`+s.ch.map((c,i)=>`<div class="ac row"><span>${c.t=='v'?ic('spk',16):c.lock?ic('mega',16):ic('hash',16)}</span><b class="sp">${esc(c.n)} <span class="mu">${esc(c.cat||'')}</span></b>${c.t=='t'?`<button class="g" onclick="chLock('${id}',${i})">${c.lock?'Unlock':'Lock'}</button>`:''}<button class="r" onclick="chDel('${id}',${i})">${ic('trash',16)}</button></div>`).join('')+`<hr><label>NEW CHANNEL</label><div class="row"><input id="cn" maxlength="24" placeholder="channel-name" style="margin:0"><select id="ct" style="margin:0;width:120px"><option value="t">Text</option><option value="v">Voice</option></select><button onclick="chAdd('${id}')">Add</button></div>`,
+danger:(id,s)=>`<h2>Danger zone</h2>${id==SID?'<p class="mu">The starter server cannot be deleted.</p>':`<button class="r" onclick="if(confirm('Delete ${esc(s.name)} for everyone?'))delSrv('${id}')">Delete server</button>`}`};
+function ssettings(id,p){if(id)ss.s=id;if(p)ss.p=p;const s=db.servers[ss.s];if(!canEdit(s,ss.s))return;$('.stg')?.remove();const o=document.createElement('div');o.className='stg pop';document.body.append(o);
+const T={general:'Overview',emojis:'Emojis',channels:'Channels',danger:'Delete server'};
+o.innerHTML=`<div class="sn"><div class="mu" style="padding:6px 10px;font-weight:700">${esc(s.name).toUpperCase()}</div>${Object.entries(T).map(([k,v])=>`<div class="si ${ss.p==k?'on':''}" onclick="ssettings(0,'${k}')">${v}</div>`).join('')}</div><div class="sr"><div class="srh"><b>${T[ss.p]}</b><button class="g" onclick="$('.stg').remove()">${ic('x')}</button></div><div class="sbody"><div class="sin">${SSP[ss.p](ss.s,s)}</div></div></div>`}
+async function saveSrv(id){const s=db.servers[id],n=$('#sv').value.trim(),f=$('#si').files[0];if(n)s.name=n;try{if(f)s.icon=await up(f,L.iconPx,0,'icon')}catch{return toast('Image failed')}clearTimeout(saveT);await push();render();ssettings();toast('Server saved')}
+async function addEm(id){const s=db.servers[id],n=$('#en').value.trim(),f=$('#ef').files[0];if(!/^\w{2,32}$/.test(n))return toast('Name: 2-32 letters, numbers or _');if(!f)return toast('Choose an image');s.emojis=s.emojis||{};if(s.emojis[n])return toast('Name already used');if(Object.keys(s.emojis).length>=L.emojis)return toast('Emoji limit reached');try{s.emojis[n]=await img(f,L.emojiPx,0,1)}catch{return toast('Image failed')}save();render();ssettings();toast('Added :'+n+':')}
+const delEm=(id,n)=>{delete db.servers[id].emojis[n];save();render();ssettings()};
+const chLock=(id,i)=>{const c=db.servers[id].ch[i];c.lock=!c.lock;save();render();ssettings()};
+const chDel=(id,i)=>{const s=db.servers[id];if(s.ch.filter(c=>c.t=='t').length<2&&s.ch[i].t=='t')return toast('Keep at least one text channel');s.ch.splice(i,1);save();render();ssettings()};
+function chAdd(id){const n=$('#cn').value.trim().toLowerCase().replace(/[^\w-]/g,'-'),t=$('#ct').value;if(!n)return toast('Enter a name');const s=db.servers[id];if(s.ch.some(c=>c.id==(t=='v'?'v-'+n:n)))return toast('That channel exists');s.ch.push({id:t=='v'?'v-'+n:n,n,t,lock:false,cat:t=='v'?'VOICE':'TEXT'});save();render();ssettings()}
+function delSrv(id){if(id==SID)return;delete db.servers[id];$('.stg')?.remove();if(view.s==id)view={t:'srv',s:SID,c:'general'};save();render()}
+
+/* ===== voice / calls / screen share (WebRTC over Supabase realtime) ===== */
 const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'}]},sig=(to,d)=>chan.send({type:'broadcast',event:'sig',payload:{to,from:me,...d}});
 const vcUsers=id=>Object.keys(onl).filter(u=>onl[u]?.[0]?.vc==id);
 const mic=async()=>{if(!call.ms)call.ms=await navigator.mediaDevices.getUserMedia({audio:true});return call.ms};
@@ -170,57 +268,61 @@ p.ontrack=e=>{const st=e.streams[0];if(!st||document.getElementById('rv'+st.id))
 const rd=async(p,d)=>{await p.setRemoteDescription(d);(p.q||[]).forEach(c=>p.addIceCandidate(c).catch(()=>{}));p.q=[]};
 const allowed=m=>(m.vc&&m.vc==call.vc)||call.dm==m.from;
 async function onSig(m){if(m.to!=me)return;const u=m.from;
-if(m.k=='ring'){if(call.ms)return;const n=document.createElement('div');n.className='toast';n.style.bottom='auto';n.style.top='16px';n.innerHTML=`📞 ${dn(u)} is calling <button onclick="acc('${u}');this.parentNode.remove()">Accept</button> <button class="g" onclick="this.parentNode.remove()">Decline</button>`;document.body.append(n);setTimeout(()=>n.remove(),30000);return}
+if(m.k=='ring'){if(call.ms)return;const n=document.createElement('div');n.className='toast';n.style.bottom='auto';n.style.top='16px';n.innerHTML=`${dn(u)} is calling <button onclick="acc('${u}');this.parentNode.remove()">Accept</button> <button class="g" onclick="this.parentNode.remove()">Decline</button>`;document.body.append(n);setTimeout(()=>n.remove(),30000);return}
 if(m.k=='acc'){const p=peer(u);addT(p);return}
 if(m.k=='bye'){call.peers[u]?.close();delete call.peers[u];document.querySelectorAll(`#cp [data-u="${u}"]`).forEach(e=>e.remove());return}
 if(!call.ms||!allowed(m))return;const p=peer(u);
 if(m.k=='offer'){await rd(p,m.d);addT(p);await p.setLocalDescription(await p.createAnswer());sig(u,{k:'ans',d:p.localDescription})}
 else if(m.k=='ans')await rd(p,m.d);
 else if(m.k=='ice'){p.remoteDescription?p.addIceCandidate(m.c).catch(()=>{}):(p.q=p.q||[]).push(m.c)}}
-function panel(){if($('#cp'))return;const d=document.createElement('div');d.id='cp';d.innerHTML=`<div class="row" style="margin:0"><b class="sp">${call.vc?'🔊 Voice connected':'📞 In call'}</b><button class="g" id="mt" onclick="const t=call.ms.getAudioTracks()[0];t.enabled=!t.enabled;this.textContent=t.enabled?'🎤':'🔇'">🎤</button><button class="g" id="sh" onclick="shareScr()">🖥 Share</button><button class="r" onclick="endCall()">Leave</button></div>`;document.body.append(d)}
+function panel(){if($('#cp'))return;const d=document.createElement('div');d.id='cp';d.innerHTML=`<div class="row" style="margin:0"><b class="sp">${call.vc?'Voice connected':'In call'}</b><button class="g" onclick="const t=call.ms.getAudioTracks()[0];t.enabled=!t.enabled;this.innerHTML=t.enabled?ic('mic'):ic('micoff')">${ic('mic')}</button><button class="g" id="sh" onclick="shareScr()">${ic('screen')} Share</button><button class="r" onclick="endCall()">Leave</button></div>`;document.body.append(d)}
 async function dcall(u){if(!online(u))return toast(dn(u)+' is offline');try{await mic();call.dm=u;panel();sig(u,{k:'ring'});toast('Calling '+u+'…')}catch{toast('Microphone permission needed')}}
 async function acc(u){try{await mic();call.dm=u;panel();sig(u,{k:'acc'})}catch{toast('Microphone permission needed')}}
 async function joinVC(id){if(call.vc==id)return endCall();endCall();try{await mic()}catch{return toast('Microphone permission needed')}call.vc=id;chan.track({at:Date.now(),vc:id});panel();vcUsers(id).filter(u=>u!=me).forEach(u=>addT(peer(u)))}
-async function shareScr(){if(call.scr)return stopShare();try{call.scr=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});call.scr.getVideoTracks()[0].onended=stopShare;Object.values(call.peers).forEach(addT);$('#sh').textContent='⏹ Stop';const v=document.createElement('video');v.id='lv';v.muted=true;v.autoplay=true;v.srcObject=call.scr;$('#cp').append(v)}catch{toast('Screen share cancelled')}}
-function stopShare(){if(!call.scr)return;Object.values(call.peers).forEach(p=>p.getSenders().forEach(s=>s.track&&call.scr.getTracks().includes(s.track)&&p.removeTrack(s)));call.scr.getTracks().forEach(t=>t.stop());call.scr=null;$('#lv')?.remove();if($('#sh'))$('#sh').textContent='🖥 Share'}
+async function shareScr(){if(call.scr)return stopShare();try{call.scr=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});call.scr.getVideoTracks()[0].onended=stopShare;Object.values(call.peers).forEach(addT);$('#sh').innerHTML=ic('stop',16)+' Stop';const v=document.createElement('video');v.id='lv';v.muted=true;v.autoplay=true;v.srcObject=call.scr;$('#cp').append(v)}catch{toast('Screen share cancelled')}}
+function stopShare(){if(!call.scr)return;Object.values(call.peers).forEach(p=>p.getSenders().forEach(s=>s.track&&call.scr.getTracks().includes(s.track)&&p.removeTrack(s)));call.scr.getTracks().forEach(t=>t.stop());call.scr=null;$('#lv')?.remove();if($('#sh'))$('#sh').innerHTML=ic('screen')+' Share'}
 function endCall(){Object.keys(call.peers).forEach(u=>{try{sig(u,{k:'bye'})}catch{}call.peers[u].close()});if(call.dm)try{sig(call.dm,{k:'bye'})}catch{}stopShare();call.ms?.getTracks().forEach(t=>t.stop());call={peers:{},vc:null,dm:null,ms:null,scr:null};$('#cp')?.remove();try{chan?.track({at:Date.now(),vc:null})}catch{}}
 
 /* ===== render ===== */
 let rq=0;function render(){if(rq)return;rq=1;requestAnimationFrame(()=>{rq=0;draw()})}
-function draw(){if(!me||!U(me))return authView();document.documentElement.style.setProperty('--br',U(me).accent||'#ff6b45');
-const iv=$('#inp')?.value,f=document.activeElement?.id=='inp',x=U(me),s=db.servers.memocord;let m,side,mem='';
+function draw(){if(!me||!U(me))return authView();applyTheme();
+const iv=$('#inp')?.value,f=document.activeElement?.id=='inp',x=U(me),S=sid(),s=cs();let m,side,mem='';
 if(view.t=='dm'&&!U(view.id))view={t:'friends',tab:'online'};
-if(view.t=='srv'){const c=ch();m=chat(`<b>${c.lock?'📢':'#'} ${c.n}</b>`,s.msgs[c.id]||[],c.lock&&!isA(me),'Message #'+c.n);
-side=`<div class="sh">${esc(s.name)}</div>`+s.ch.map(c=>c.t=='t'?`<div class="nav ${c.id==ch().id?'on':''}" onclick="go({t:'srv',c:'${c.id}'})">${c.lock?'📢':'#'} ${c.n}</div>`:`<div class="nav" onclick="joinVC('${c.id}')">🔊 ${c.n}${call.vc==c.id?' ●':''}</div>`+vcUsers(c.id).map(u=>`<div class="vu">${av(u,22)}${dn(u)}</div>`).join('')).join('');
-const mm=s.members.filter(u=>U(u)&&!banned(u)),og=u=>(U(u).b||[]).includes('og'),row=u=>`<div class="mrow ${online(u)?'':'offl'}" style="${pl(u)}" onclick="prof('${u}')"><div class="avw">${av(u,34)}<i class="dot ${online(u)?'on':''}"></i></div><div style="min-width:0"><div class="ell">${nameH(u)}${isA(u)?' <span style="color:#f0b232">♛</span>':''}</div>${act(u)?`<div class="mu ell">${act(u)}</div>`:''}</div></div>`;
-mem='<aside class="mem">'+[['ADMIN',u=>isA(u)],['OG',u=>!isA(u)&&og(u)],['MEMBERS',u=>!isA(u)&&!og(u)]].map(([n,fn])=>{const l=mm.filter(fn).sort((a,b)=>online(b)-online(a));return l.length?`<div class="mg">${n} — ${l.length}</div>`+l.map(row).join(''):''}).join('')+'</aside>'}
-else{if(view.t=='dm'){const o=view.id;m=chat(`${av(o,26)}<b>${dn(o)}</b>${badges(o)}<span class="sp"></span><button class="g" onclick="dcall('${o}')">📞 Call</button>`,db.dms[[me,o].sort().join('|')]||[],0,'Message @'+esc(o))}else m=friendsView();
-side=`<div class="sh">Direct messages</div><div class="nav ${view.t=='friends'?'on':''}" onclick="go({t:'friends',tab:'online'})">👥 Friends</div><div class="nav" onclick="settings('shop')">✦ Shop</div><div class="dmh">DIRECT MESSAGES</div>`+x.friends.map(u=>`<div class="nav ${view.t=='dm'&&view.id==u?'on':''}" style="${pl(u)}background-size:cover" onclick="dm('${u}')"><div class="avw">${av(u,30)}<i class="dot ${online(u)?'on':''}"></i></div>${dn(u)}</div>`).join('')}
-$('#root').innerHTML=`<div id="app"><nav class="rail"><div class="ri ${view.t!='srv'?'on':''}" onclick="go({t:'friends',tab:'online'})">🐾</div><div class="rs"></div><div class="ri ${view.t=='srv'?'on':''}" onclick="go({t:'srv',c:'general'})" title="Memocord">M</div></nav><aside class="side">${side}</aside><main>${m}</main>${mem}<div class="up"><div class="avw" style="cursor:pointer" onclick="prof('${me}')">${av(me,36)}<i class="dot on"></i></div><div style="min-width:0;flex:1"><b class="ell" style="display:block">${dn(me)}</b><span class="mu ell" style="display:block">${act(me)||'Online'}</span></div><button class="ib" onclick="settings('profile')" title="Settings">⚙</button><button class="ib" onclick="logout()" title="Log out">⏻</button></div></div>`;
-const i=$('#inp');if(i){if(iv)i.value=iv;if(f)i.focus();i.onkeydown=e=>{const t=i.value.trim();if(e.key=='Enter'&&t){i.value='';send(t)}};const g=$('#msgs');g.scrollTop=g.scrollHeight}}
+if(view.t=='dm'&&unread(view.id)){x.read=x.read||{};x.read[view.id]=Date.now();save()}
+if(view.t=='srv'){const c=ch();m=chat(`<b>${c.lock?ic('mega'):ic('hash')} ${esc(c.n)}</b>`,s.msgs[c.id]||[],c.lock&&!(isA(me)||s.owner==me),'Message #'+esc(c.n),S);let last;
+side=`<div class="sh" data-ctx="srv:${S}">${esc(s.name)}</div>`+s.ch.map(c=>{let h='';if(c.cat!=last){last=c.cat;h=c.cat?`<div class="cat">${esc(c.cat)}</div>`:''}
+return h+(c.t=='t'?`<div class="nav ${c.id==ch().id?'on':''}" onclick="go({t:'srv',s:'${S}',c:'${c.id}'})">${c.lock?ic('mega',16):ic('hash',16)} ${esc(c.n)}</div>`:`<div class="nav" onclick="joinVC('${S}/${c.id}')">${ic('spk',16)} ${esc(c.n)}${call.vc==S+'/'+c.id?' ●':''}</div>`+vcUsers(S+'/'+c.id).map(u=>`<div class="vu">${av(u,22)}${dn(u)}</div>`).join(''))}).join('');
+const mm=s.members.filter(u=>U(u)&&!banned(u)),og=u=>(U(u).b||[]).includes('og'),row=u=>`<div class="mrow ${online(u)?'':'offl'}" data-ctx="usr:${u}" style="${pl(u)}" onclick="prof('${u}')"><div class="avw">${av(u,34)}<i class="dot ${online(u)?'on':''}"></i></div><div style="min-width:0"><div class="ell">${nameH(u)}${u==s.owner?` <span style="color:#f0b232">${ic('crown',13,1)}</span>`:''}</div>${act(u)?`<div class="mu ell">${act(u)}</div>`:''}</div></div>`;
+mem='<aside class="mem">'+[['OWNER',u=>u==s.owner],['ADMIN',u=>u!=s.owner&&isA(u)],['OG',u=>u!=s.owner&&!isA(u)&&og(u)],['MEMBERS',u=>u!=s.owner&&!isA(u)&&!og(u)]].map(([n,fn])=>{const l=mm.filter(fn).sort((a,b)=>online(b)-online(a));return l.length?`<div class="mg">${n} — ${l.length}</div>`+l.map(row).join(''):''}).join('')+'</aside>'}
+else{if(view.t=='dm'){const o=view.id;m=chat(`${av(o,26)}<b>${dn(o)}</b>${badges(o)}<span class="sp"></span>${o==BOT?'':`<button class="g" onclick="dcall('${o}')">${ic('phone',16)} Call</button>`}`,db.dms[[me,o].sort().join('|')]||[],o==BOT,'Message @'+esc(o),'')}else m=view.t=='shop'?shopView():friendsView();
+const dl=dmList().sort((a,b)=>{const l=u=>(db.dms[[me,u].sort().join('|')]||[]).slice(-1)[0]?.ts||0;return l(b)-l(a)});
+side=`<div class="sh">Direct messages</div><div class="nav ${view.t=='friends'?'on':''}" onclick="go({t:'friends',tab:'online'})">${ic('users')} Friends</div><div class="nav ${view.t=='shop'?'on':''}" onclick="go({t:'shop'})">${ic('bag')} Shop</div><div class="dmh">DIRECT MESSAGES</div>`+dl.map(u=>{const n=unread(u);return`<div class="nav ${view.t=='dm'&&view.id==u?'on':''}" data-ctx="usr:${u}" style="${pl(u)}background-size:cover;${n?'color:#fff;font-weight:700':''}" onclick="dm('${u}')"><div class="avw">${av(u,30)}<i class="dot ${online(u)?'on':''}"></i></div><span class="ell">${dn(u)}</span><span class="sp"></span>${n?`<span class="ub">${n}</span>`:''}</div>`}).join('')}
+const T=totU(),srvs=Object.entries(db.servers).filter(([,v])=>v.members.includes(me));document.title=(T?`(${T}) `:'')+CFG.name;
+$('#root').innerHTML=`<div id="app"><nav class="rail"><div class="ri ${view.t!='srv'?'on':''}" style="color:#fff" onclick="go({t:'friends',tab:'online'})" title="Home">${bear(30)}${T?`<span class="nb">${T}</span>`:''}</div><div class="rs"></div>${srvs.map(([id,v])=>`<div class="ri ${view.t=='srv'&&S==id?'on':''}" data-ctx="srv:${id}" onclick="go({t:'srv',s:'${id}',c:'general'})" title="${esc(v.name)}">${v.icon?`<img src="${esc(v.icon)}">`:esc(v.name[0].toUpperCase())}</div>`).join('')}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div></nav><aside class="side">${side}</aside><main>${m}</main>${mem}<div class="up"><div class="avw" style="cursor:pointer" data-ctx="usr:${me}" onclick="prof('${me}')">${av(me,36)}<i class="dot on"></i></div><div style="min-width:0;flex:1"><b class="ell" style="display:block">${dn(me)}</b><span class="mu ell" style="display:block">${act(me)||'Online'}</span></div><button class="ib" onclick="settings('profile')" title="Settings">${ic('gear',20)}</button><button class="ib" onclick="logout()" title="Log out">${ic('power',20)}</button></div></div>`;
+const i=$('#inp');if(i){if(iv)i.value=iv;if(f)i.focus();i.onkeydown=e=>{const t=i.value.trim();if(e.key=='Tab'&&$('.ep')){e.preventDefault();emPick(i,$('.ep div').dataset.n);return}if(e.key=='Enter'&&t){i.value='';$('.ep')?.remove();send(t)}};i.oninput=()=>emPop(i);const g=$('#msgs');g.scrollTop=g.scrollHeight}}
 
 /* ===== settings ===== */
-const T={profile:'My Profile',shop:'Shop & Decorations',activity:'Activity (RPC)'};
-const prev=k=>{const[t,n]=k.split(':');return t=='ring'?`<span class="aw"><div class="av" style="width:52px;height:52px;font-size:24px;background:#5865f2">M</div>${ring(n,52)}</span>`:t=='plate'?`<div class="plp" style="background:${PLT[n]}">Username</div>`:'<div style="font-size:34px">✦</div>'};
-const item=k=>{const[t,n]=k.split(':'),x=U(me),on=t=='ring'?x.deco==n:t=='plate'?x.plate==n:0;return`<div class="item"><div class="pvw">${prev(k)}</div><div class="im"><b>${SHOP[k][0]}</b><div class="mu" style="margin:2px 0 10px">${SHOP[k][1]}</div>${k=='memo'?(owns(k)?'<button class="g" disabled>Active</button>':'<button class="g" disabled>Redeem a key below</button>'):owns(k)?`<button class="${on?'g':''}" onclick="eq('${k}')">${on?'Unequip':'Equip'}</button>`:'<button class="g" disabled>🔒 Locked</button>'}</div></div>`};
-const eq=k=>{const[t,n]=k.split(':'),x=U(me),p=t=='ring'?'deco':'plate';x[p]=x[p]==n?'':n;save();render();settings()};
-function redeem(){const k=$('#rk').value.trim().toUpperCase(),h=uid(k),e=db.keys?.[h];if(!e)return toast('Invalid or used key');const x=U(me);if(e=='memo')x.memo=1;else x.owned=[...new Set([...(x.owned||[]),e])];delete db.keys[h];save();render();settings();toast('Redeemed '+SHOP[e][0]+'!')}
-function genKey(){const it=$('#ki').value,k='MC-'+rid().toUpperCase()+'-'+rid().toUpperCase();db.keys[uid(k)]=it;save();navigator.clipboard?.writeText(k);modal(`<h2>Key for ${SHOP[it][0]}</h2><p class="mu">Send this to the user. One use. Copied to clipboard.</p><input readonly value="${k}" onclick="this.select()"><button style="width:100%" onclick="closeModal()">Done</button>`)}
+const TT={profile:'My Profile',appearance:'Appearance',notifications:'Notifications',privacy:'Privacy',activity:'Activity (RPC)',developer:'Developer'};
+const tog=(k,t,d,fn='')=>`<div class="tg"><div class="sp"><b>${t}</b><span class="mu">${d}</span></div><input type="checkbox" ${set(me)[k]?'checked':''} onchange="U(me).set=U(me).set||{};U(me).set['${k}']=this.checked;${fn}save();render()"></div>`;
 const tb=(u,k)=>{const x=U(u);x.b=x.b||[];x.b.includes(k)?x.b.splice(x.b.indexOf(k),1):x.b.push(k);if(k=='memo')x.memo=x.b.includes('memo')?1:0;save();settings()};
 const ban=(u,on)=>{U(u).banned=on;save();settings()};
-function addLink(){let t=$('#lt').value.trim(),u=$('#lu').value.trim();if(!t||!u)return toast('Enter a title and URL');if(!/^https?:\/\//i.test(u))u='https://'+u;const x=U(me);x.links=x.links||[];if(x.links.length>=5)return toast('Max 5 links');x.links.push({t:t.slice(0,24),u});save();settings()}
+function genKey(){const it=$('#ki').value,k='MC-'+rid().toUpperCase()+'-'+rid().toUpperCase();db.keys[uid(k)]=it;save();copy(k);modal(`<h2>Key for ${SHOP[it][0]}</h2><p class="mu">Send this to the user. One use. Copied to clipboard.</p><input readonly value="${k}" onclick="this.select()"><button style="width:100%" onclick="closeModal()">Done</button>`)}
+function addLink(){let t=$('#lt').value.trim(),u=$('#lu').value.trim();if(!t||!u)return toast('Enter a title and URL');if(!/^https?:\/\//i.test(u))u='https://'+u;const x=U(me);x.links=x.links||[];if(x.links.length>=L.links)return toast('Max '+L.links+' links');x.links.push({t:t.slice(0,24),u});save();settings()}
 function setGame(c){U(me).game=c?null:{n:$('#gn').value.trim().slice(0,40),ts:Date.now()};if(!c&&!U(me).game.n)U(me).game=null;save();render();settings()}
 const PG={
-profile:()=>{const x=U(me),m=hasMemo(me);return`<label>DISPLAY NAME ${isA(me)?'':'(changeable every 24 hours)'}</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate)':''}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}><button onclick="saveProfile()">Save changes</button><hr><h2>Links</h2>${(x.links||[]).map((l,i)=>`<div class="row"><span>🔗 ${esc(l.t)}</span><span class="mu sp ell">${esc(l.u)}</span><button class="r" onclick="U(me).links.splice(${i},1);save();settings()">✕</button></div>`).join('')}<div class="row"><input id="lt" placeholder="Title (Youtube)" style="margin:0"><input id="lu" placeholder="https://…" style="margin:0"><button onclick="addLink()">Add</button></div>`},
-shop:()=>`<h2>Redeem a key</h2><p class="mu">Got a key from a developer? Enter it to unlock the item for free.</p><div class="row"><input id="rk" placeholder="MC-XXXXXXXX-XXXXXXXX" style="margin:0"><button onclick="redeem()">Redeem</button></div><hr><h2>Memo</h2><div class="shop">${item('memo')}</div><h2>Profile rings</h2><div class="shop">${Object.keys(RING).map(k=>item('ring:'+k)).join('')}</div><h2>Nameplates</h2><div class="shop">${Object.keys(PLT).map(k=>item('plate:'+k)).join('')}</div>`,
+profile:()=>{const x=U(me),m=hasMemo(me);return`<label>DISPLAY NAME ${isA(me)?'':`(changeable every ${L.nameHours} hours)`}</label><input id="ed" maxlength="32" value="${esc(x.display)}"><label>PROFILE PICTURE ${m?'(GIFs animate)':''}</label><input id="ea" type="file" accept="image/*"><label>BANNER ${m?'':'(needs Memo)'}</label><input id="eb" type="file" accept="image/*" ${m?'':'disabled'}><button onclick="saveProfile()">Save changes</button><hr><h2>Links</h2>${(x.links||[]).map((l,i)=>`<div class="row"><span>${ic('link',16)} ${esc(l.t)}</span><span class="mu sp ell">${esc(l.u)}</span><button class="r" onclick="U(me).links.splice(${i},1);save();settings()">${ic('x',16)}</button></div>`).join('')}<div class="row"><input id="lt" placeholder="Title (Youtube)" style="margin:0"><input id="lu" placeholder="https://…" style="margin:0"><button onclick="addLink()">Add</button></div>`},
+appearance:()=>`<label>ACCENT COLOUR</label><div class="row"><input type="color" id="ac" value="${U(me).accent||CFG.accent}" onchange="U(me).accent=this.value;save();render()"><button class="g" onclick="U(me).accent='';save();render();settings()">Reset</button></div>
+<label>TEXT SIZE</label><select onchange="U(me).set=U(me).set||{};U(me).set.fs=+this.value;save();render()">${[13,14,15,16,18].map(n=>`<option ${set(me).fs==n?'selected':''}>${n}</option>`).join('')}</select>${tog('compact','Compact messages','Tighter spacing in chat')}${tog('reduce','Reduce motion','Turn off animations')}`,
+notifications:()=>tog('sound','Message sounds','Play a sound when someone messages you')+tog('desk','Desktop notifications','Show a browser notification for new messages',"if(this.checked&&window.Notification)Notification.requestPermission();"),
+privacy:()=>tog('showAct','Show my activity','Let others see what you are playing')+'<p class="mu" style="margin-top:12px">Usernames cannot be changed. Banned accounts appear as Deleted User.</p>',
 activity:()=>{const g=U(me).game;return`<h2>Activity</h2><p class="mu" style="margin-bottom:12px">Browsers cannot see your running games, so set what you're playing here. It shows on your profile and in the member list.</p>${g?`<div class="ac">Playing <b>${esc(g.n)}</b> for ${ago(g.ts)}</div><button class="g" onclick="setGame(1)">Clear activity</button>`:`<input id="gn" maxlength="40" placeholder="Game or app name"><button onclick="setGame(0)">Set activity</button>`}`},
-admin:()=>`<h2>Generate key</h2><div class="row"><select id="ki" style="margin:0">${Object.entries(SHOP).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('')}</select><button onclick="genKey()">Generate</button></div><hr><h2>Users</h2>`+Object.keys(db.users).filter(u=>u!=me).map(u=>`<div class="ac"><div class="row" style="margin-top:0"><b>${esc(U(u).display||u)}</b><span class="mu">@${esc(u)} · ${uid(u)}</span><span class="sp"></span>${U(u).banned?`<button class="g" onclick="ban('${u}',0)">Unban</button>`:`<button class="r" onclick="ban('${u}',1)">Ban</button>`}</div><div class="row" style="margin-bottom:0">${GIVE.map(k=>`<button class="${(U(u).b||[]).includes(k)?'':'g'}" onclick="tb('${u}','${k}')">${B[k][0]}</button>`).join('')}</div></div>`).join('')};
-function settings(p){if(p)sp=p;if(sp=='admin'&&!isA(me))sp='profile';let o=$('.stg');if(!o){o=document.createElement('div');o.className='stg pop';document.body.append(o)}const t={...T,...(isA(me)?{admin:'Admin Panel'}:{})};
-o.innerHTML=`<div class="sn">${Object.entries(t).map(([k,v])=>`<div class="si ${sp==k?'on':''}" onclick="settings('${k}')">${v}</div>`).join('')}<hr><div class="si" style="color:#f2575c" onclick="logout()">Log out</div></div><div class="sr"><div class="srh"><b>${t[sp]}</b><button class="g" onclick="$('.stg').remove()">✕</button></div><div class="sbody"><div class="sin">${PG[sp]()}</div></div></div>`}
-async function up(f,max,anim,kind){const d=await img(f,max,anim);try{const b=await(await fetch(d)).blob(),path=`${kind}/${uid(me)}-${Date.now()}.${b.type=='image/gif'?'gif':'jpg'}`;const{error}=await sb.storage.from('media').upload(path,b,{contentType:b.type,upsert:true});if(error)throw error;return sb.storage.from('media').getPublicUrl(path).data.publicUrl}catch{return d}}
+developer:()=>`<h2>Developer mode <span class="beta">BETA</span></h2>`+tog('dev','Developer mode','Right-click users to copy their user ID and servers to copy their server ID')+`<p class="mu" style="margin-top:12px">Admins can then use <b>!ban userid</b>, <b>!unban userid</b> and <b>!banserver serverid reason</b> in any chat box.</p>`,
+admin:()=>`<h2>Generate key</h2><div class="row"><select id="ki" style="margin:0">${Object.entries(SHOP).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('')}</select><button onclick="genKey()">Generate</button></div><hr><h2>Users</h2>`+Object.keys(db.users).filter(u=>u!=me&&u!=BOT).map(u=>`<div class="ac"><div class="row" style="margin-top:0"><b>${esc(U(u).display||u)}</b><span class="mu">@${esc(u)} · ${uid(u)}</span><span class="sp"></span>${U(u).banned?`<button class="g" onclick="ban('${u}',0)">Unban</button>`:`<button class="r" onclick="ban('${u}',1)">Ban</button>`}</div><div class="row" style="margin-bottom:0">${CFG.giveable.map(k=>`<button class="${(U(u).b||[]).includes(k)?'':'g'}" onclick="tb('${u}','${k}')">${B[k][0]}</button>`).join('')}</div></div>`).join('')+`<hr><h2>Servers</h2>`+Object.entries(db.servers).map(([id,v])=>`<div class="ac row" style="margin-top:0"><b class="sp">${esc(v.name)}</b><span class="mu">${id}</span><button class="g" onclick="ssettings('${id}','general')">Edit</button></div>`).join('')};
+function settings(p){if(p)sp=p;if(sp=='admin'&&!isA(me))sp='profile';let o=$('.stg');if(!o||o.dataset.k!='u'){o?.remove();o=document.createElement('div');o.className='stg pop';o.dataset.k='u';document.body.append(o)}const t={...TT,...(isA(me)?{admin:'Admin Panel'}:{})};
+o.innerHTML=`<div class="sn">${Object.entries(t).map(([k,v])=>`<div class="si ${sp==k?'on':''}" onclick="settings('${k}')">${v}</div>`).join('')}<hr><div class="si" style="color:#f2575c" onclick="logout()">Log out</div></div><div class="sr"><div class="srh"><b>${t[sp]}</b><button class="g" onclick="$('.stg').remove()">${ic('x')}</button></div><div class="sbody"><div class="sin">${PG[sp]()}</div></div></div>`}
 async function saveProfile(){const x=U(me),m=hasMemo(me),n=$('#ed').value.trim(),a=$('#ea').files[0],b=$('#eb').files[0];
-if(n&&n!=x.display){const w=864e5-(Date.now()-(x.nameAt||0));if(!isA(me)&&w>0)return toast('You can change your name again in '+Math.ceil(w/36e5)+'h')}
-try{if(a)x.avatar=await up(a,256,m,'avatar');if(b&&m)x.banner=await up(b,960,m,'banner')}catch{return toast('Image failed. GIFs must be under 1.5 MB.')}
+if(n&&n!=x.display){const w=L.nameHours*36e5-(Date.now()-(x.nameAt||0));if(!isA(me)&&w>0)return toast('You can change your name again in '+Math.ceil(w/36e5)+'h')}
+try{if(a)x.avatar=await up(a,L.avatarPx,m,'avatar');if(b&&m)x.banner=await up(b,L.bannerPx,m,'banner')}catch{return toast('Image failed. GIFs must be under 1.5 MB.')}
 if(n&&n!=x.display){x.display=n;x.nameAt=Date.now()}clearTimeout(saveT);await push();render();settings();toast('Profile saved')}
 boot();
 </script></body></html>
