@@ -387,5 +387,71 @@ addEventListener('contextmenu',e=>{const t=e.target.closest('.msgimg');if(t){e.p
 const adminBase=PG.admin;
 PG.admin=()=>adminBase()+`<hr><h2>GIF submissions</h2>`+((db.gifSuggestions||[]).map((g,i)=>`<div class="ac"><b>${esc(g.desc||'GIF suggestion')}</b><img src="${esc(g.data)}" style="display:block;max-width:220px;max-height:120px;margin:8px 0"><div class="mu">Submitted by @${esc(g.by)}</div><button onclick="approveGif(${i})">Approve GIF</button> <button class="r" onclick="rejectGif(${i})">Reject</button></div>`).join('')||'<p class="mu">No GIF submissions.</p>');
 
+/* ===== resilient live chat sync =====
+   Broadcast messages immediately; merge the shared state in the background as a fallback.
+   Supabase Realtime + the state table's RLS policies must be enabled for cross-device sync.
+*/
+function mergeIncomingState(incoming){
+ if(!incoming||typeof incoming!=='object')return false;
+ let changed=false;
+ db.users=db.users||{};db.servers=db.servers||{};db.dms=db.dms||{};
+ for(const [u,v] of Object.entries(incoming.users||{})){if(!db.users[u]){db.users[u]=v;changed=true}}
+ const mergeMsgs=(dst,src)=>{const seen=new Set(dst.map(m=>`${m.u}|${m.ts}`));for(const m of src||[]){const k=`${m.u}|${m.ts}`;if(!seen.has(k)){dst.push(m);seen.add(k);changed=true}}dst.sort((a,b)=>(a.ts||0)-(b.ts||0));if(dst.length>L.keep)dst.splice(0,dst.length-L.keep)};
+ for(const [id,remote] of Object.entries(incoming.servers||{})){
+   let local=db.servers[id];if(!local){db.servers[id]=remote;changed=true;continue}
+   local.members=Array.from(new Set([...(local.members||[]),...(remote.members||[])]));
+   if(remote.ch&&JSON.stringify(local.ch)!==JSON.stringify(remote.ch)){local.ch=remote.ch;changed=true}
+   local.msgs=local.msgs||{};for(const [cid,arr] of Object.entries(remote.msgs||{})){local.msgs[cid]=local.msgs[cid]||[];mergeMsgs(local.msgs[cid],arr)}
+   if(remote.emojis)local.emojis={...(local.emojis||{}),...remote.emojis};
+ }
+ for(const [k,arr] of Object.entries(incoming.dms||{})){db.dms[k]=db.dms[k]||[];mergeMsgs(db.dms[k],arr)}
+ for(const k of ['gifs','gifSuggestions'])if(Array.isArray(incoming[k])){db[k]=db[k]||[];const keys=new Set(db[k].map(x=>`${x.by||''}|${x.ts||''}|${x.data||''}`));for(const x of incoming[k]){const key=`${x.by||''}|${x.ts||''}|${x.data||''}`;if(!keys.has(key)){db[k].push(x);keys.add(key);changed=true}}}
+ return changed;
+}
+async function pullLiveMerge(){if(!ready||!sb||document.visibilityState==='hidden')return;try{const{data,error}=await sb.from('state').select('data').eq('id',1).maybeSingle();if(error)throw error;if(mergeIncomingState(data?.data))render()}catch(e){console.warn('Memocord background sync:',e.message)}}
+function receiveLiveMessage(p){
+ if(!p||!p.message)return;
+ const m=p.message;
+ if(p.sender&&!U(m.u))db.users[m.u]=p.sender;
+ if(!U(m.u))db.users[m.u]={display:m.u,friends:[],b:[],links:[],joined:Date.now()};
+ let arr;
+ if(p.scope==='srv'){
+   let s=db.servers[p.server];
+   if(!s&&p.serverMeta){s=db.servers[p.server]=p.serverMeta}
+   if(!s)return;
+   s.members=s.members||[];if(!s.members.includes(me)&&p.serverMeta?.members?.includes(me))s.members.push(me);
+   s.msgs=s.msgs||{};arr=s.msgs[p.channel]=s.msgs[p.channel]||[];
+ }else if(p.scope==='dm'){
+   if(!p.users?.includes(me))return;
+   const k=p.users.slice().sort().join('|');arr=db.dms[k]=db.dms[k]||[];
+ }else return;
+ if(!arr.some(x=>x.u===m.u&&String(x.ts)===String(m.ts))){arr.push(m);arr.sort((a,b)=>(a.ts||0)-(b.ts||0));if(arr.length>L.keep)arr.splice(0,arr.length-L.keep)}
+ render();
+}
+async function sendMessageObject(m){
+ let payload;
+ if(view.t==='srv'){
+   const c=ch(),s=cs();if(c.lock&&!(isA(me)||s.owner===me))return toast('Only admins can post here');
+   s.msgs=s.msgs||{};s.msgs[c.id]=s.msgs[c.id]||[];s.msgs[c.id].push(m);s.msgs[c.id]=s.msgs[c.id].slice(-L.keep);
+   payload={scope:'srv',server:sid(),channel:c.id,serverMeta:{name:s.name,owner:s.owner,members:[...(s.members||[])],ch:s.ch,emojis:s.emojis||{},msgs:{}},sender:U(me)?JSON.parse(JSON.stringify(U(me))):{display:me},message:m};
+ }else{
+   if(view.id===BOT)return toast('You cannot reply to this account');
+   const users=[me,view.id],k=users.slice().sort().join('|');db.dms[k]=db.dms[k]||[];db.dms[k].push(m);db.dms[k]=db.dms[k].slice(-L.keep);
+   payload={scope:'dm',users,sender:U(me)?JSON.parse(JSON.stringify(U(me))):{display:me},message:m};
+ }
+ render();save();await broadcastEvent('chat-message',payload);
+}
+function connect(){
+ try{chan?.unsubscribe()}catch{}
+ chan=sb.channel('mc',{config:{presence:{key:me},broadcast:{self:false,ack:true}}});
+ chan.on('postgres_changes',{event:'*',schema:'public',table:'state'},()=>{pullLiveMerge()})
+ .on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()})
+ .on('broadcast',{event:'sig'},({payload})=>onSig(payload))
+ .on('broadcast',{event:'chat-message'},({payload})=>receiveLiveMessage(payload))
+ .on('broadcast',{event:'typing'},({payload})=>receiveTyping(payload))
+ .subscribe(st=>{if(st==='SUBSCRIBED'){chan.track({at:Date.now(),vc:call.vc});pullLiveMerge();console.info('Memocord realtime connected')}else if(st==='CHANNEL_ERROR'||st==='TIMED_OUT'){console.warn('Memocord realtime status:',st)}});
+}
+if(!window.__mcLivePoll){window.__mcLivePoll=setInterval(pullLiveMerge,2500);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')pullLiveMerge()});}
+
 boot();
 </script></body></html>
