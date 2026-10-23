@@ -13,8 +13,24 @@ label{font-size:12px;font-weight:700;color:var(--mu)}h2{margin-bottom:10px}hr{bo
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#ffffff1c;border-radius:4px}
 @keyframes pop{from{opacity:0;transform:scale(.94) translateY(8px)}}@keyframes fd{from{opacity:0}}
 .pop{animation:pop .2s cubic-bezier(.2,1.3,.4,1)}
-.auth{height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 110%,#3a1a10,#101013 60%)}
-.card{width:min(400px,92vw);background:#1a1a1f;padding:30px;border-radius:14px;border:1px solid var(--line);box-shadow:0 12px 50px #000a}.card h1{text-align:center;font-size:24px}.card p{text-align:center}.card button{width:100%;margin:4px 0 12px;padding:12px}a{color:var(--br);cursor:pointer}
+.auth{min-height:100vh;display:grid;place-items:center;background:#111114;position:relative;overflow:hidden;padding:24px 0}
+.auth::before,.auth::after{content:"";position:absolute;width:38%;height:55%;background:repeating-linear-gradient(0deg,#ff6b4518 0 1px,transparent 1px 38px),repeating-linear-gradient(90deg,#ff6b4518 0 1px,transparent 1px 38px);border:1px solid #ff6b4512;border-radius:10px;pointer-events:none}
+.auth::before{left:-2%;top:-4%;transform:perspective(700px) rotateX(8deg) rotateY(6deg) skewY(-2deg)}
+.auth::after{right:-3%;bottom:-6%;transform:perspective(700px) rotateX(-8deg) rotateY(-6deg) skewY(2deg)}
+.auth .glow{position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(transparent,#ff6b4514);pointer-events:none}
+.card{position:relative;z-index:1;width:min(420px,92vw);background:#18181d;padding:28px;border-radius:16px;border:1px solid #2a2a31;box-shadow:0 20px 60px #000b}
+.card .bk{font-size:13px;font-weight:600;color:#c4c7cd;cursor:pointer}.card .bk:hover{color:#fff}
+.card .lg{display:flex;align-items:center;justify-content:center;gap:10px;font-size:22px;font-weight:800;margin:6px 0 22px}
+.card h1{text-align:center;font-size:24px;font-weight:800}.card .sub{text-align:center;color:var(--mu);margin:6px 0 22px}
+.card label{display:block;font-size:12px;font-weight:800;letter-spacing:.4px;color:#b5b8c0}
+.card input,.card select{background:#101013;border:1px solid #26262d;border-radius:9px;height:42px;padding:0 12px;margin:8px 0 16px}
+.card select{font-weight:600;padding:0 10px}
+.pw{position:relative}.pw button{position:absolute;right:4px;top:8px;width:34px;height:42px;background:none;padding:0;color:#b5b8c0}
+.bdr{display:flex;gap:8px}.chk{display:flex;gap:10px;align-items:center;font-size:13px;margin:6px 0 14px}.chk input{width:16px;height:16px;margin:0;accent-color:var(--br)}
+.warn{background:#3a2c14;border:1px solid #6b5220;color:#f0b232;border-radius:8px;padding:9px 11px;font-size:12.5px;margin-bottom:16px}
+.card .go{width:100%;height:44px;padding:0;margin:0 0 16px;font-size:15px;background:#ff6b45;border-radius:9px}
+.card .ft{display:flex;justify-content:center;gap:6px;font-size:12px;color:var(--mu)}.card .ft u{cursor:pointer}
+.card p{text-align:center}a{color:var(--br);cursor:pointer;font-weight:700}
 #app{display:flex;height:100vh}
 .rail{width:72px;flex:none;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:8px}
 .ri{width:48px;height:48px;border-radius:50%;background:var(--card);display:grid;place-items:center;cursor:pointer;font-weight:700;transition:.2s}.ri:hover,.ri.on{border-radius:15px;background:var(--br)}.rs{width:30px;border-top:2px solid var(--line)}
@@ -101,11 +117,17 @@ async function boot(){try{const{data}=await sb.auth.getSession(),x=data.session;
 async function logout(){try{endCall();await push();chan?.unsubscribe();await sb.auth.signOut()}catch{}me=null;ready=0;onl={};$('.stg')?.remove();authView()}
 
 /* ===== auth ===== */
-function authView(L=1){$('#root').innerHTML=`<div class="auth"><div class="card pop"><h1>${L?'Welcome back!':'Create an account'}</h1><p class="mu" style="margin:6px 0 20px">${L?'We are so excited to see you again!':'Pick a username and password.'}</p><label>USERNAME</label><input id="au"><label>PASSWORD</label><input id="ap" type="password"><button id="ab">${L?'Log In':'Sign up'}</button><p class="mu">${L?'Need an account? <a onclick="authView(0)">Register</a>':'<a onclick="authView(1)">Already have an account?</a>'}</p></div></div>`;
+function authView(L=1){const yr=new Date().getFullYear(),M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const bear='<svg width="38" height="30" viewBox="0 0 38 30"><circle cx="6" cy="6" r="5.5" fill="#ff6b45"/><circle cx="32" cy="6" r="5.5" fill="#ff6b45"/><rect x="1" y="4" width="36" height="25" rx="12" fill="#ff6b45"/><circle cx="12" cy="15" r="2.6" fill="#fff"/><circle cx="26" cy="15" r="2.6" fill="#fff"/><path d="M15 21q4 4 8 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+$('#root').innerHTML=`<div class="auth"><div class="glow"></div><div class="card pop">${L?'':'<div class="bk" onclick="authView(1)">‹ Back</div>'}<div class="lg">${bear}Memocord</div><h1>${L?'Welcome back!':'Create an account'}</h1><div class="sub">${L?'We are so excited to see you again!':'It’s free. Like, actually free.'}</div>
+${L?'':'<label>EMAIL</label><input id="ae" type="email" autocomplete="email">'}<label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><div class="pw"><input id="ap" type="password" autocomplete="${L?'current-password':'new-password'}"><button type="button" onclick="const i=$('#ap');i.type=i.type=='password'?'text':'password'" title="Show password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+${L?'':`<label>BIRTHDAY</label><div class="bdr"><select id="bm"><option value="">Month</option>${M.map((m,i)=>`<option value="${i}">${m}</option>`).join('')}</select><select id="by"><option value="">Year</option>${Array.from({length:100},(_,i)=>`<option>${yr-i}</option>`).join('')}</select></div><div class="mu" style="margin:-6px 0 12px">We don’t save this, it’s just a check.</div><label class="chk"><input id="tos" type="checkbox">I agree to the&nbsp;<a>Terms of Service</a>&nbsp;and&nbsp;<a>Privacy Policy</a>.</label><div class="warn">ⓘ Usernames can’t be changed after sign up, so choose carefully.</div>`}
+<button class="go" id="ab">${L?'Log in':'Sign up'}</button><p>${L?'Need an account? <a onclick="authView(0)">Register</a>':'Already yapping? <a onclick="authView(1)">Log in</a>'}</p><div class="ft" style="margin-top:14px"><u>Terms</u>·<u>Privacy</u>·<u>Guidelines</u>·<u>Bugs</u></div></div></div>`;
 $('#ap').onkeydown=e=>{if(e.key=='Enter')$('#ab').click()};$('#au').focus();
-$('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');if(p.length<6)return toast('Password needs 6+ characters');let key=u,r;
+$('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;if(!/^[\w.-]{3,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 3-32 letters, numbers, _ . -');if(p.length<6)return toast('Password needs 6+ characters');let key=u,r,e0='';
+if(!L){e0=$('#ae').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e0))return toast('Enter a valid email');const bm=$('#bm').value,by=$('#by').value;if(bm===''||!by)return toast('Enter your birthday');if(yr-by-(new Date().getMonth()<+bm?1:0)<13)return toast('You must be 13 or older');if(!$('#tos').checked)return toast('Please agree to the Terms and Privacy Policy')}
 if(L){r=await sb.auth.signInWithPassword({email:em(u),password:p});if(r.error)return toast('Wrong username or password');await pull();key=Object.keys(db.users).find(k=>k.toLowerCase()==u.toLowerCase())||u;if(!U(key))return toast('Account data missing');if(U(key).banned){await sb.auth.signOut();return toast('This account has been banned')}}
-else{r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();db.users[u]={display:u,friends:[],b:[],owned:[],links:[],joined:Date.now()}}
+else{r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u,email:e0}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();db.users[u]={display:u,friends:[],b:[],owned:[],links:[],joined:Date.now()}}
 me=key;ready=1;ensure();if(!L)save();connect();go({t:'srv',c:'general'})}catch(e){toast('Error: '+e.message)}}}
 
 /* ===== friends, profile ===== */
