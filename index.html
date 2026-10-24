@@ -3,7 +3,7 @@
 <meta name="description" content="Memocord — hang out, chat with friends, share images and GIFs, and build your community.">
 <meta name="theme-color" content="#ff5a36">
 <style>
-:root{--rail:#120d0b;--side:#1b1411;--main:#211915;--card:#2c221d;--card2:#140f0d;--line:#3a2c25;--tx:#f2ece8;--mu:#a89b94;--br:#ff5a36;--grn:#248046;--pop:#17100d;--input-bg:#140f0d;--btn-g:#3a2e28;--nav-on:#33261f;--hov:#ffffff0d}
+:root{--rail:#1e1f22;--side:#2b2d31;--main:#313338;--card:#2b2d31;--card2:#1e1f22;--line:#383a40;--tx:#dbdee1;--mu:#949ba4;--br:#5865f2;--grn:#23a55a;--pop:#232428;--input-bg:#383a40;--btn-g:#4e5058;--nav-on:#35373c;--hov:#ffffff0a}
 body.theme-light{--rail:#e3e5e8;--side:#f2f3f5;--main:#ffffff;--card:#ebedef;--card2:#f2f3f5;--line:#d4d7dc;--tx:#060607;--mu:#4e5058;--pop:#ffffff;--input-bg:#e3e5e8;--btn-g:#d4d7dc;--nav-on:#e0e2e5;--hov:#0000000a}
 body.theme-amoled{--rail:#000000;--side:#050505;--main:#0a0a0a;--card:#121212;--card2:#000000;--line:#1c1c1c;--tx:#f2f2f2;--mu:#8a8a8a;--pop:#080808;--input-bg:#000000;--btn-g:#181818;--nav-on:#161616;--hov:#ffffff0d}
 *{box-sizing:border-box;margin:0}html,body{height:100%}
@@ -30,13 +30,13 @@ svg.ic{flex:none;vertical-align:middle}
 #app{display:flex;flex:1;min-height:0}
 .rail{width:72px;flex:none;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:8px;overflow-y:auto}
 .ri{position:relative;width:48px;height:48px;border-radius:50%;background:var(--card);display:grid;place-items:center;cursor:pointer;font-weight:700;transition:.2s;flex:none}.ri img{width:100%;height:100%;border-radius:inherit;object-fit:cover}
-.ri:hover,.ri.on{border-radius:16px;background:var(--br)}.ri.home{background:var(--br);color:#fff}.ri.on::before{content:"";position:absolute;left:-12px;width:4px;height:30px;border-radius:0 4px 4px 0;background:#fff}
+.ri:hover,.ri.on{border-radius:16px;background:var(--br)}.ri.home{background:var(--br);color:#fff}.ri.on::before{content:"";position:absolute;left:-12px;width:4px;height:40px;border-radius:0 4px 4px 0;background:#fff;transition:.15s}.ri:hover:not(.on)::before{content:"";position:absolute;left:-12px;width:4px;height:20px;border-radius:0 4px 4px 0;background:#fff;transition:.15s}
 .rs{width:30px;border-top:2px solid var(--line)}.ri.add{color:#2ecc71}.ri.add:hover{background:#2ecc71;color:#fff}
 .nb{position:absolute;right:-4px;bottom:-4px;min-width:18px;height:18px;border-radius:9px;background:#da373c;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px;border:3px solid var(--rail);box-sizing:content-box}
-.side{width:258px;flex:none;background:var(--side);border-top-left-radius:12px;border:1px solid var(--line);border-right:0;overflow-y:auto;padding:0 8px 76px}
-.sh{height:90px;margin:0 -8px 8px;padding:10px 14px;display:flex;align-items:flex-end;gap:6px;font-weight:800;font-size:16px;background:linear-gradient(135deg,#7a2a14,var(--br));background-size:cover;background-position:center;text-shadow:0 1px 4px #000a;cursor:pointer}
+.side{width:258px;flex:none;background:var(--side);border-top-left-radius:8px;border:1px solid var(--line);border-right:0;overflow-y:auto;padding:0 8px 60px}
+.sh{height:48px;margin:0 -8px 8px;padding:0 16px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;background:var(--side);border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s}.sh:hover{background:#ffffff08}
 .inv{width:100%;margin-bottom:8px;background:#ff5a361f;color:var(--br);border:1px solid #ff5a3633}
-.nav{display:flex;align-items:center;gap:8px;min-height:34px;padding:0 8px;border-radius:6px;color:var(--mu);font-weight:500;cursor:pointer}.nav:hover{background:#ffffff0a;color:var(--tx)}.nav.on{background:var(--nav-on);color:#fff}
+.nav{display:flex;align-items:center;gap:8px;min-height:34px;padding:0 8px;border-radius:4px;color:var(--mu);font-weight:500;cursor:pointer;margin-bottom:2px}.nav:hover{background:#ffffff0a;color:var(--tx)}.nav.on{background:var(--nav-on);color:#fff;font-weight:600}
 .dmh{padding:14px 10px 6px;font-size:12px;color:var(--mu);font-weight:700;display:flex;align-items:center}.cat{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--mu);padding:16px 4px 4px;letter-spacing:.4px;cursor:pointer}.cat:hover{color:var(--tx)}
 .ub{background:#da373c;color:#fff;font-size:11px;font-weight:800;border-radius:9px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 5px}
 main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:0;min-height:0;overflow:hidden;border-top:1px solid var(--line);border-left:1px solid var(--line)}
@@ -65,7 +65,7 @@ main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:
 .pnb{color:#f0b232;font-size:11px;font-weight:700;margin-left:6px}
 .rxs{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.rxc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:1px 8px;cursor:pointer;font-size:13px}.rxc.me{border-color:var(--br);background:#ff5a3624}
 .gv{background:var(--card);border-left:4px solid var(--br);border-radius:8px;padding:12px;margin-top:6px;max-width:420px}.gv button{margin-top:10px}
-.inw{padding:0 16px 20px;position:relative}.composer{display:flex;gap:8px;align-items:flex-end}.composer textarea{margin:0;background:var(--input-bg);border:0;border-radius:10px;padding:14px 16px;resize:vertical;min-height:50px;max-height:180px;line-height:1.4}
+.inw{padding:0 16px 20px;position:relative}.composer{display:flex;gap:6px;align-items:center;background:var(--input-bg);border-radius:8px;padding:2px 10px}.composer textarea{margin:0;background:transparent;border:0;border-radius:0;padding:10px 4px;resize:none;min-height:44px;max-height:180px;line-height:1.4;flex:1;color:var(--tx)}.composer .tb{width:36px;height:36px;border-radius:4px;background:none;color:var(--mu);padding:0;flex:none;transition:.15s}.composer .tb:hover{background:#ffffff14;color:var(--tx)}
 .lk{display:flex;align-items:center;gap:8px;background:var(--input-bg);border-radius:10px;padding:14px;color:var(--mu)}
 .tb{width:44px;height:50px;padding:0;flex:none}.pvimg{max-height:150px;max-width:100%;border-radius:8px}
 .cm{position:fixed;z-index:90;background:var(--pop);border:1px solid var(--line);border-radius:12px;padding:6px;min-width:210px;box-shadow:0 10px 30px #000a}
@@ -76,7 +76,8 @@ main{flex:1;display:flex;flex-direction:column;background:var(--main);min-width:
 .av{border-radius:50%;object-fit:cover;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}.avw{position:relative;display:inline-flex;flex:none}
 .dot{position:absolute;right:-3px;bottom:-3px;width:13px;height:13px;border-radius:50%;border:3px solid var(--side);background:#80848e}.dot.on{background:#23a55a}.dot.idle{background:#f0b232}.dot.dnd{background:#f23f43}.dot.off,.dot.invisible{background:#80848e}
 .bd{display:inline-flex;align-items:center;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;margin-left:6px;vertical-align:1px;color:#fff}
-.up{position:fixed;left:8px;bottom:8px;width:304px;height:56px;background:var(--pop);border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;padding:0 10px;gap:8px;z-index:20}.ib{width:34px;height:34px;padding:0;background:none}.ib:hover{background:#ffffff14}
+.up{position:fixed;left:72px;bottom:0;width:258px;height:52px;background:#232428;border:0;border-top:1px solid var(--line);border-radius:0;display:flex;align-items:center;padding:0 8px;gap:6px;z-index:20}.ib{width:32px;height:32px;padding:0;background:none;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:var(--mu)}.ib:hover{background:#ffffff14;color:var(--tx)}
+@media(max-width:600px){.up{left:0;bottom:0;width:72px;height:52px;padding:0;justify-content:center;border-radius:0}.up div:not(.avw),.up button{display:none}}
 .ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:50;animation:fd .2s}
 .md{background:var(--card);padding:24px;border-radius:14px;width:min(460px,92vw);max-height:92vh;overflow-y:auto;border:1px solid var(--line)}
 #pp{position:fixed;z-index:80;width:320px;max-width:calc(100vw - 20px);background:var(--pop);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 14px 40px #000c}
@@ -289,7 +290,7 @@ body.landing-mode{display:block;overflow:auto;background:#ff633b;color:#fff;font
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 /* ================= CONFIG ================= */
-const CFG={name:'Memocord',owner:'981',bot:'Memocord',gbot:'Giveaway',accent:'#ff5a36',embedServices:{noembed:'https://noembed.com/embed?url=',microlink:'https://api.microlink.io/?url='},
+const CFG={name:'Memocord',owner:'981',bot:'Memocord',gbot:'Giveaway',accent:'#5865f2',embedServices:{noembed:'https://noembed.com/embed?url=',microlink:'https://api.microlink.io/?url='},
 supabase:{url:'https://tpbpucnjizttcfuphsln.supabase.co',key:'sb_publishable__P6T37yFhqCGJ3KxMd9MIg_Vt3O8gqD',bucket:'media'},
 L:{msg:2000,keep:300,nameHours:24,gifBytes:8e6,emojis:100,servers:10,minAge:13,pass:6,imgMB:8},
 starter:{id:'memocord',name:'Memocord',channels:[['INFORMATION',[['rules','t',1],['announcements','t',1],['faq','t',1]]],['COMMUNITY',[['general'],['media'],['memes'],['gaming']]],['FEEDBACK',[['suggestions'],['feedback']]]]},
@@ -337,7 +338,7 @@ const STICKERS = {
 const IC={hash:'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18',mega:'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6',users:'M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7M21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8',gear:'M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2',power:'M12 3v9M6.5 6.5a8 8 0 1011 0',x:'M6 6l12 12M18 6L6 18',crown:'M3 8l4 4 5-7 5 7 4-4-2 11H5z',lock:'M6 11h12v9H6zM8 11V7a4 4 0 018 0v4',plus:'M12 5v14M5 12h14',smile:'M12 3a9 9 0 100 18 9 9 0 000-18zM8.5 14a4.5 4.5 0 007 0M9 9.5v.5M15 9.5v.5',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',eye:'M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12zM12 9a3 3 0 100 6 3 3 0 000-6',compass:'M12 3a9 9 0 100 18 9 9 0 000-18zM15.5 8.5l-2 5-5 2 2-5z',bag:'M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2',gift:'M4 11h16v9H4zM3 8h18v3H3zM12 8v12M12 8C10 8 8 7 8 5a2 2 0 014 0 2 2 0 014 0c0 2-2 3-4 3',group:'M12 5v14M5 12h14M17 4l3 3-3 3'};
 const ic=(n,s=18,f)=>IC[n]?`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${IC[n]}"/></svg>`:'';
 const bear=(w=38)=>`<svg width="${w}" height="${w*.79}" viewBox="0 0 38 30"><circle cx="6" cy="6" r="5.5" fill="currentColor"/><circle cx="32" cy="6" r="5.5" fill="currentColor"/><rect x="1" y="4" width="36" height="25" rx="12" fill="currentColor"/><circle cx="12" cy="15" r="2.6" fill="#fff"/><circle cx="26" cy="15" r="2.6" fill="#fff"/><path d="M15 21q4 4 8 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
-Object.assign(IC,{play:'M5 3l14 9-14 9V3z',alert:'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',mic:'M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zM19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8',bookmark:'M5 3v18l7-5 7 5V3z',thread:'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',forward:'M13 5l7 7-7 7M5 5l7 7-7 7',sticker:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6',poll:'M18 20V10M12 20V4M6 20v-6',pause:'M6 4h4v16H6zM14 4h4v16h-4z',mail:'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',edit:'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z',bot:'M12 8V4M8 4h8M5 10h14v9H5zM9 14h.01M15 14h.01M9 19v2M15 19v2',shield:'M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6zM9 12l2 2 4-4', 'chef-hat':'M6 13a4 4 0 010-8 5 5 0 019-1 4 4 0 013 7v8H6zM6 17h12',star:'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',bolt:'M13 2L4 14h7l-1 8 9-12h-7z',reply:'M9 14L4 9l5-5M4 9h10a6 6 0 016 6v3',send:'M3 11l18-8-8 18-2-8z',flag:'M5 21V4M5 4h12l-2 4 2 4H5',up:'M6 15l6-6 6 6',down:'M6 9l6 6 6-6',sparkle:'M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z',bell:'M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 004 0',pin:'M12 17v5M9 3h6l-1 7 3 3H7l3-3z',search:'M11 4a7 7 0 100 14 7 7 0 000-14M21 21l-5-5',chev:'M6 9l6 6 6-6',chevr:'M9 6l6 6-6 6',link:'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1',check2:'M5 12l5 5 9-10',menu:'M4 6h16M4 12h16M4 18h16',clock:'M12 6v6l4 2M12 2a10 10 0 100 20 10 10 0 000-20'});
+Object.assign(IC,{copy:'M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-2M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3',phone:'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',play:'M5 3l14 9-14 9V3z',alert:'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',mic:'M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zM19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8',bookmark:'M5 3v18l7-5 7 5V3z',thread:'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',forward:'M13 5l7 7-7 7M5 5l7 7-7 7',sticker:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6',poll:'M18 20V10M12 20V4M6 20v-6',pause:'M6 4h4v16H6zM14 4h4v16h-4z',mail:'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',edit:'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z',bot:'M12 8V4M8 4h8M5 10h14v9H5zM9 14h.01M15 14h.01M9 19v2M15 19v2',shield:'M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6zM9 12l2 2 4-4', 'chef-hat':'M6 13a4 4 0 010-8 5 5 0 019-1 4 4 0 013 7v8H6zM6 17h12',star:'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',bolt:'M13 2L4 14h7l-1 8 9-12h-7z',reply:'M9 14L4 9l5-5M4 9h10a6 6 0 016 6v3',send:'M3 11l18-8-8 18-2-8z',flag:'M5 21V4M5 4h12l-2 4 2 4H5',up:'M6 15l6-6 6 6',down:'M6 9l6 6 6-6',sparkle:'M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z',bell:'M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 004 0',pin:'M12 17v5M9 3h6l-1 7 3 3H7l3-3z',search:'M11 4a7 7 0 100 14 7 7 0 000-14M21 21l-5-5',chev:'M6 9l6 6 6-6',chevr:'M9 6l6 6-6 6',link:'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1',check2:'M5 12l5 5 9-10',menu:'M4 6h16M4 12h16M4 18h16',clock:'M12 6v6l4 2M12 2a10 10 0 100 20 10 10 0 000-20'});
 const _f=(bg,b)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="${bg}"/>${b}</svg>`,_s=b=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">${b}</svg>`,_e='<circle cx="11" cy="13" r="2" fill="#4a2c00"/><circle cx="21" cy="13" r="2" fill="#4a2c00"/>',_p=(d,c='#4a2c00',w=2)=>`<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`,Y='#ffcb3d';
 const EMO={smile:_f(Y,_e+_p('M9 19q7 6 14 0')),grin:_f(Y,_e+'<path d="M8 18h16q-1 8-8 8t-8-8z" fill="#4a2c00"/><path d="M10 18h12v2H10z" fill="#fff"/>'),laugh:_f(Y,_p('M8 13l5 2M24 13l-5 2')+'<path d="M8 18h16q-1 8-8 8t-8-8z" fill="#4a2c00"/>'),wink:_f(Y,'<circle cx="11" cy="13" r="2" fill="#4a2c00"/>'+_p('M18 13h6')+_p('M9 19q7 6 14 0')),love:_f(Y,'<path d="M11 17l-4-4a2.5 2.5 0 014-3 2.5 2.5 0 014 3z" fill="#e0245e"/><path d="M23 17l-4-4a2.5 2.5 0 014-3 2.5 2.5 0 014 3z" fill="#e0245e"/>'+_p('M10 21q6 5 12 0')),cool:_f(Y,'<path d="M5 11h22v3q0 4-5 4t-5-4h-2q0 4-5 4t-5-4z" fill="#222"/>'+_p('M10 23q6 4 12 0')),cry:_f(Y,_p('M8 12l5 2M24 12l-5 2')+'<path d="M10 17q1 6-1 9M22 17q-1 6 1 9" stroke="#3aa0ff" stroke-width="3" fill="none" stroke-linecap="round"/>'+_p('M10 25q6-5 12 0')),angry:_f('#ff5a3d','<path d="M7 9l7 4M25 9l-7 4" stroke="#4a0a00" stroke-width="2.4" stroke-linecap="round"/><circle cx="11" cy="15" r="2" fill="#4a0a00"/><circle cx="21" cy="15" r="2" fill="#4a0a00"/>'+_p('M10 24q6-5 12 0','#4a0a00')),think:_f(Y,_e+_p('M11 22h9')+'<circle cx="24" cy="23" r="3" fill="none" stroke="#4a2c00" stroke-width="2"/>'),sleep:_f(Y,_p('M8 13h5M19 13h5')+'<circle cx="16" cy="22" r="3" fill="#4a2c00"/>'),wow:_f(Y,_e+'<ellipse cx="16" cy="23" rx="3.5" ry="4.5" fill="#4a2c00"/>'),
 heart:_s('<path d="M16 28L4 16a7 7 0 0112-9 7 7 0 0112 9z" fill="#e0245e"/><path d="M9 10q2-2 4-1" stroke="#ff9db8" stroke-width="2" fill="none" stroke-linecap="round"/>'),fire:_s('<path d="M16 2c1 6 8 9 8 17a8 8 0 01-16 0c0-4 2-6 4-8 0 3 1 4 2 4 0-5-1-8 2-13z" fill="#ff6b1a"/><path d="M16 14c3 3 5 5 5 8a5 5 0 01-10 0c0-3 3-4 5-8z" fill="#ffd23d"/>'),star:_s('<path d="M16 2l4.2 8.8 9.8 1.2-7.2 6.7 1.9 9.6L16 23.4 7.3 28.3l1.9-9.6L2 12l9.8-1.2z" fill="#ffcb3d" stroke="#e29a00" stroke-width="1.5" stroke-linejoin="round"/>'),thumb:_s('<path d="M4 14h6v14H4z" fill="#3b82f6"/><path d="M12 14l5-11c3 0 4 2 3 5l-1 4h8a3 3 0 012.9 3.7l-2 9A3 3 0 0125 27H12z" fill="#ffcb3d" stroke="#e29a00" stroke-width="1.5" stroke-linejoin="round"/>'),check:_s('<circle cx="16" cy="16" r="14" fill="#2ecc71"/>'+_p('M9 16.5l5 5 9-10','#fff',3.2)),cross:_s('<circle cx="16" cy="16" r="14" fill="#e74c3c"/>'+_p('M10 10l12 12M22 10L10 22','#fff',3.2)),skull:_s('<path d="M16 3a11 11 0 00-8 18v5h4v-3h2v3h4v-3h2v3h4v-5a11 11 0 00-8-18z" fill="#eee"/><circle cx="12" cy="14" r="3" fill="#222"/><circle cx="20" cy="14" r="3" fill="#222"/>'),hundred:_s('<text x="16" y="22" text-anchor="middle" font-size="15" font-weight="900" font-family="Arial" fill="#e0245e">100</text><path d="M4 26h24" stroke="#e0245e" stroke-width="2.5" stroke-linecap="round"/>'),party:_s('<path d="M3 29L11 8l13 13z" fill="#ff6b45"/><path d="M13 15l6 6" stroke="#ffcb3d" stroke-width="2.5"/><circle cx="22" cy="8" r="2" fill="#3b82f6"/><circle cx="27" cy="14" r="2" fill="#2ecc71"/><circle cx="16" cy="5" r="2" fill="#eb459e"/>'),bolt:_s('<path d="M18 2L6 18h8l-2 12 14-18h-9z" fill="#ffcb3d" stroke="#e29a00" stroke-width="1.5" stroke-linejoin="round"/>'),eyes:_s('<ellipse cx="9" cy="16" rx="6" ry="8" fill="#fff" stroke="#999"/><ellipse cx="23" cy="16" rx="6" ry="8" fill="#fff" stroke="#999"/><circle cx="11" cy="17" r="3" fill="#222"/><circle cx="25" cy="17" r="3" fill="#222"/>')};
@@ -367,7 +368,7 @@ const getPresence=u=>{if(!U(u))return 'offline';if(u===BOT||u===GB)return 'onlin
 const online=u=>getPresence(u)!=='offline';
 const dotCls=u=>{const p=getPresence(u);return 'dot '+(p==='online'?'on':p==='idle'?'idle':p==='dnd'?'dnd':'off')};
 const presenceLabel=p=>({online:'Online',idle:'Idle',dnd:'Do Not Disturb',invisible:'Invisible',offline:'Offline'}[p]||'Online');
-function presenceMenu(ev){ev?.stopPropagation();const opts=[{id:'online',label:'Online',desc:'Active and available',dot:'on'},{id:'idle',label:'Idle',desc:'Away from keyboard',dot:'idle'},{id:'dnd',label:'Do Not Disturb',desc:'Mute sounds and notifications',dot:'dnd'},{id:'invisible',label:'Invisible',desc:'Appear offline to others',dot:'off'}];const cur=U(me)?.presence||'online';modal(`<h2>Set Presence</h2><div style="display:flex;flex-direction:column;gap:6px">${opts.map(o=>`<div class="rowc" style="cursor:pointer;padding:8px 12px;border-radius:8px;background:${cur==o.id?'var(--nav-on)':'var(--card2)'}" onclick="setPresence('${o.id}');closeModal()"><span class="dot ${o.dot}" style="position:static;display:inline-block;margin-right:8px;border:0"></span><div class="sp"><b>${o.label}</b><div class="mu" style="font-size:12px">${o.desc}</div></div>${cur==o.id?ic('check2',18):''}</div>`).join('')}</div>`,380)}
+function presenceMenu(ev){ev?.stopPropagation();const opts=[{id:'online',label:'Online',desc:'Active and available',dot:'on'},{id:'idle',label:'Idle',desc:'Away from keyboard',dot:'idle'},{id:'dnd',label:'Do Not Disturb',desc:'Mute sounds and notifications',dot:'dnd'},{id:'invisible',label:'Invisible',desc:'Appear offline to others',dot:'off'}];const cur=U(me)?.presence||'online';modal(`<h2>Set Presence</h2><div style="display:flex;flex-direction:column;gap:6px">${opts.map(o=>`<div class="rowc" style="cursor:pointer;padding:8px 12px;border-radius:8px;background:${cur==o.id?'var(--nav-on)':'var(--card2)'}" onclick="setPresence('${o.id}');closeModal()"><span class="dot ${o.dot}" style="position:static;display:inline-block;margin-right:8px;border:0"></span><div class="sp"><b>${o.label}</b><div class="mu" style="font-size:12px">${o.desc}</div></div>${cur==o.id?ic('check2',18):''}</div>`).join('')}</div><div style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px;display:flex;gap:8px"><button class="g" style="flex:1" onclick="closeModal();switchAccountModal()">${ic('users',16)} Switch Accounts</button></div>`,380)}
 function setPresence(p){U(me).presence=p;try{chan?.track({at:Date.now(),presence:p})}catch{}save();render()}
 ['mousemove','keydown','pointerdown','touchstart'].forEach(e=>window.addEventListener(e,()=>{const was=Date.now()-lastAct>600000;lastAct=Date.now();if(was&&U(me)?.presence==='online')render()},{passive:true}));
 setInterval(()=>{if(me&&U(me)?.presence==='online'&&(Date.now()-lastAct>600000))render()},30000);
@@ -713,25 +714,32 @@ if(!db.users[BOT]){db.users[BOT]={display:BOT,friends:[],b:['bot'],owned:[],link
 if(!db.users[GB]){db.users[GB]={display:GB,friends:[],b:['bot'],owned:[],links:[],joined:Date.now()};c=1}
 if(!s){s=db.servers[SID]={name:CFG.starter.name,owner:OWNER,members:[],msgs:{},ch:mkCh(CFG.starter.channels),v2:1,emojis:{}};c=1}
 if(!s.members.includes(me)){s.members.push(me);c=1}if(s.icon){s.icon='';c=1}db.customBadges=db.customBadges||{};Object.assign(B,db.customBadges);if(!db.users[OWNER])db.users[OWNER]={display:OWNER,friends:[],b:[],owned:[],links:[],joined:Date.now()};const ownerBadges=db.users[OWNER].b||(db.users[OWNER].b=[]);db.users[OWNER].b=['founder'];if(JSON.stringify(ownerBadges)!=='["founder"]')c=1;for(const k of ['bot','cook','dev','og','friend','memo','mod']){const before=ownerBadges.length;for(let i=ownerBadges.length-1;i>=0;i--)if(ownerBadges[i]===k)ownerBadges.splice(i,1);if(ownerBadges.length!==before)c=1}if(db.users[OWNER].memo){db.users[OWNER].memo=0;c=1}
-for(const [uname,bl] of Object.entries(USER_BADGES)){const uk=findU(uname)||uname;if(db.users[uk]){const cur=db.users[uk].b||[];const merged=[...new Set([...cur,...bl])];if(merged.length!==cur.length){db.users[uk].b=merged;c=1}}} for(const sv of Object.values(db.servers||{})){if(sv.power){sv.powers=[...new Set([...(sv.powers||[]),...sv.power])];delete sv.power;c=1;}}
+for(const [uname,bl] of Object.entries(USER_BADGES)){const uk=findU(uname)||uname;if(db.users[uk]){const cur=db.users[uk].b||[];const merged=[...new Set([...cur,...bl])];if(merged.length!==cur.length){db.users[uk].b=merged;c=1}}}
+const ogList=Object.entries(db.users||{}).filter(([uname])=>uname!==BOT&&uname!==GB&&uname!==OWNER).sort((a,b)=>(a[1].joined||0)-(b[1].joined||0)).slice(0,50);
+for(const [uname,ud] of ogList){ud.b=ud.b||[];if(!ud.b.includes('og')){ud.b.push('og');c=1}} for(const sv of Object.values(db.servers||{})){if(sv.power){sv.powers=[...new Set([...(sv.powers||[]),...sv.power])];delete sv.power;c=1;}}
 if(c)save()}
 function connect(){try{chan?.unsubscribe()}catch{}chan=sb.channel('mc',{config:{presence:{key:me}}});
 chan.on('postgres_changes',{event:'*',schema:'public',table:'state'},p=>{const d=p.new?.data;if(!d||mine.has(d.rev))return;const b=totU(),old=db,oldWarnings=old.userWarnings||{};db=blank(d);if(banned(me)){toast('Your account was banned');return logout()}let ping=null;for(const [sid0,sv] of Object.entries(db.servers||{})){if(!sv.members?.includes(me))continue;for(const [cid,arr] of Object.entries(sv.msgs||{})){for(const msg of (arr||[])){if(msg.u===me||!msg.ts||msg.ts<Date.now()-12000)continue;if((msg.everyonePing||/@everyone\b/i.test(msg.x||'')||(msg.mentions||[]).includes(me))&&!(old.servers?.[sid0]?.msgs?.[cid]||[]).some(x=>x.ts===msg.ts)){ping={msg,server:sv.name,channel:cid,sid:sid0};break}}if(ping)break}if(ping)break}showNewWarnings(oldWarnings);if(ping){const isMuted=isMutedSrv(ping.sid),isDirect=(ping.msg.mentions||[]).includes(me);if(!isMuted||isDirect||ping.msg.everyonePing){const text=ping.msg.everyonePing||/@everyone\b/i.test(ping.msg.x||'')?'You were mentioned with @everyone':'You were mentioned by '+(U(ping.msg.u)?.display||ping.msg.u);if(set(me).sound)beep();toast(text+' in '+ping.server+' / #'+ping.channel);try{if('Notification'in window&&Notification.permission==='granted')new Notification(CFG.name,{body:text+' in '+ping.server+' / #'+ping.channel})}catch{}}}else if(totU()>b){if(set(me).sound)beep();toast('You have a new message')}render()})
 .on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()}).on('broadcast',{event:'typing'},({payload:p})=>{if(p.u!=me){typ[p.k]=typ[p.k]||{};typ[p.k][p.u]=Date.now();updTyp()}}).subscribe(st=>{if(st=='SUBSCRIBED')chan.track({at:Date.now()})})}
-async function boot(){document.title=CFG.name;$('#tb').innerHTML=bear(16)+'<span>'+CFG.name+'</span>';const inviteCode=inviteSlugFromLocation();try{const{data}=await sb.auth.getSession(),x=data.session;if(x){await pull();me=x.user.user_metadata.username;if(!U(me)||banned(me)){await sb.auth.signOut();me=null}else{ready=1;ensure();connect();if(inviteCode){view={t:'invite',code:inviteCode};invitePreview(inviteCode)}else view={t:'srv',s:SID,c:'general'};setTimeout(()=>{if(view.t!=='invite'){showNewWarnings({});if(!$('.ov'))showUpdateLog()}},350)}}else if(inviteCode){try{await pull()}catch{}view={t:'invite',code:inviteCode};invitePreview(inviteCode)} }catch(e){if(inviteCode){view={t:'invite',code:inviteCode};invitePreview(inviteCode)}else toast('Offline: '+e.message)}if(view.t!=='invite')render()}
-async function logout(){try{await push();chan?.unsubscribe();await sb.auth.signOut()}catch{}me=null;ready=0;onl={};closeStg();authView()}
+async function boot(){document.title=CFG.name;$('#tb').innerHTML=bear(16)+'<span>'+CFG.name+'</span>';const inviteCode=inviteSlugFromLocation();try{const{data}=await sb.auth.getSession(),x=data.session;if(x){await pull();const cand=x.user.user_metadata.username;if(cand&&U(cand)?.deactivated){delete U(cand).deactivated;save();}if(cand&&U(cand)?.twoFactor?.enabled&&!sessionStorage.getItem('mc_2fa_ok_'+cand)){return render2FAChallenge(cand,null);}me=cand;if(!U(me)||banned(me)){await sb.auth.signOut();me=null}else{ready=1;ensure();saveCurrentAccount(me);connect();if(inviteCode){view={t:'invite',code:inviteCode};invitePreview(inviteCode)}else view={t:'srv',s:SID,c:'general'};setTimeout(()=>{if(view.t!=='invite'){showNewWarnings({});if(!$('.ov'))showUpdateLog()}},350)}}else if(inviteCode){try{await pull()}catch{}view={t:'invite',code:inviteCode};invitePreview(inviteCode)} }catch(e){if(inviteCode){view={t:'invite',code:inviteCode};invitePreview(inviteCode)}else toast('Offline: '+e.message)}if(view.t!=='invite')render()}
+async function logout(){try{if(me)sessionStorage.removeItem('mc_2fa_ok_'+me);await push();chan?.unsubscribe();await sb.auth.signOut()}catch{}me=null;ready=0;onl={};closeStg();authView()}
 /* ================= auth ================= */
 function authView(Lg=1){
-$('#root').innerHTML=`<div class="auth"><div class="card pop"><div class="lg">${bear()}<span>${CFG.name}</span></div><h1>${Lg?'Welcome back!':'Create an account'}</h1><div class="sub">${Lg?'We are so excited to see you again!':'It’s free. Like, actually free.'}</div>
-${Lg?'':'<label>EMAIL</label><input id="ae" type="email">'}<label>USERNAME</label><input id="au" autocomplete="username"><label>PASSWORD</label><input id="ap" type="password">
-${Lg?'':`<label>BIRTHDAY</label><input id="bd" type="date"><label class="chk"><input id="tos" type="checkbox">I agree to the Terms of Service and Privacy Policy.</label><div class="mu" style="margin-bottom:12px">Usernames can’t be changed after sign up.</div>`}
-<button class="go" id="ab">${Lg?'Log in':'Sign up'}</button><p>${Lg?'Need an account? <a onclick="authView(0)">Register</a>':'Already yapping? <a onclick="authView(1)">Log in</a>'}</p></div></div>`;
-$('#ap').onkeydown=e=>{if(e.key=='Enter')$('#ab').click()};$('#au').focus();
-$('#ab').onclick=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;if(!/^[\w.-]{1,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 1-32 letters, numbers, _ . -');if(p.length<L.pass)return toast('Password needs '+L.pass+'+ characters');let key=u,r,e0='';
+$('#root').innerHTML=`<div class="auth"><div class="card pop"><div class="lg">${bear()}<span>${CFG.name}</span></div><h1>${Lg?'Welcome back!':'Create an account'}</h1><div class="sub">${Lg?'We are so excited to see you again!':'Itâ€™s free. Like, actually free.'}</div>
+<form id="authForm" onsubmit="event.preventDefault();submitAuth();return false;">
+${Lg?'':'<label>EMAIL</label><input id="ae" name="email" type="email" autocomplete="email">'}<label>USERNAME</label><input id="au" name="username" autocomplete="username"><label>PASSWORD</label><input id="ap" name="password" type="password" autocomplete="${Lg?'current-password':'new-password'}">
+${Lg?'':`<label>BIRTHDAY</label><input id="bd" name="bday" type="date"><label class="chk"><input id="tos" type="checkbox">I agree to the Terms of Service and Privacy Policy.</label><div class="mu" style="margin-bottom:12px">Usernames can be changed up to 5 times a month in Settings.</div>`}
+<button type="submit" class="go" id="ab">${Lg?'Log in':'Sign up'}</button>
+</form>
+<p>${Lg?'Need an account? <a onclick="authView(0)">Register</a>':'Already yapping? <a onclick="authView(1)">Log in</a>'}</p></div></div>`;
+$('#au').focus();
+window.submitAuth=async()=>{try{const u=$('#au').value.trim(),p=$('#ap').value;if(!/^[\w.-]{1,32}$/.test(u)||/^(__proto__|constructor|prototype)$/.test(u))return toast('Username: 1-32 letters, numbers, _ . -');if(p.length<L.pass)return toast('Password needs '+L.pass+'+ characters');let key=u,r,e0='';
 if(!Lg){e0=$('#ae').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(e0))return toast('Enter a valid email');const b=new Date($('#bd').value);if(isNaN(b))return toast('Enter your birthday');if((Date.now()-b)/31557600000<L.minAge)return toast('You must be '+L.minAge+' or older');if(!$('#tos').checked)return toast('Please agree to the Terms')}
-if(Lg){r=await sb.auth.signInWithPassword({email:em(u),password:p});if(r.error)return toast('Wrong username or password');await pull();key=Object.keys(db.users).find(k=>k.toLowerCase()==u.toLowerCase())||u;if(!U(key))return toast('Account data missing');if(U(key).banned){await sb.auth.signOut();return toast('You are banned from '+CFG.name)}}
-else{await pull();if(findU(u))return toast('That username is taken');r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u,email:e0}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();db.users[u]={display:u,friends:[],b:[],owned:[],links:[],joined:Date.now()}}
-me=key;ready=1;ensure();if(!Lg)save();connect();go({t:'srv',s:SID,c:'general'});inviteFromUrl()}catch(e){toast('Error: '+e.message)}}}
+if(Lg){r=await sb.auth.signInWithPassword({email:em(u),password:p});if(r.error)return toast('Wrong username or password');if(window.PasswordCredential&&navigator.credentials?.store){try{await navigator.credentials.store(new PasswordCredential({id:u,password:p,name:u}))}catch{}}await pull();key=Object.keys(db.users).find(k=>k.toLowerCase()==u.toLowerCase())||u;if(!U(key))return toast('Account data missing');if(U(key).banned){await sb.auth.signOut();return toast('You are banned from '+CFG.name)}if(U(key).deactivated){delete U(key).deactivated;save();toast('Welcome back! Your account has been reactivated.')}if(U(key).twoFactor?.enabled){return render2FAChallenge(key,p)}}
+else{await pull();if(findU(u))return toast('That username is taken');r=await sb.auth.signUp({email:em(u),password:p,options:{data:{username:u,email:e0}}});if(r.error)return toast(r.error.message.includes('registered')?'That username is taken':r.error.message);if(!r.data.session)return toast('Turn off Confirm email in Supabase Auth settings');await pull();const humanUsersCount=Object.keys(db.users).filter(k=>k!==BOT&&k!==GB&&k!==OWNER).length;const initialBadges=humanUsersCount<50?['og']:[];db.users[u]={display:u,friends:[],b:initialBadges,owned:[],links:[],joined:Date.now()};if(window.PasswordCredential&&navigator.credentials?.store){try{await navigator.credentials.store(new PasswordCredential({id:u,password:p,name:u}))}catch{}}}
+me=key;ready=1;ensure();saveCurrentAccount(key);if(!Lg)save();connect();go({t:'srv',s:SID,c:'general'});inviteFromUrl()}catch(e){toast('Error: '+e.message)}};
+$('#ab').onclick=()=>window.submitAuth();
+}
 /* ================= profile popup (anchored near click) ================= */
 const AV_DECS = {
   '': { name: 'None', desc: 'No decoration' },
@@ -2258,40 +2266,116 @@ async function reqNotify(){if(!('Notification' in window))return toast('Desktop 
 const PG={
 account:()=>{
   const isStreamer=!!set(me).streamerMode;
+  const x=U(me);
+  const nameCh=getMonthlyNameChanges(me);
+  const twoFA=x.twoFactor;
+  const maskedEmail=x.contactEmail?x.contactEmail.replace(/^(.{2})(.*)(@.*)$/,(_,a,b,c)=>a+'*'.repeat(Math.max(1,b.length))+c):'None added';
+  const maskedPhone=x.phone?x.phone.replace(/^(.{3})(.*)(.{2})$/,(_,a,b,c)=>a+'*'.repeat(Math.max(1,b.length))+c):'';
   return `<h1>My Account</h1>
-    <div class="ac">
-      <label>USERNAME</label>
-      <div style="font-size:18px;font-weight:700;margin:4px 0 12px">@${esc(me)}</div>
-      <label>USER ID</label>
-      <div class="row">
-        <span class="mu sp ${isStreamer?'streamer-hidden':''}">${isStreamer?'\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022':uid(me)}</span>
-        <button class="g" onclick="copy(uid(me))">Copy</button>
+    <div style="background:var(--pop);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:18px">
+      <div style="height:100px;background:${x.banner?`url('${esc(x.banner)}') center/cover`:(x.bc||'linear-gradient(135deg,#5865f2,#1e1f22)')}"></div>
+      <div style="padding:16px;position:relative;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div style="display:flex;align-items:flex-end;gap:14px;margin-top:-50px">
+          <div style="position:relative;border:6px solid var(--pop);border-radius:50%;background:var(--pop);flex:none">
+            ${av(me,76)}
+            <i class="${dotCls(me)}" style="right:2px;bottom:2px;width:18px;height:18px;border:3px solid var(--pop)"></i>
+          </div>
+          <div style="padding-bottom:2px">
+            <div style="font-size:20px;font-weight:700;line-height:1.2">${dn(me)}</div>
+            <div class="mu" style="font-size:14px">@${esc(me)}</div>
+          </div>
+        </div>
+        <button onclick="settings('profile')">Edit User Profile</button>
+      </div>
+      <div style="margin:0 16px 16px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 14px">
+        <div class="rowc" style="padding:10px 0;border-bottom:1px solid var(--line);background:none">
+          <div class="sp">
+            <div class="mu" style="font-size:11px;font-weight:800;letter-spacing:.5px">DISPLAY NAME</div>
+            <div style="font-size:14px;font-weight:500;margin-top:2px">${dn(me)}</div>
+          </div>
+          <button class="g" onclick="settings('profile')">Edit</button>
+        </div>
+        <div class="rowc" style="padding:10px 0;border-bottom:1px solid var(--line);background:none">
+          <div class="sp">
+            <div class="mu" style="font-size:11px;font-weight:800;letter-spacing:.5px">USERNAME</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
+              <span style="font-size:14px;font-weight:500">@${esc(me)}</span>
+              <span class="bd" style="background:#5865f233;color:#8590f7;font-size:10px;padding:2px 8px;border-radius:10px">${nameCh.remaining}/5 left this month</span>
+            </div>
+          </div>
+          <button class="g" onclick="changeUsernameModal()">Edit</button>
+        </div>
+        <div class="rowc" style="padding:10px 0;border-bottom:1px solid var(--line);background:none">
+          <div class="sp">
+            <div class="mu" style="font-size:11px;font-weight:800;letter-spacing:.5px">EMAIL</div>
+            <div style="font-size:14px;font-weight:500;margin-top:2px" class="${isStreamer?'streamer-hidden':''}">${esc(maskedEmail)}</div>
+          </div>
+          <button class="g" onclick="editEmailModal()">Edit</button>
+        </div>
+        <div class="rowc" style="padding:10px 0;background:none">
+          <div class="sp">
+            <div class="mu" style="font-size:11px;font-weight:800;letter-spacing:.5px">PHONE NUMBER</div>
+            <div style="font-size:14px;font-weight:500;margin-top:2px" class="${isStreamer?'streamer-hidden':''}">${maskedPhone?esc(maskedPhone):'<span class="mu">None added</span>'}</div>
+          </div>
+          <button class="g" onclick="editPhoneModal()">${maskedPhone?'Edit':'Add'}</button>
+        </div>
       </div>
     </div>
-    <div class="ac">
-      <b>Email & Password</b>
-      <label style="margin-top:8px">CONTACT EMAIL</label>
-      <div class="row"><input id="newEmail" type="email" placeholder="contact@example.com" value="${esc(U(me).contactEmail||'')}" class="${isStreamer?'streamer-hidden':''}"><button onclick="changeEmail()">Update Contact Email</button></div>
-      <label>CHANGE PASSWORD</label>
-      <div class="row"><input id="newPass" type="password" placeholder="New password (min 6 chars)"><button onclick="changePassword()">Update Password</button></div>
+
+    <div class="ac" style="padding:18px">
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">Password and Authentication</div>
+      <button class="g" style="margin-bottom:16px" onclick="changePasswordModal()">Change Password</button>
+      <div style="border-top:1px solid var(--line);padding-top:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="color:var(--br)">${ic('shield',20)}</span>
+            <b style="font-size:13px;letter-spacing:.5px">TWO-FACTOR AUTHENTICATION</b>
+          </div>
+          <span class="bd" style="background:${twoFA?.enabled?'#23a55a33':'#80848e33'};color:${twoFA?.enabled?'#23a55a':'var(--mu)'};font-size:10px;padding:2px 8px;border-radius:10px">
+            ${twoFA?.enabled?'ACTIVE ('+twoFA.type.toUpperCase()+')':'NOT ENABLED'}
+          </span>
+        </div>
+        <p class="mu" style="font-size:13px;line-height:1.5;margin-bottom:12px">
+          Protect your Memocord account with an extra layer of security. When enabled, logging in requires both your password and a verification code.
+        </p>
+        ${twoFA?.enabled?`
+          <div class="row" style="gap:8px;flex-wrap:wrap">
+            <button class="g" onclick="viewBackupCodesModal()">View Backup Codes</button>
+            <button class="r" onclick="disable2FAModal()">Disable 2FA</button>
+          </div>
+        `:`
+          <div class="row" style="gap:8px;flex-wrap:wrap">
+            <button onclick="setupApp2FAModal()">Enable Authenticator App</button>
+            <button class="g" onclick="setupSMS2FAModal()">Enable SMS 2FA</button>
+            <button class="g" onclick="setupEmail2FAModal()">Enable Email 2FA</button>
+          </div>
+        `}
+      </div>
     </div>
-    <div class="ac">
-      <b>Data Privacy</b>
-      <div class="mu" style="margin:4px 0 10px">Download an archive of your profile, friends, notes and saved messages.</div>
+
+    <div class="ac" style="padding:18px">
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px">Account Management</div>
+      <div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:14px">
+        <button class="g" onclick="switchAccountModal()">${ic('users',16)} Switch Accounts</button>
+        <button class="g" onclick="logoutModal()">${ic('power',16)} Log Out</button>
+      </div>
+      <div style="border-top:1px solid var(--line);padding-top:14px">
+        <div class="row" style="gap:10px;flex-wrap:wrap">
+          <button class="g" style="border:1px solid #f0b23266;color:#f0b232" onclick="deactivateAccountModal()">Deactivate Account</button>
+          <button class="r" onclick="deleteAccountModal()">Delete Account</button>
+        </div>
+        <p class="mu" style="font-size:12px;margin-top:8px">
+          Deactivating temporarily suspends your account until you log back in. Deleting permanently removes it.
+        </p>
+      </div>
+    </div>
+
+    <div class="ac" style="padding:18px">
+      <div style="font-size:16px;font-weight:700;margin-bottom:4px">Data Privacy</div>
+      <div class="mu" style="font-size:13px;margin-bottom:12px">Download an archive of your profile, friends, server memberships and saved messages.</div>
       <button class="g" onclick="downloadUserData()">${ic('down',14)} Download My Data (JSON)</button>
-    </div>
-    <div class="ac" style="border:1px solid #da373c33">
-      <b style="color:#ff8a70">Delete Account</b>
-      <div class="mu" style="margin:4px 0 10px">Permanently delete your account. Messages remain readable as "Deleted User".</div>
-      <button class="r" onclick="deleteAccountModal()">Delete Account</button>
-    </div>
-    <div class="ac">
-      <b>Log out</b>
-      <div class="mu" style="margin:4px 0 10px">Sign out of ${CFG.name} on this device.</div>
-      <button class="r" onclick="logout()">Log out</button>
     </div>`;
-},
-accessibility:()=>{
+},accessibility:()=>{
   return `<h1>Accessibility</h1>
     ${tog('reduce','Reduce motion','Turn off UI animations and transitions')}
     ${tog('highContrast','High contrast mode','Increase contrast of borders and active cards')}
@@ -2417,27 +2501,787 @@ function playNotifySound(){
   }catch{}
 }
 
-// 2. Account Actions (Supabase auth, download data, delete account)
-async function changeEmail(){
-  const e=($('#newEmail')?.value||'').trim();
-  if(!e||!e.includes('@'))return toast('Enter a valid email address');
-  try{
-    U(me).contactEmail=e;
-    save();
-    try{await sb.auth.updateUser({data:{contact_email:e}});}catch{}
-    toast('Contact email updated to '+e);
-  }catch(err){toast('Failed to update contact email');}
+// 2. Account Actions & Security (Username Changes, Multi-Account Switcher, 2FA, Deactivation)
+function getSavedAccounts(){
+  try{return JSON.parse(localStorage.getItem('memocord_accounts')||'[]')}catch{return []}
+}
+function saveCurrentAccount(u = me){
+  if(!u||!U(u))return;
+  const list = getSavedAccounts().filter(a=>a.u!==u);
+  list.unshift({u, dn: dn(u), avatar: U(u).avatar||'', lastSeen: Date.now()});
+  try{localStorage.setItem('memocord_accounts', JSON.stringify(list.slice(0, 10)))}catch{}
+}
+function removeSavedAccount(u){
+  const list = getSavedAccounts().filter(a=>a.u!==u);
+  try{localStorage.setItem('memocord_accounts', JSON.stringify(list))}catch{}
+  switchAccountModal();
+}
+function updateAccountSwitcherEntry(oldU, newU){
+  const list = getSavedAccounts().map(a=>a.u===oldU?{...a, u: newU, dn: dn(newU)}:a);
+  try{localStorage.setItem('memocord_accounts', JSON.stringify(list))}catch{}
 }
 
-async function changePassword(){
-  const p=$('#newPass')?.value.trim();
-  if(!p||p.length<6)return toast('Password must be at least 6 characters');
+function switchAccountModal(){
+  const accounts = getSavedAccounts();
+  if(!accounts.some(a=>a.u===me)&&me&&U(me)){
+    accounts.unshift({u: me, dn: dn(me), avatar: U(me).avatar||'', lastSeen: Date.now()});
+  }
+  modal(`<h2>Switch Accounts</h2>
+    <p class="mu" style="margin-bottom:14px">Manage and switch between your Memocord accounts on this device.</p>
+    <div style="display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;margin-bottom:14px">
+      ${accounts.length===0?'<div class="mu" style="padding:10px;text-align:center">No other accounts saved yet.</div>':accounts.map(a=>{
+        const isCur = a.u === me;
+        return `<div class="rowc" style="padding:10px 12px;background:var(--card2);border:1px solid ${isCur?'var(--br)':'var(--line)'};border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+            <div style="flex:none">${av(a.u, 38)}</div>
+            <div style="min-width:0;flex:1">
+              <div class="ell" style="font-weight:700;font-size:14px">${esc(a.dn||a.u)}</div>
+              <div class="mu ell" style="font-size:12px">@${esc(a.u)}</div>
+            </div>
+          </div>
+          ${isCur?'<span class="bd" style="background:#23a55a33;color:#23a55a;border-radius:10px;padding:3px 8px">Active</span>':`
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="g" style="padding:4px 10px;font-size:12px" onclick="promptSwitchAccount('${esc(a.u)}')">Switch</button>
+              <button class="g" style="padding:4px 6px;color:#f2575c" onclick="removeSavedAccount('${esc(a.u)}')">${ic('x',14)}</button>
+            </div>
+          `}
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <button class="g" onclick="closeModal()">Close</button>
+      <button onclick="addAccountModal()">${ic('plus',16)} Add an Account</button>
+    </div>`, 440);
+}
+
+function promptSwitchAccount(targetU){
+  modal(`<h2>Switch to @${esc(targetU)}</h2>
+    <p class="mu" style="margin-bottom:12px">Enter the password for <b>@${esc(targetU)}</b> to log in and switch accounts.</p>
+    <form id="switchAccForm" onsubmit="event.preventDefault();submitSwitchAccount('${esc(targetU)}');return false;">
+      <input type="text" name="username" value="${esc(targetU)}" autocomplete="username" style="display:none" tabindex="-1">
+      <label>PASSWORD</label>
+      <input id="switchPassInput" name="password" type="password" placeholder="Password for @${esc(targetU)}" autocomplete="current-password">
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+        <button type="button" class="g" onclick="switchAccountModal()">Back</button>
+        <button type="submit">Log In & Switch</button>
+      </div>
+    </form>`, 400);
+}
+async function submitSwitchAccount(targetU){
+  const p = ($('#switchPassInput')?.value||'').trim();
+  if(!p) return toast('Please enter the password');
   try{
-    const {error}=await sb.auth.updateUser({password:p});
-    if(error)return toast('Error: '+error.message);
+    const r = await sb.auth.signInWithPassword({email: em(targetU), password: p});
+    if(r.error) return toast('Wrong password for @' + targetU);
+    await pull();
+    const key = Object.keys(db.users).find(k=>k.toLowerCase()===targetU.toLowerCase())||targetU;
+    if(!U(key)) return toast('Account data missing');
+    if(U(key).banned){ await sb.auth.signOut(); return toast('This account is banned'); }
+    if(U(key).deactivated){ delete U(key).deactivated; save(); toast('Welcome back! Account reactivated.'); }
+    closeModal();
+    if(U(key).twoFactor?.enabled){
+      return render2FAChallenge(key, p);
+    }
+    me = key;
+    ready = 1;
+    ensure();
+    saveCurrentAccount(key);
+if(window.PasswordCredential && navigator.credentials?.store){
+  try{ await navigator.credentials.store(new PasswordCredential({id: key, password: p, name: dn(key) || key})); }catch{}
+}
+    connect();
+    render();
+    toast('Switched to @' + key);
+  }catch(e){ toast('Error: ' + e.message); }
+}
+
+function addAccountModal(){
+  modal(`<h2>Add an Account</h2>
+    <p class="mu" style="margin-bottom:12px">Sign into another Memocord account to easily switch between them.</p>
+    <form id="addAccForm" onsubmit="event.preventDefault();submitAddAccount();return false;">
+      <label>USERNAME</label>
+      <input id="addAccUser" name="username" placeholder="Username" autocomplete="username">
+      <label>PASSWORD</label>
+      <input id="addAccPass" name="password" type="password" placeholder="Password" autocomplete="current-password">
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+        <button type="button" class="g" onclick="switchAccountModal()">Back</button>
+        <button type="submit">Sign In</button>
+      </div>
+    </form>`, 400);
+}
+async function submitAddAccount(){
+  const u = ($('#addAccUser')?.value||'').trim();
+  const p = ($('#addAccPass')?.value||'').trim();
+  if(!u || !p) return toast('Enter username and password');
+  try{
+    const r = await sb.auth.signInWithPassword({email: em(u), password: p});
+    if(r.error) return toast('Wrong username or password');
+    await pull();
+    const key = Object.keys(db.users).find(k=>k.toLowerCase()===u.toLowerCase())||u;
+    if(!U(key)) return toast('Account data missing');
+    if(U(key).banned){ await sb.auth.signOut(); return toast('Account is banned'); }
+    if(U(key).deactivated){ delete U(key).deactivated; save(); }
+    closeModal();
+    if(U(key).twoFactor?.enabled){
+      return render2FAChallenge(key, p);
+    }
+    me = key;
+    ready = 1;
+    ensure();
+    saveCurrentAccount(key);
+if(window.PasswordCredential && navigator.credentials?.store){
+  try{ await navigator.credentials.store(new PasswordCredential({id: key, password: p, name: dn(key) || key})); }catch{}
+}
+    connect();
+    render();
+    toast('Logged into @' + key);
+  }catch(e){ toast('Error: ' + e.message); }
+}
+
+function logoutModal(){
+  modal(`<h2>Log Out</h2>
+    <p class="mu" style="margin-bottom:16px">Are you sure you want to log out of <b>@${esc(me)}</b>?</p>
+    <div class="row" style="justify-content:flex-end;gap:10px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button class="r" onclick="closeModal();logout()">Log Out</button>
+    </div>`, 380);
+}
+
+function deactivateAccountModal(){
+  modal(`<h2>Deactivate Account</h2>
+    <div class="notice" style="background:#2b2d31;border-left:4px solid #f0b232;padding:10px 12px;border-radius:4px;margin-bottom:14px;font-size:13px;line-height:1.5">
+      Deactivating your account temporarily hides your activity. Your profile, servers, friends and messages remain completely safe. You can reactivate your account at any time simply by logging back in.
+    </div>
+    <label>ENTER YOUR PASSWORD TO CONFIRM</label>
+    <input id="deactPass" type="password" placeholder="Current password">
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button class="r" onclick="confirmDeactivateAccount()">Deactivate Account</button>
+    </div>`, 420);
+}
+
+async function confirmDeactivateAccount(){
+  const p = ($('#deactPass')?.value||'').trim();
+  if(!p) return toast('Please enter your password');
+  try{
+    const {error} = await sb.auth.signInWithPassword({email: em(me), password: p});
+    if(error) return toast('Incorrect password');
+    U(me).deactivated = Date.now();
+    await push();
+    save();
+    closeModal();
+    await logout();
+    toast('Your account has been deactivated. Log in at any time to reactivate.');
+  }catch(e){ toast('Error: ' + e.message); }
+}
+
+function getMonthlyNameChanges(u = me){
+  const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
+  const history = (U(u)?.nameChanges || []).filter(ts => ts > monthAgo);
+  return {
+    used: history.length,
+    remaining: Math.max(0, 5 - history.length),
+    history
+  };
+}
+
+function changeUsernameModal(){
+  const info = getMonthlyNameChanges(me);
+  modal(`<h2>Change Username</h2>
+    <p class="mu" style="margin-bottom:14px">You can change your username up to <b>5 times every 30 days</b>.</p>
+    <div class="rowc" style="padding:10px 14px;margin-bottom:14px;background:var(--card2);border-radius:8px">
+      <span class="sp">Changes remaining this month:</span>
+      <b style="color:${info.remaining>0?'#23a55a':'#f23f43'}">${info.remaining} / 5</b>
+    </div>
+    ${info.remaining<=0?`
+      <div class="notice" style="color:#f23f43;margin-bottom:14px;font-size:13px">You have reached the monthly limit of 5 username changes. Please wait until your next change becomes available.</div>
+      <button class="g" style="width:100%" onclick="closeModal()">Close</button>
+    `:`
+      <label>NEW USERNAME</label>
+      <input id="newUName" maxlength="32" value="${esc(me)}" placeholder="new_username">
+      <label>CURRENT PASSWORD</label>
+      <input id="changeUNamePass" type="password" placeholder="Enter your password">
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+        <button class="g" onclick="closeModal()">Cancel</button>
+        <button onclick="submitUsernameChange()">Change Username</button>
+      </div>
+    `}`, 440);
+}
+
+async function submitUsernameChange(){
+  const info = getMonthlyNameChanges(me);
+  if(info.remaining <= 0) return toast('Monthly limit of 5 username changes reached');
+  const newU = ($('#newUName')?.value||'').trim();
+  const p = ($('#changeUNamePass')?.value||'').trim();
+  if(!newU || !/^[\w.-]{1,32}$/.test(newU) || /^(__proto__|constructor|prototype)$/.test(newU)) {
+    return toast('Username must be 1-32 letters, numbers, _, ., or -');
+  }
+  if(newU.toLowerCase() === me.toLowerCase()) return toast('Username is identical to current one');
+  const taken = Object.keys(db.users).find(k=>k.toLowerCase()===newU.toLowerCase());
+  if(taken && taken !== me) return toast('That username is already taken');
+  if(!p) return toast('Please enter your current password');
+
+  try{
+    const {error: authErr} = await sb.auth.signInWithPassword({email: em(me), password: p});
+    if(authErr) return toast('Incorrect password');
+    const {error: upErr} = await sb.auth.updateUser({email: em(newU), data: {username: newU}});
+    if(upErr) return toast('Failed to update credentials: ' + upErr.message);
+
+    const oldU = me;
+    db.users[newU] = db.users[oldU];
+    db.users[newU].nameChanges = [...info.history, Date.now()];
+    if(db.users[newU].display === oldU) db.users[newU].display = newU;
+    delete db.users[oldU];
+
+    for(const s of Object.values(db.servers||{})){
+      if(s.owner === oldU) s.owner = newU;
+      if(s.members?.includes(oldU)) s.members = s.members.map(u=>u===oldU?newU:u);
+      if(s.powers?.includes(oldU)) s.powers = s.powers.map(u=>u===oldU?newU:u);
+      if(s.roles){
+        for(const r of Object.values(s.roles)){
+          if(r.members?.includes(oldU)) r.members = r.members.map(u=>u===oldU?newU:u);
+        }
+      }
+      for(const c of Object.values(s.channels||{})){
+        for(const m of (c.msgs||[])){
+          if(m.u === oldU) m.u = newU;
+          if(m.rx){
+            for(const emj of Object.keys(m.rx)){
+              if(m.rx[emj]?.includes(oldU)) m.rx[emj] = m.rx[emj].map(u=>u===oldU?newU:u);
+            }
+          }
+        }
+      }
+    }
+
+    for(const g of Object.values(db.groups||{})){
+      if(g.owner === oldU) g.owner = newU;
+      if(g.members?.includes(oldU)) g.members = g.members.map(u=>u===oldU?newU:u);
+      for(const m of (g.msgs||[])){ if(m.u === oldU) m.u = newU; }
+    }
+
+    const newDMs = {};
+    for(const [k, arr] of Object.entries(db.dms||{})){
+      const parts = k.split('|');
+      if(parts.includes(oldU)){
+        const newKey = parts.map(u=>u===oldU?newU:u).sort().join('|');
+        for(const m of (arr||[])){ if(m.u === oldU) m.u = newU; }
+        newDMs[newKey] = arr;
+      } else {
+        newDMs[k] = arr;
+      }
+    }
+    db.dms = newDMs;
+
+    for(const u of Object.values(db.users||{})){
+      if(u.friends?.includes(oldU)) u.friends = u.friends.map(f=>f===oldU?newU:f);
+      if(u.freq_in?.includes(oldU)) u.freq_in = u.freq_in.map(f=>f===oldU?newU:f);
+      if(u.freq_out?.includes(oldU)) u.freq_out = u.freq_out.map(f=>f===oldU?newU:f);
+      if(u.notes && u.notes[oldU]){ u.notes[newU] = u.notes[oldU]; delete u.notes[oldU]; }
+      if(u.friendNicks && u.friendNicks[oldU]){ u.friendNicks[newU] = u.friendNicks[oldU]; delete u.friendNicks[oldU]; }
+    }
+
+    updateAccountSwitcherEntry(oldU, newU);
+if(window.PasswordCredential && navigator.credentials?.store){
+  try{ await navigator.credentials.store(new PasswordCredential({id: newU, password: p, name: dn(newU) || newU})); }catch{}
+}
+    me = newU;
+    await push();
+    save();
+    render();
+    closeModal();
+    settings('account');
+    toast(`Username changed to @${newU}!`);
+  }catch(err){ toast('Error changing username: ' + err.message); }
+}
+
+function changePasswordModal(){
+  modal(`<h2>Change Password</h2>
+    <form id="changePassForm" onsubmit="event.preventDefault();submitPasswordChange();return false;">
+      <input type="text" name="username" value="${esc(me)}" autocomplete="username" style="display:none" tabindex="-1" aria-hidden="true">
+      <label>CURRENT PASSWORD</label>
+      <input id="curPassVal" name="current-password" type="password" autocomplete="current-password" placeholder="Current password">
+      <label>NEW PASSWORD</label>
+      <input id="newPassVal" name="new-password" type="password" autocomplete="new-password" placeholder="New password (min 6 chars)">
+      <label>CONFIRM NEW PASSWORD</label>
+      <input id="confirmPassVal" name="confirm-new-password" type="password" autocomplete="new-password" placeholder="Confirm new password">
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+        <button type="button" class="g" onclick="closeModal()">Cancel</button>
+        <button type="submit">Change Password</button>
+      </div>
+    </form>`, 420);
+}
+
+async function submitPasswordChange(){
+  const curP = ($('#curPassVal')?.value||'').trim();
+  const newP = ($('#newPassVal')?.value||'').trim();
+  const confP = ($('#confirmPassVal')?.value||'').trim();
+  if(!curP) return toast('Please enter your current password');
+  if(!newP || newP.length < 6) return toast('New password must be at least 6 characters');
+  if(newP !== confP) return toast('New passwords do not match');
+
+  try{
+    const {error: authErr} = await sb.auth.signInWithPassword({email: em(me), password: curP});
+    if(authErr) return toast('Current password is incorrect');
+    const {error} = await sb.auth.updateUser({password: newP});
+    if(error) return toast('Error: ' + error.message);
+    if(window.PasswordCredential && navigator.credentials?.store){
+      try{ await navigator.credentials.store(new PasswordCredential({id: me, password: newP, name: dn(me) || me})); }catch{}
+    }
+    closeModal();
     toast('Password updated successfully!');
-    $('#newPass').value='';
-  }catch(err){toast('Failed to update password');}
+  }catch(err){ toast('Failed to update password'); }
+}
+function editEmailModal(){
+  const cur = U(me)?.contactEmail || '';
+  modal(`<h2>Edit Contact Email</h2>
+    <p class="mu" style="margin-bottom:12px">Set a contact email for account notifications and security alerts.</p>
+    <label>EMAIL ADDRESS</label>
+    <input id="editEmailInput" type="email" placeholder="you@example.com" value="${esc(cur)}">
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button onclick="submitContactEmail()">Save Email</button>
+    </div>`, 400);
+}
+
+function submitContactEmail(){
+  const e = ($('#editEmailInput')?.value||'').trim();
+  if(!e || !e.includes('@')) return toast('Enter a valid email address');
+  U(me).contactEmail = e;
+  save();
+  try{sb.auth.updateUser({data:{contact_email:e}})}catch{}
+  closeModal();
+  settings('account');
+  toast('Contact email updated to ' + e);
+}
+
+function editPhoneModal(){
+  const cur = U(me)?.phone || '';
+  modal(`<h2>Edit Phone Number</h2>
+    <p class="mu" style="margin-bottom:12px">Add or update your mobile phone number.</p>
+    <label>PHONE NUMBER</label>
+    <input id="editPhoneInput" type="tel" placeholder="+1 (555) 012-3456" value="${esc(cur)}">
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button onclick="submitPhoneNumber()">Save Phone</button>
+    </div>`, 400);
+}
+
+function submitPhoneNumber(){
+  const p = ($('#editPhoneInput')?.value||'').trim();
+  if(!p || p.length < 7) return toast('Enter a valid phone number');
+  U(me).phone = p;
+  save();
+  closeModal();
+  settings('account');
+  toast('Phone number updated');
+}
+
+/* --- TOTP & 2FA Implementation --- */
+function base32Decode(str){
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  let bits = 0, value = 0, index = 0;
+  const output = new Uint8Array(Math.floor((str.length * 5) / 8));
+  for(let i=0; i<str.length; i++){
+    const val = alphabet.indexOf(str.charAt(i).toUpperCase());
+    if(val === -1) continue;
+    value = (value << 5) | val;
+    bits += 5;
+    if(bits >= 8){
+      output[index++] = (value >>> (bits - 8)) & 255;
+      bits -= 8;
+    }
+  }
+  return output.slice(0, index);
+}
+
+function generateBase32Secret(len = 16){
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  const arr = new Uint8Array(len);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b=>alphabet[b % alphabet.length]).join('');
+}
+
+async function generateTOTPCode(secret, epochSec = Math.floor(Date.now() / 1000)){
+  const keyBytes = base32Decode(secret.replace(/[\s-]/g, ''));
+  const counter = Math.floor(epochSec / 30);
+  const counterBytes = new Uint8Array(8);
+  let tmp = counter;
+  for(let i=7; i>=0; i--){
+    counterBytes[i] = tmp & 0xff;
+    tmp = Math.floor(tmp / 256);
+  }
+  const cryptoKey = await crypto.subtle.importKey('raw', keyBytes, {name: 'HMAC', hash: {name: 'SHA-1'}}, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', cryptoKey, counterBytes);
+  const hash = new Uint8Array(sig);
+  const offset = hash[hash.length - 1] & 0xf;
+  const binary = ((hash[offset] & 0x7f) << 24) |
+                 ((hash[offset + 1] & 0xff) << 16) |
+                 ((hash[offset + 2] & 0xff) << 8) |
+                 (hash[offset + 3] & 0xff);
+  return String(binary % 1000000).padStart(6, '0');
+}
+
+async function verifyTOTP(secret, inputCode){
+  const now = Math.floor(Date.now() / 1000);
+  for(let offset of [-30, 0, 30]){
+    const code = await generateTOTPCode(secret, now + offset);
+    if(code === inputCode.trim()) return true;
+  }
+  return false;
+}
+
+function generateBackupCodes(){
+  const codes = [];
+  for(let i=0; i<8; i++){
+    const bytes = new Uint8Array(4);
+    crypto.getRandomValues(bytes);
+    const hex = Array.from(bytes).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join('');
+    codes.push(hex.slice(0,4) + '-' + hex.slice(4,8));
+  }
+  return codes;
+}
+
+function showBackupCodesDisplay(codes, title = 'Two-Factor Authentication Backup Codes'){
+  modal(`<h2>${esc(title)}</h2>
+    <div class="notice" style="background:#2b2d31;border-left:4px solid #5865f2;padding:10px 12px;border-radius:4px;margin-bottom:14px;font-size:13px;line-height:1.5">
+      Save these one-time backup codes in a safe place. If you ever lose access to your primary 2FA method, you can use one of these codes to log in. Each code can only be used once.
+    </div>
+    <div style="background:var(--pop);border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:monospace;font-size:15px;font-weight:700;text-align:center;margin-bottom:14px">
+      ${codes.map(c=>`<div>${esc(c)}</div>`).join('')}
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <button class="g" onclick="copy('${codes.join('\\n')}');toast('Backup codes copied!')">${ic('copy',14)} Copy Codes</button>
+      <button onclick="closeModal();settings('account')">Done</button>
+    </div>`, 440);
+}
+
+function setupApp2FAModal(){
+  const secret = generateBase32Secret(16);
+  window._pending2FASetup = {type: 'app', secret};
+  modal(`<h2>Enable Authenticator App</h2>
+    <p class="mu" style="margin-bottom:12px">Use an authenticator app like Google Authenticator, Authy, or 1Password. Enter the key code below, then enter the 6-digit code.</p>
+    <div style="background:var(--pop);border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center;margin-bottom:14px">
+      <div class="mu" style="font-size:11px;font-weight:700;margin-bottom:4px">KEY CODE (MANUAL ENTRY)</div>
+      <div style="font-family:monospace;font-size:18px;font-weight:700;letter-spacing:3px;color:#fff">${secret.match(/.{1,4}/g).join(' ')}</div>
+      <button class="g" style="margin-top:8px;padding:4px 10px;font-size:11px" onclick="copy('${secret}');toast('Secret key copied!')">${ic('copy',12)} Copy Key</button>
+    </div>
+    <label>ENTER 6-DIGIT CODE TO CONFIRM</label>
+    <input id="app2FAConfirmInput" maxlength="6" placeholder="000000" style="text-align:center;font-size:18px;letter-spacing:4px;font-weight:700">
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button onclick="confirmApp2FASetup()">Activate</button>
+    </div>`, 440);
+}
+
+async function confirmApp2FASetup(){
+  const code = ($('#app2FAConfirmInput')?.value||'').trim();
+  const setup = window._pending2FASetup;
+  if(!setup || setup.type !== 'app') return toast('Setup expired. Please restart.');
+  if(!code) return toast('Please enter the 6-digit code');
+  const valid = await verifyTOTP(setup.secret, code);
+  if(!valid) return toast('Invalid 6-digit code. Check your time and secret.');
+
+  const backupCodes = generateBackupCodes();
+  U(me).twoFactor = {
+    enabled: true,
+    type: 'app',
+    secret: setup.secret,
+    backupCodes,
+    createdAt: Date.now()
+  };
+  save();
+  showBackupCodesDisplay(backupCodes, 'Authenticator App Enabled!');
+}
+
+function setupSMS2FAModal(){
+  const curPhone = U(me)?.phone || '';
+  modal(`<h2>Enable SMS 2FA</h2>
+    <p class="mu" style="margin-bottom:12px">Enter your mobile phone number. We will send a simulated SMS code to verify.</p>
+    <label>PHONE NUMBER</label>
+    <div class="row">
+      <input id="smsPhoneInput" type="tel" placeholder="+1 (555) 012-3456" value="${esc(curPhone)}" style="margin:0">
+      <button onclick="sendSMS2FACode()">Send Code</button>
+    </div>
+    <div id="smsCodeArea" style="margin-top:14px;display:none">
+      <div id="smsSimBanner" style="background:#2b2d31;border:1px solid var(--br);padding:10px;border-radius:8px;margin-bottom:12px;font-size:13px"></div>
+      <label>6-DIGIT SMS CODE</label>
+      <input id="smsVerifyCode" maxlength="6" placeholder="000000" style="text-align:center;font-size:18px;letter-spacing:4px;font-weight:700">
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+        <button class="g" onclick="closeModal()">Cancel</button>
+        <button onclick="confirmSMS2FASetup()">Activate SMS 2FA</button>
+      </div>
+    </div>`, 440);
+}
+
+function sendSMS2FACode(){
+  const phone = ($('#smsPhoneInput')?.value||'').trim();
+  if(!phone || phone.length < 7) return toast('Enter a valid phone number');
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  window._pending2FASetup = {type: 'sms', phone, code};
+  const area = $('#smsCodeArea');
+  if(area){
+    area.style.display = 'block';
+    const banner = $('#smsSimBanner');
+    if(banner){
+      banner.innerHTML = `<b>${ic('phone',16)} Simulated SMS Delivered to ${esc(phone)}:</b><div style="font-size:16px;font-weight:700;color:#fff;margin-top:4px;letter-spacing:2px">${code}</div>`;
+    }
+  }
+  toast('Simulated SMS sent: ' + code);
+}
+
+function confirmSMS2FASetup(){
+  const code = ($('#smsVerifyCode')?.value||'').trim();
+  const setup = window._pending2FASetup;
+  if(!setup || setup.type !== 'sms') return toast('Setup expired. Please restart.');
+  if(code !== setup.code) return toast('Incorrect code. Please check and try again.');
+
+  const backupCodes = generateBackupCodes();
+  U(me).twoFactor = {
+    enabled: true,
+    type: 'sms',
+    phone: setup.phone,
+    backupCodes,
+    createdAt: Date.now()
+  };
+  U(me).phone = setup.phone;
+  save();
+  showBackupCodesDisplay(backupCodes, 'SMS 2FA Enabled!');
+}
+
+function setupEmail2FAModal(){
+  const curEmail = U(me)?.contactEmail || '';
+  modal(`<h2>Enable Email 2FA</h2>
+    <p class="mu" style="margin-bottom:12px">Enter your email address. We will send a 6-digit security code to verify.</p>
+    <label>EMAIL ADDRESS</label>
+    <div class="row">
+      <input id="email2FAInput" type="email" placeholder="you@example.com" value="${esc(curEmail)}" style="margin:0">
+      <button onclick="sendEmail2FACode()">Send Code</button>
+    </div>
+    <div id="emailCodeArea" style="margin-top:14px;display:none">
+      <div id="emailSimBanner" style="background:#2b2d31;border:1px solid var(--br);padding:10px;border-radius:8px;margin-bottom:12px;font-size:13px"></div>
+      <label>6-DIGIT EMAIL CODE</label>
+      <input id="emailVerifyCode" maxlength="6" placeholder="000000" style="text-align:center;font-size:18px;letter-spacing:4px;font-weight:700">
+      <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+        <button class="g" onclick="closeModal()">Cancel</button>
+        <button onclick="confirmEmail2FASetup()">Activate Email 2FA</button>
+      </div>
+    </div>`, 440);
+}
+
+function sendEmail2FACode(){
+  const email = ($('#email2FAInput')?.value||'').trim().toLowerCase();
+  if(!email || !email.includes('@')) return toast('Enter a valid email address');
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  window._pending2FASetup = {type: 'email', email, code};
+  const area = $('#emailCodeArea');
+  if(area){
+    area.style.display = 'block';
+    const banner = $('#emailSimBanner');
+    if(banner){
+      banner.innerHTML = `<b>${ic('mail',16)} Simulated Email Delivered to ${esc(email)}:</b><div style="font-size:16px;font-weight:700;color:#fff;margin-top:4px;letter-spacing:2px">${code}</div>`;
+    }
+  }
+  toast('Simulated email sent: ' + code);
+}
+
+function confirmEmail2FASetup(){
+  const code = ($('#emailVerifyCode')?.value||'').trim();
+  const setup = window._pending2FASetup;
+  if(!setup || setup.type !== 'email') return toast('Setup expired. Please restart.');
+  if(code !== setup.code) return toast('Incorrect code. Please check and try again.');
+
+  const backupCodes = generateBackupCodes();
+  U(me).twoFactor = {
+    enabled: true,
+    type: 'email',
+    email: setup.email,
+    backupCodes,
+    createdAt: Date.now()
+  };
+  U(me).contactEmail = setup.email;
+  save();
+  showBackupCodesDisplay(backupCodes, 'Email 2FA Enabled!');
+}
+
+function viewBackupCodesModal(){
+  modal(`<h2>View Backup Codes</h2>
+    <p class="mu" style="margin-bottom:12px">Enter your password to view your 2FA backup codes.</p>
+    <label>PASSWORD</label>
+    <input id="viewBackupPass" type="password" placeholder="Current password">
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button onclick="confirmViewBackupCodes()">View Codes</button>
+    </div>`, 400);
+}
+
+async function confirmViewBackupCodes(){
+  const p = $('#viewBackupPass')?.value;
+  if(!p) return toast('Please enter your password');
+  try{
+    const {error} = await sb.auth.signInWithPassword({email: em(me), password: p});
+    if(error) return toast('Incorrect password');
+    const codes = U(me).twoFactor?.backupCodes || [];
+    modal(`<h2>2FA Backup Codes</h2>
+      <p class="mu" style="margin-bottom:12px">You have <b>${codes.length}</b> unused backup codes remaining.</p>
+      <div style="background:var(--pop);border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:monospace;font-size:15px;font-weight:700;text-align:center;margin-bottom:14px">
+        ${codes.map(c=>`<div>${esc(c)}</div>`).join('')}
+      </div>
+      <div class="row" style="justify-content:space-between;gap:8px">
+        <button class="g" onclick="regenerateBackupCodes()">Generate New Codes</button>
+        <div style="display:flex;gap:8px">
+          <button class="g" onclick="copy('${codes.join('\\n')}');toast('Backup codes copied!')">Copy</button>
+          <button onclick="closeModal()">Close</button>
+        </div>
+      </div>`, 440);
+  }catch(e){ toast('Error: ' + e.message); }
+}
+
+function regenerateBackupCodes(){
+  if(!confirm('Generate new backup codes? Any remaining old codes will stop working.')) return;
+  const newCodes = generateBackupCodes();
+  if(U(me)){ U(me).twoFactor = U(me).twoFactor || {}; }
+  U(me).twoFactor.backupCodes = newCodes;
+  save();
+  showBackupCodesDisplay(newCodes, 'New Backup Codes Generated');
+}
+
+function disable2FAModal(){
+  modal(`<h2>Disable Two-Factor Authentication</h2>
+    <p class="mu" style="margin-bottom:12px">Are you sure you want to disable 2FA? This will make your account less secure. Enter your password to proceed.</p>
+    <label>PASSWORD</label>
+    <input id="disable2FAPass" type="password" placeholder="Current password">
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button class="r" onclick="confirmDisable2FA()">Disable 2FA</button>
+    </div>`, 400);
+}
+
+async function confirmDisable2FA(){
+  const p = $('#disable2FAPass')?.value;
+  if(!p) return toast('Please enter your password');
+  try{
+    const {error} = await sb.auth.signInWithPassword({email: em(me), password: p});
+    if(error) return toast('Incorrect password');
+    if(U(me)) delete U(me).twoFactor;
+    save();
+    render();
+    closeModal();
+    settings('account');
+    toast('Two-Factor Authentication disabled');
+  }catch(e){ toast('Error: ' + e.message); }
+}
+
+function render2FAChallenge(key, pass){
+  const tf = U(key).twoFactor || {};
+  const isSMS = tf.type === 'sms';
+  const isEmail = tf.type === 'email';
+  let banner = '';
+
+  if(isSMS){
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    window._active2FALoginCode = code;
+    banner = `<div style="background:#2b2d31;border:1px solid var(--br);padding:10px 12px;border-radius:8px;margin:12px 0;font-size:13px;text-align:left">
+      <div style="font-weight:700;color:var(--tx);margin-bottom:2px">${ic('phone',16)} Simulated SMS Message:</div>
+      <div class="mu">Your Memocord verification code is <b style="color:#fff;font-size:15px;letter-spacing:1px">${code}</b></div>
+    </div>`;
+  } else if(isEmail){
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    window._active2FALoginCode = code;
+    banner = `<div style="background:#2b2d31;border:1px solid var(--br);padding:10px 12px;border-radius:8px;margin:12px 0;font-size:13px;text-align:left">
+      <div style="font-weight:700;color:var(--tx);margin-bottom:2px">${ic('mail',16)} Simulated Email Message:</div>
+      <div class="mu">Your Memocord security code is <b style="color:#fff;font-size:15px;letter-spacing:1px">${code}</b></div>
+    </div>`;
+  }
+
+  const promptText = isSMS
+    ? `Enter the 6-digit code sent via SMS to <b>${esc(tf.phone||'your phone')}</b>.`
+    : isEmail
+    ? `Enter the 6-digit security code sent to <b>${esc(tf.email||'your email')}</b>.`
+    : `Enter the 6-digit code from your authenticator app for <b>@${esc(key)}</b>.`;
+
+  $('#root').innerHTML = `
+    <div class="auth">
+      <div class="card pop" style="max-width:440px;text-align:center">
+        <div style="width:54px;height:54px;border-radius:50%;background:#5865f222;color:var(--br);display:grid;place-items:center;margin:0 auto 14px">
+          ${ic('shield', 32)}
+        </div>
+        <h1 style="font-size:22px;margin-bottom:6px">Two-Factor Authentication</h1>
+        <div class="mu" style="font-size:14px;line-height:1.5;margin-bottom:12px">${promptText}</div>
+        ${banner}
+        <div style="text-align:left;margin-top:12px">
+          <label id="twoFactorInputLabel">6-DIGIT VERIFICATION CODE</label>
+          <input id="twoFactorCodeInput" maxlength="9" placeholder="000000" style="font-size:20px;letter-spacing:4px;text-align:center;font-weight:700" autocomplete="one-time-code">
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="g" style="flex:1" onclick="cancel2FALogin()">Cancel</button>
+          <button class="go" style="flex:1;margin-top:0" onclick="verify2FALogin('${esc(key)}')">Log In</button>
+        </div>
+        <div style="margin-top:14px">
+          <a style="font-size:12px;color:var(--br);cursor:pointer" onclick="toggleBackupCodeMode()">Or enter an 8-character backup code</a>
+        </div>
+      </div>
+    </div>
+  `;
+  $('#twoFactorCodeInput').focus();
+  $('#twoFactorCodeInput').onkeydown = e => { if(e.key === 'Enter') verify2FALogin(key); };
+}
+
+async function verify2FALogin(key){
+  const input = ($('#twoFactorCodeInput')?.value||'').trim();
+  if(!input) return toast('Please enter your code');
+  const tf = U(key).twoFactor || {};
+  let ok = false;
+
+  const normInput = input.replace(/[\s-]/g, '').toUpperCase();
+  const backupIdx = (tf.backupCodes||[]).findIndex(c=>c.replace(/[\s-]/g,'').toUpperCase()===normInput);
+  if(backupIdx !== -1){
+    tf.backupCodes.splice(backupIdx, 1);
+    save();
+    ok = true;
+  } else if(tf.type === 'app'){
+    ok = await verifyTOTP(tf.secret, input);
+  } else if(tf.type === 'sms' || tf.type === 'email'){
+    ok = (input === window._active2FALoginCode);
+  }
+
+  if(!ok){
+    return toast('Invalid verification code. Please try again.');
+  }
+
+  try{sessionStorage.setItem('mc_2fa_ok_' + key, '1')}catch{}
+  me = key;
+  ready = 1;
+  ensure();
+  saveCurrentAccount(key);
+  connect();
+  go({t: 'srv', s: SID, c: 'general'});
+  inviteFromUrl();
+  toast('Welcome back, @' + key + '!');
+}
+
+async function cancel2FALogin(){
+  try{await sb.auth.signOut()}catch{}
+  authView(1);
+}
+
+function toggleBackupCodeMode(){
+  const label = $('#twoFactorInputLabel');
+  const inp = $('#twoFactorCodeInput');
+  if(!label||!inp)return;
+  if(label.innerText.includes('6-DIGIT')){
+    label.innerText = '8-CHARACTER BACKUP CODE';
+    inp.placeholder = 'XXXX-XXXX';
+    inp.maxLength = 12;
+    inp.style.letterSpacing = '2px';
+  } else {
+    label.innerText = '6-DIGIT VERIFICATION CODE';
+    inp.placeholder = '000000';
+    inp.maxLength = 9;
+    inp.style.letterSpacing = '4px';
+  }
+  inp.value = '';
+  inp.focus();
 }
 
 function downloadUserData(){
@@ -2478,7 +3322,6 @@ function confirmDeleteAccount(){
   save();closeModal();toast('Account deleted');
   logout();
 }
-
 // 3. Friend Extras: Nicknames & Mutual Servers
 function editFriendNickModal(targetUser){
   const curNick=U(me).friendNicks?.[targetUser]||'';
@@ -2607,7 +3450,7 @@ function transferGroupOwnership(gid, newOwner){
 function settings(p){if(p)sp=p;if(sp=='admin'&&!isA(me))sp='profile';const T={account:'My Account',profile:'My Profile',appearance:'Appearance',accessibility:'Accessibility',keybinds:'Keybinds',notifications:'Notifications',privacy:'Privacy',developer:'Developer'};
 const nav=(h,ks)=>`<div class="sg">${h}</div>`+ks.map(k=>`<div class="si ${sp==k?'on':''}" onclick="settings('${k}')">${T[k]||'Admin Panel'}</div>`).join('');const x=U(me);
 const pv=sp=='profile'?`<div class="pv"><label>PREVIEW</label><div id="profPreview" style="margin-top:8px">${renderProfileCardPreview()}</div></div>`:'';
-shell(nav('USER SETTINGS',['account','profile'])+nav('APP SETTINGS',['appearance','accessibility','keybinds','notifications','privacy','developer'])+(isA(me)?nav('ADMIN',['admin']):''),(sp=='profile'?'<h1>My Profile</h1>':'')+PG[sp](),pv)}
+shell(nav('USER SETTINGS',['account','profile'])+nav('APP SETTINGS',['appearance','accessibility','keybinds','notifications','privacy','developer'])+(isA(me)?nav('ADMIN',['admin']):'')+`<div style="height:1px;background:var(--line);margin:14px 10px 10px"></div><div class="si" style="color:#f2575c" onclick="logoutModal()">${ic('power',14)} Log Out</div>`,(sp=='profile'?'<h1>My Profile</h1>':'')+PG[sp](),pv)}
 async function saveProfile(){const x=U(me),n=$('#ed').value.trim(),a=$('#ea').files[0],b=$('#eb').files[0];
 x.pronouns=($('#epronouns')?.value||'').trim().slice(0,40);
 const expChoice=$('#estExp')?.value;
@@ -2733,7 +3576,7 @@ $('#root').innerHTML=`<div id="app"><nav class="rail"><div class="ri home ${view
     return `<div class="ri ${view.t=='srv'&&S==id?'on':''} ${isLvl3?'pwb-lvl3':''}" data-ctx="srv:${id}" onclick="go({t:'srv',s:'${id}',c:'general'});closeMobilePanels()" title="${esc(v.name)}${powered(v)?' (Powered)':''}">${v.icon&&id!=SID?`<img src="${esc(v.icon)}">`:id==SID?bear(30):esc(v.name[0].toUpperCase())}${powered(v)?`<span class="pwb" title="Powered">${ic('bolt',11,1)}</span>`:''}${sU.mentions?`<span class="nb">${sU.mentions}</span>`:sU.unread&&!muted?`<span class="pip"></span>`:''}</div>`;
   }).join('');
   return folderHtml+freeHtml;
-})()}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div><div class="ri add" onclick="go({t:'disc'})" title="Explore communities">${ic('compass',24)}</div></nav><aside class="side">${side}</aside><main>${m}</main>${mem}<div class="up"><div class="avw" style="cursor:pointer" onclick="presenceMenu(event)" title="Change status">${av(me,36)}<i class="${dotCls(me)}"></i></div><div style="min-width:0;flex:1"><b class="ell" style="display:block">${dn(me)}</b><span class="mu ell" style="display:block;cursor:pointer" onclick="presenceMenu(event)" title="Change status">${presenceLabel(getPresence(me))}${x.status?' - '+esc(x.status):''}</span></div><button class="ib" onclick="settings('profile')" title="Settings">${ic('gear',20)}</button><button class="ib" onclick="logout()" title="Log out">${ic('power',20)}</button></div></div>`;
+})()}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div><div class="ri add" onclick="go({t:'disc'})" title="Explore communities">${ic('compass',24)}</div></nav><aside class="side">${side}</aside><main>${m}</main>${mem}<div class="up"><div class="avw" style="cursor:pointer" onclick="presenceMenu(event)" title="Change status">${av(me,36)}<i class="${dotCls(me)}"></i></div><div style="min-width:0;flex:1"><b class="ell" style="display:block">${dn(me)}</b><span class="mu ell" style="display:block;cursor:pointer" onclick="presenceMenu(event)" title="Change status">${presenceLabel(getPresence(me))}${x.status?' - '+esc(x.status):''}</span></div><button class="ib" onclick="settings('account')" title="User Settings">${ic('gear',20)}</button><button class="ib" onclick="logoutModal()" title="Log out">${ic('power',20)}</button></div></div>`;
 const i=$('#inp');if(i){if(aid=='inp'&&aval)i.value=aval;if(aid=='inp')i.focus();showPend();
 i.oninput=()=>{if(i.value.trim())sendTyp();acI=0;emAc();mentionAc();slashAc();channelAc()};i.onkeydown=e=>{if(editingTs&&e.key==='Escape'){e.preventDefault();cancelEdit();return}if(!editingTs&&!i.value&&e.key==='ArrowUp'){e.preventDefault();const myMsgs=msgArr().filter(m=>m.u===me&&m.x&&!m.em&&!m.btn&&!m.g);if(myMsgs.length)startEdit(myMsgs[myMsgs.length-1].ts);return}if(slashAcList.length&&(e.key==='ArrowDown'||e.key==='ArrowUp')){e.preventDefault();slashAcIndex=(slashAcIndex+(e.key==='ArrowDown'?1:-1)+slashAcList.length)%slashAcList.length;const p=$('#slashAc');if(p)[...p.querySelectorAll('.slash-item')].forEach((d,j)=>d.classList.toggle('on',j===slashAcIndex));return}
 if(slashAcList.length&&(e.key==='Enter'||e.key==='Tab')){e.preventDefault();pickSlash(slashAcIndex);return}
