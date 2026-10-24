@@ -407,7 +407,23 @@ if(view.t=='srv'){const c=ch(),lock=(c.lock&&!(isA(me)||s.owner==me))||!perm(s,m
 m=chat(`<span style="color:var(--mu)">${ic(c.lock?'mega':'hash',22)}</span><b>${esc(c.n)}</b><span class="sp"></span><button class="ib ${set(me).sound?'':'red'}" onclick="togSound()" title="Message sounds">${ic('bell',20)}</button><button class="ib" onclick="pinsModal()" title="Pinned messages">${ic('pin',20)}</button><button class="ib ${showMem?'on':''}" onclick="showMem=!showMem;render()" title="Member list">${ic('users',20)}</button>${srch()}`,perm(s,me,c.id,'v')?(s.msgs[c.id]||[]):[],lock,'Message #'+c.n,S,c,`Only certain roles can post in #${c.n}. You can still read and react.`);let last;
 side=`<div class="sh" data-ctx="srv:${S}" onclick="srvMenu()" style="${s.banner?`background:linear-gradient(#0000,#0009),url(${esc(s.banner)}) center/cover`:''}"><span class="ell">${esc(s.name)}</span>${powered(s)?`<span class="pwc">${ic('bolt',12,1)} Powered</span>`:''}<span class="sp"></span>${ic('chev',18)}</div><button class="inv" onclick="inviteCopy()">${ic('link',16)} Invite people</button>`+s.ch.filter(c=>c.t=='t'&&perm(s,me,c.id,'v')).map(c2=>{let h='';if(c2.cat!=last){last=c2.cat;h=c2.cat?`<div class="cat" data-c="${esc(c2.cat)}" onclick="togCat(this.dataset.c)">${ic(col[c2.cat]?'chevr':'chev',12)} ${esc(c2.cat)}</div>`:''}if(col[c2.cat]&&c2.id!=c.id)return h;return h+`<div class="nav ${c2.id==c.id?'on':''}" data-ctx="chan:${S}|${c2.id}" onclick="go({t:'srv',s:'${S}',c:'${c2.id}'})">${c2.lock?ic('mega',18):ic('hash',18)} <span class="ell sp">${esc(c2.n)}</span>${c2.lock?ic('lock',12):''}</div>`}).join('');
 const mm=s.members.filter(u=>U(u)&&!banned(u)),ver=s.ver||[],bt=u=>U(u).b?.includes('bot'),row=u=>`<div class="mrow ${online(u)||bt(u)?'':'offl'}" data-ctx="usr:${u}" style="${pl(u)}background-size:cover" onclick="prof('${u}',event)"><div class="avw">${av(u,34)}<i class="dot ${online(u)?'on':''}"></i></div><div style="min-width:0" class="ell"><div class="ell">${nameH(u)}${u==s.owner?` <span style="color:#f0b232">${ic('crown',13,1)}</span>`:''}</div>${U(u).status?`<div class="st ell">${esc(U(u).status)}</div>`:''}</div></div>`;
-if(showMem)mem='<aside class="mem">'+[['OWNER',u=>u==s.owner],['ADMIN',u=>u!=s.owner&&isA(u)],['BOTS',u=>bt(u)&&u!=s.owner&&!isA(u)],['VERIFIED',u=>ver.includes(u)&&u!=s.owner&&!isA(u)&&!bt(u)],['MEMBERS',u=>!ver.includes(u)&&u!=s.owner&&!isA(u)&&!bt(u)]].map(([n,fn])=>{const l=mm.filter(fn).sort((a,b)=>online(b)-online(a));return l.length?`<div class="mg">${n} — ${l.length}</div>`+l.map(row).join(''):''}).join('')+'</aside>'}
+if(showMem){
+ const roles=s.roles||[],mroles=s.mroles||{};
+ const assigned=u=>(mroles[u]||[]).map(id=>roles.find(r=>r.id===id)).filter(Boolean);
+ const ownerRole=roles.find(r=>String(r.name).trim().toLowerCase()==='owner');
+ const isOwnerGroup=u=>u===s.owner||!!(ownerRole&&(mroles[u]||[]).includes(ownerRole.id));
+ const primaryRole=u=>assigned(u).find(r=>String(r.name).trim().toLowerCase()!=='owner');
+ const groups=[['OWNER',u=>isOwnerGroup(u),'#f0b232']];
+ groups.push(['ADMIN',u=>u!==s.owner&&isA(u),'#a855f7']);
+ roles.filter(r=>String(r.name).trim().toLowerCase()!=='owner').forEach(r=>{
+   groups.push([String(r.name).toUpperCase(),u=>u!==s.owner&&!isA(u)&&!bt(u)&&!isOwnerGroup(u)&&primaryRole(u)?.id===r.id,r.color||'#a89b94']);
+ });
+ groups.push(['BOTS',u=>bt(u)&&u!==s.owner&&!isA(u),'#3ba55d']);
+ groups.push(['VERIFIED',u=>ver.includes(u)&&u!==s.owner&&!isA(u)&&!bt(u)&&!primaryRole(u)&&!isOwnerGroup(u),'#5865f2']);
+ groups.push(['MEMBERS',u=>!isOwnerGroup(u)&&!isA(u)&&!bt(u)&&!ver.includes(u)&&!primaryRole(u),'#a89b94']);
+ mem='<aside class="mem">'+groups.map(([n,fn,color])=>{const l=mm.filter(fn).sort((a,b)=>online(b)-online(a));return l.length?`<div class="mg" style="color:${esc(color)}">${esc(n)} — ${l.length}</div>`+l.map(row).join(''):''}).join('')+'</aside>';
+}
+}
 else{if(view.t=='dm'){const o=view.id;m=chat(`${av(o,26)}<b>${dn(o)}</b>${badges(o)}<span class="sp"></span>${srch()}`,db.dms[dmk(o)]||[],o==BOT||o==GB,'Message @'+o,'',null,'You cannot reply to this account')}
 else if(view.t=='grp'){const g=db.groups[view.id];m=chat(`${ic('users')} <b>${esc(g.name)}</b><span class="mu">${g.members.length} members</span><span class="sp"></span><button class="g" onclick="grpModal('${view.id}')">Add friends</button><button class="r" onclick="if(confirm('Leave group?'))leaveGrp('${view.id}')">Leave</button>`,g.msgs,0,'Message '+g.name,'')}
 else m=view.t=='disc'?discView():view.t=='shop'?shopView():friendsView();
