@@ -1849,6 +1849,7 @@ function createVoicePeer(targetU, isInitiator) {
     if (e.track.kind === 'audio') {
       attachRemoteVoiceAudio(targetU, stream);
     } else if (e.track.kind === 'video') {
+      remoteScreenStreams[targetU] = stream;
       activeScreenSharer = { u: targetU, sid: currentVoice?.sid, cid: currentVoice?.cid, stream };
       render();
       toast(`📺 @${dn(targetU)} is sharing their screen! Click LIVE to watch.`);
@@ -2004,42 +2005,327 @@ function cleanupVoiceCallConnections() {
   }
 }
 
-function openScreenWatchModal(targetU) {
-  let stream = null;
-  if (targetU === me) {
-    stream = currentVoice?.screenStream || activeScreenStream;
-  } else if (activeScreenSharer?.u === targetU) {
-    stream = activeScreenSharer.stream;
+const remoteScreenStreams = {}; // targetU -> MediaStream
+
+async function shareStreamToVoicePeers(stream) {
+  if (!currentVoice) return;
+  currentVoice.screenActive = true;
+  currentVoice.screenStream = stream;
+
+  // Add tracks to all peer connections and immediately negotiate
+  for (const [peerU, pc] of Object.entries(voicePeerConnections)) {
+    try {
+      stream.getTracks().forEach(t => pc.addTrack(t, stream));
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      if (chan) {
+        chan.send({
+          type: 'broadcast',
+          event: 'voice_rtc_signal',
+          payload: {
+            to: peerU,
+            from: me,
+            sid: currentVoice.sid,
+            cid: currentVoice.cid,
+            type: 'offer',
+            sdp: offer
+          }
+        });
+      }
+    } catch(err) {
+      console.warn('Track propagation error to', peerU, err);
+    }
   }
 
-  if (!stream) return toast(`Waiting for @${dn(targetU)}'s stream...`);
+  if (chan) {
+    chan.send({
+      type: 'broadcast',
+      event: 'screenshare_state',
+      payload: { sid: currentVoice.sid, cid: currentVoice.cid, u: me, active: true }
+    });
+  }
+
+  stream.getVideoTracks()[0].onended = () => {
+    stopCurrentVoiceScreenShare();
+  };
+
+  render();
+}
+window.shareStreamToVoicePeers = shareStreamToVoicePeers;
+
+function stopCurrentVoiceScreenShare() {
+  if (currentVoice) {
+    try { currentVoice.screenStream?.getTracks().forEach(t => t.stop()); } catch(_) {}
+    currentVoice.screenActive = false;
+    currentVoice.screenStream = null;
+  }
+  if (chan && currentVoice) {
+    chan.send({
+      type: 'broadcast',
+      event: 'screenshare_state',
+      payload: { sid: currentVoice.sid, cid: currentVoice.cid, u: me, active: false }
+    });
+  }
+  toast('Screen sharing stopped');
+  render();
+}
+window.stopCurrentVoiceScreenShare = stopCurrentVoiceScreenShare;
+
+async function openScreenWatchModal(targetU) {
+  // If not connected to the channel where stream is running, connect automatically
+  if (!currentVoice && activeScreenSharer?.sid && activeScreenSharer?.cid) {
+    joinVoiceChannel(activeScreenSharer.sid, activeScreenSharer.cid);
+    toast(`Connecting to voice channel to watch @${dn(targetU)}'s stream...`);
+  }
+
+  const isMe = (targetU === me);
+  let stream = isMe ? (currentVoice?.screenStream || activeScreenStream) : (remoteScreenStreams[targetU] || activeScreenSharer?.stream);
 
   modal(`
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div style="display:flex;align-items:center;gap:8px">
           <span style="background:#e03e56;color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:4px">LIVE</span>
-          <b>${esc(dn(targetU))}'s Screen Share</b>
+          <b>${esc(dn(targetU))}'s Stream</b>
         </div>
-        <button type="button" class="g" onclick="closeModal()">Close</button>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="g" onclick="toggleScreenVideoFullscreen()" title="Fullscreen">⛶ Fullscreen</button>
+          <button type="button" class="g" onclick="closeModal()">Close</button>
+        </div>
       </div>
-      <div style="position:relative;background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">
-        <video id="liveStreamVideoEl" autoplay playsinline controls style="width:100%;height:100%;object-fit:contain"></video>
+      <div id="liveStreamContainer" style="position:relative;background:#000;border-radius:10px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,0.6)">
+        <video id="liveStreamVideoEl" autoplay playsinline controls style="width:100%;height:100%;object-fit:contain;background:#000"></video>
+        <div id="liveStreamConnectingOverlay" style="position:absolute;inset:0;display:${stream ? 'none' : 'flex'};flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);color:#fff;gap:12px">
+          <div class="voice-dock-dot" style="width:14px;height:14px;background:#e03e56"></div>
+          <b style="font-size:14px">Connecting to @${esc(dn(targetU))}'s stream...</b>
+          <span class="mu" style="font-size:12px">Requesting WebRTC video feed</span>
+        </div>
       </div>
     </div>
-  `, 780);
+  `, 820);
 
-  setTimeout(() => {
+  const attachVideo = s => {
     const vid = document.getElementById('liveStreamVideoEl');
-    if (vid) {
-      vid.srcObject = stream;
+    const overlay = document.getElementById('liveStreamConnectingOverlay');
+    if (vid && s) {
+      vid.srcObject = s;
+      if (overlay) overlay.style.display = 'none';
       vid.play().catch(_ => {});
     }
-  }, 80);
+  };
+
+  if (stream) {
+    setTimeout(() => attachVideo(stream), 60);
+  } else {
+    // Request peer to send an updated offer with their screen video track if we don't have it yet
+    if (chan && currentVoice && targetU !== me) {
+      chan.send({
+        type: 'broadcast',
+        event: 'request_stream_renegotiation',
+        payload: { to: targetU, from: me, sid: currentVoice.sid, cid: currentVoice.cid }
+      });
+    }
+
+    let pollCount = 0;
+    const pollId = setInterval(() => {
+      pollCount++;
+      const s = remoteScreenStreams[targetU] || activeScreenSharer?.stream;
+      if (s) {
+        clearInterval(pollId);
+        attachVideo(s);
+      } else if (pollCount > 35) {
+        clearInterval(pollId);
+        const overlay = document.getElementById('liveStreamConnectingOverlay');
+        if (overlay) overlay.innerHTML = '<div style="color:#f2575c">⚠️ Stream connection timed out. Please ask @' + esc(dn(targetU)) + ' to re-toggle their screen share.</div>';
+      }
+    }, 200);
+  }
 }
 window.openScreenWatchModal = openScreenWatchModal;
 
+function toggleScreenVideoFullscreen() {
+  const container = document.getElementById('liveStreamContainer');
+  if (!container) return;
+  if (!document.fullscreenElement) {
+    container.requestFullscreen?.().catch(_ => {});
+  } else {
+    document.exitFullscreen?.().catch(_ => {});
+  }
+}
+window.toggleScreenVideoFullscreen = toggleScreenVideoFullscreen;
+
+
+/* ================= Channel Click Handler ================= */
+function handleChannelClick(e, sid0, cid, kind) {
+  if (e.target.closest('.cat-add-btn, .ch-drag-grip, .cat-gear-btn')) return;
+  if (kind === 'voice') {
+    joinVoiceChannel(sid0, cid);
+  } else {
+    go({ t: 'srv', s: sid0, c: cid });
+  }
+  closeMobilePanels();
+}
+window.handleChannelClick = handleChannelClick;
+
+/* ================= Custom Font Management ================= */
+const PRESET_FONT_OPTIONS = [
+  { id: 'default', name: 'Default (gg sans / Inter)' },
+  { id: 'inter', name: 'Inter' },
+  { id: 'roboto', name: 'Roboto' },
+  { id: 'comic', name: 'Comic Sans MS' },
+  { id: 'fira', name: 'Fira Code (Monospace)' },
+  { id: 'open-sans', name: 'Open Sans' },
+  { id: 'montserrat', name: 'Montserrat' },
+  { id: 'poppins', name: 'Poppins' },
+  { id: 'minecraft', name: 'Minecraftia / Pixel' }
+];
+
+function applyClientCustomFont(fontId, fontDataUrl) {
+  let styleEl = document.getElementById('memocordCustomFont');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'memocordCustomFont';
+    document.head.appendChild(styleEl);
+  }
+
+  const PRESET_FONT_FAMILIES = {
+    'default': 'gg sans, "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+    'inter': '"Inter", sans-serif',
+    'roboto': '"Roboto", sans-serif',
+    'comic': '"Comic Sans MS", "Comic Sans", cursive, sans-serif',
+    'fira': '"Fira Code", monospace',
+    'open-sans': '"Open Sans", sans-serif',
+    'montserrat': '"Montserrat", sans-serif',
+    'poppins': '"Poppins", sans-serif',
+    'minecraft': '"Minecraftia", "Press Start 2P", monospace'
+  };
+
+  if (fontId === 'custom' && fontDataUrl) {
+    styleEl.textContent = `
+      @font-face {
+        font-family: 'MemocordUploadedFont';
+        src: url('${fontDataUrl}') format('woff2'), url('${fontDataUrl}') format('woff'), url('${fontDataUrl}') format('truetype');
+        font-display: swap;
+      }
+      :root, body, button, input, textarea, select {
+        font-family: 'MemocordUploadedFont', gg sans, "Noto Sans", sans-serif !important;
+      }
+    `;
+  } else if (PRESET_FONT_FAMILIES[fontId]) {
+    styleEl.textContent = `
+      :root, body, button, input, textarea, select {
+        font-family: ${PRESET_FONT_FAMILIES[fontId]} !important;
+      }
+    `;
+  } else {
+    styleEl.textContent = '';
+  }
+}
+window.applyClientCustomFont = applyClientCustomFont;
+
+function setCustomPresetFont(fontId) {
+  let fontConfig = { id: fontId, dataUrl: '' };
+  if (fontId === 'default') {
+    localStorage.removeItem('mc_custom_font');
+  } else {
+    localStorage.setItem('mc_custom_font', JSON.stringify(fontConfig));
+  }
+  applyClientCustomFont(fontId, '');
+  toast('Font updated: ' + (PRESET_FONT_OPTIONS.find(f => f.id === fontId)?.name || fontId));
+  settings('appearance');
+}
+window.setCustomPresetFont = setCustomPresetFont;
+
+function uploadCustomFontFile(e) {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  const validExts = ['.woff', '.woff2', '.ttf', '.otf'];
+  const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+  if (!validExts.includes(ext)) {
+    return toast('Please select a valid font file (.woff, .woff2, .ttf, .otf)');
+  }
+  if (file.size > 8 * 1024 * 1024) {
+    return toast('Font file size must be under 8 MB');
+  }
+
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const dataUrl = ev.target.result;
+    const fontConfig = { id: 'custom', name: file.name, dataUrl };
+    localStorage.setItem('mc_custom_font', JSON.stringify(fontConfig));
+    applyClientCustomFont('custom', dataUrl);
+    toast('Custom font loaded: ' + file.name);
+    settings('appearance');
+  };
+  reader.readAsDataURL(file);
+}
+window.uploadCustomFontFile = uploadCustomFontFile;
+
+function resetCustomFont() {
+  localStorage.removeItem('mc_custom_font');
+  applyClientCustomFont('default', '');
+  toast('Reset to default Memocord font');
+  settings('appearance');
+}
+window.resetCustomFont = resetCustomFont;
+
+/* ================= Developer Mode Custom CSS ================= */
+function applyClientCustomCss(css) {
+  let styleEl = document.getElementById('memocordCustomCss');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'memocordCustomCss';
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = dev() ? (css || '') : '';
+}
+window.applyClientCustomCss = applyClientCustomCss;
+
+function saveCustomCss(css) {
+  if (!dev()) return toast('Enable Developer Mode to use Custom CSS');
+  localStorage.setItem('mc_custom_css', css || '');
+  applyClientCustomCss(css || '');
+  toast('Custom CSS saved and applied!');
+}
+window.saveCustomCss = saveCustomCss;
+
+function clearCustomCss() {
+  localStorage.removeItem('mc_custom_css');
+  applyClientCustomCss('');
+  const ta = document.getElementById('customCssTextarea');
+  if (ta) ta.value = '';
+  toast('Custom CSS cleared');
+}
+window.clearCustomCss = clearCustomCss;
+
+function applyCssPreset(type) {
+  let snippet = '';
+  if (type === 'glass') {
+    snippet = `/* Glassmorphism Preset */\n.card, .pop, .stg {\n  background: rgba(30, 31, 34, 0.75) !important;\n  backdrop-filter: blur(12px) !important;\n  border: 1px solid rgba(255, 255, 255, 0.12) !important;\n}`;
+  } else if (type === 'neon') {
+    snippet = `/* Neon Accents Preset */\n:root {\n  --br: #00f3ff;\n  --grn: #00ff88;\n}\n.nav.on {\n  box-shadow: 0 0 10px rgba(0, 243, 255, 0.35);\n}`;
+  } else if (type === 'compact') {
+    snippet = `/* Ultra Compact Preset */\n.rowc, .nav {\n  padding: 4px 8px !important;\n  font-size: 13px !important;\n}\n.m {\n  padding: 4px 12px !important;\n}`;
+  }
+  const ta = document.getElementById('customCssTextarea');
+  if (ta) {
+    ta.value = (ta.value ? ta.value + '\n\n' : '') + snippet;
+    saveCustomCss(ta.value);
+  }
+}
+window.applyCssPreset = applyCssPreset;
+
+// Load stored font & CSS on initialization
+try {
+  const savedCss = localStorage.getItem('mc_custom_css') || '';
+  if (savedCss) applyClientCustomCss(savedCss);
+  const savedFont = JSON.parse(localStorage.getItem('mc_custom_font') || '{}');
+  if (savedFont?.id) applyClientCustomFont(savedFont.id, savedFont.dataUrl);
+} catch(_) {}
+
 /* ================= sync ================= */
+
 
 
 const save=()=>{clearTimeout(saveT);saveT=setTimeout(()=>push().catch(e=>toast('Sync failed: '+e.message)),250)};
@@ -2056,7 +2342,7 @@ for(const [uname,ud] of ogList){ud.b=ud.b||[];if(!ud.b.includes('og')){ud.b.push
 if(c)save()}
 function connect(){try{chan?.unsubscribe()}catch{}chan=sb.channel('mc',{config:{presence:{key:me}}});
 chan.on('postgres_changes',{event:'*',schema:'public',table:'state'},p=>{const d=p.new?.data;if(!d||mine.has(d.rev))return;const b=totU(),old=db,oldWarnings=old.userWarnings||{};reconcileState(d);if(banned(me)){toast('Your account was banned');return logout()}let ping=null;for(const [sid0,sv] of Object.entries(db.servers||{})){if(!sv.members?.includes(me))continue;for(const [cid,arr] of Object.entries(sv.msgs||{})){for(const msg of (arr||[])){if(msg.u===me||!msg.ts||msg.ts<Date.now()-12000)continue;if((msg.everyonePing||/@everyone\b/i.test(msg.x||'')||(msg.mentions||[]).includes(me))&&!(old.servers?.[sid0]?.msgs?.[cid]||[]).some(x=>x.ts===msg.ts)){ping={msg,server:sv.name,channel:cid,sid:sid0};break}}if(ping)break}if(ping)break}showNewWarnings(oldWarnings);if(ping){const isMuted=isMutedSrv(ping.sid),isDirect=(ping.msg.mentions||[]).includes(me);if(!isMuted||isDirect||ping.msg.everyonePing){const text=ping.msg.everyonePing||/@everyone\b/i.test(ping.msg.x||'')?'You were mentioned with @everyone':'You were mentioned by '+(U(ping.msg.u)?.display||ping.msg.u);if(set(me).sound)beep();toast(text+' in '+ping.server+' / #'+ping.channel);showNotificationHelper(CFG.name,{body:text+' in '+ping.server+' / #'+ping.channel,data:{route:'/channels/'+ping.sid+'/'+ping.channel,sid:ping.sid,cid:ping.channel}});}}else if(totU()>b){if(set(me).sound)beep();toast('You have a new message')}render()})
-.on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()}).on('broadcast',{event:'typing'},({payload:p})=>{if(p.u!=me){typ[p.k]=typ[p.k]||{};typ[p.k][p.u]=Date.now();updTyp()}}).on('broadcast',{event:'voice_rtc_signal'},({payload:p})=>{try{handleIncomingVoiceSignal(p)}catch(_){}}).on('broadcast',{event:'voice_member_joined'},({payload:p})=>{if(currentVoice&&p.sid===currentVoice.sid&&p.cid===currentVoice.cid&&p.u!==me){createVoicePeer(p.u,me<p.u);}}).on('broadcast',{event:'voice_member_left'},({payload:p})=>{if(voicePeerConnections[p.u]){try{voicePeerConnections[p.u].close()}catch(_){}delete voicePeerConnections[p.u]}if(remoteAudioPlayers[p.u]){try{remoteAudioPlayers[p.u].remove()}catch(_){}delete remoteAudioPlayers[p.u]}if(activeScreenSharer?.u===p.u){activeScreenSharer=null;render()}}).on('broadcast',{event:'screenshare_state'},({payload:p})=>{if(p.active){activeScreenSharer={u:p.u,sid:p.sid,cid:p.cid};render()}else if(activeScreenSharer?.u===p.u){activeScreenSharer=null;render()}}).on('broadcast',{event:'server_channels_reordered'},({payload:p})=>{if(p.sid&&db.servers?.[p.sid]){db.servers[p.sid].ch=p.ch;db.servers[p.sid].categories=p.categories;render();}}).on('broadcast',{event:'stop_typing'},({payload:p})=>{if(p.u!=me&&typ[p.k]){delete typ[p.k][p.u];updTyp();}}).on('system',(ev)=>{if(ev.status==='closed'||ev.status==='error'){setTimeout(async()=>{try{await pull();render();}catch(_){}},1500);}}).subscribe(st=>{if(st=='SUBSCRIBED')chan.track({at:Date.now()})})}
+.on('presence',{event:'sync'},()=>{onl=chan.presenceState();render()}).on('broadcast',{event:'typing'},({payload:p})=>{if(p.u!=me){typ[p.k]=typ[p.k]||{};typ[p.k][p.u]=Date.now();updTyp()}}).on('broadcast',{event:'voice_rtc_signal'},({payload:p})=>{try{handleIncomingVoiceSignal(p)}catch(_){}}).on('broadcast',{event:'voice_mute_state'},({payload:p})=>{if(p.u){peerVoiceStates[p.u]={muted:p.muted,deaf:p.deaf};render();}}).on('broadcast',{event:'voice_member_joined'},({payload:p})=>{if(currentVoice&&p.sid===currentVoice.sid&&p.cid===currentVoice.cid&&p.u!==me){createVoicePeer(p.u,me<p.u);}}).on('broadcast',{event:'voice_member_left'},({payload:p})=>{if(voicePeerConnections[p.u]){try{voicePeerConnections[p.u].close()}catch(_){}delete voicePeerConnections[p.u]}if(remoteAudioPlayers[p.u]){try{remoteAudioPlayers[p.u].remove()}catch(_){}delete remoteAudioPlayers[p.u]}if(activeScreenSharer?.u===p.u){activeScreenSharer=null;render()}}).on('broadcast',{event:'screenshare_state'},({payload:p})=>{if(p.active){activeScreenSharer={u:p.u,sid:p.sid,cid:p.cid,stream:remoteScreenStreams[p.u]||activeScreenSharer?.stream||null};render()}else if(activeScreenSharer?.u===p.u){activeScreenSharer=null;delete remoteScreenStreams[p.u];render()}}).on('broadcast',{event:'request_stream_renegotiation'},({payload:p})=>{if(currentVoice?.screenStream&&p.to===me){shareStreamToVoicePeers(currentVoice.screenStream);}}).on('broadcast',{event:'server_channels_reordered'},({payload:p})=>{if(p.sid&&db.servers?.[p.sid]){db.servers[p.sid].ch=p.ch;db.servers[p.sid].categories=p.categories;render();}}).on('broadcast',{event:'stop_typing'},({payload:p})=>{if(p.u!=me&&typ[p.k]){delete typ[p.k][p.u];updTyp();}}).on('system',(ev)=>{if(ev.status==='closed'||ev.status==='error'){setTimeout(async()=>{try{await pull();render();}catch(_){}},1500);}}).subscribe(st=>{if(st=='SUBSCRIBED')chan.track({at:Date.now()})})}
 async function boot(){document.title=CFG.name;$('#tb').innerHTML=bear(16)+'<span>'+CFG.name+'</span>';const inviteCode=inviteSlugFromLocation();
 let sbInitAttempts = 0;
 while(!getSb() && sbInitAttempts < 30) {
@@ -5662,7 +5948,7 @@ function joinVoiceChannel(sid0, cid) {
   if (!s.voiceConnected[cid].includes(me)) {
     s.voiceConnected[cid].push(me);
   }
-  currentVoice = { sid: sid0, cid, muted: false, deaf: false, joinedAt: Date.now(), cameraActive: false, screenActive: false, cameraStream: null, screenStream: null };
+  currentVoice = { sid: sid0, cid, muted: isSelfMuted, deaf: isSelfDeafened, joinedAt: Date.now(), cameraActive: false, screenActive: false, cameraStream: null, screenStream: null };
 
   playVoiceConnectSound();
   save();
@@ -5691,23 +5977,135 @@ function leaveVoiceChannel(silent = false) {
 }
 window.leaveVoiceChannel = leaveVoiceChannel;
 
+let isSelfMuted = localStorage.getItem('mc_self_muted') === 'true';
+let isSelfDeafened = localStorage.getItem('mc_self_deaf') === 'true';
+const peerVoiceStates = {}; // targetU -> { muted: boolean, deaf: boolean }
+
+function playVoiceStateChime(action) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(0.08, now);
+
+    if (action === 'mute') {
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.15);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+      osc.start(now);
+      osc.stop(now + 0.18);
+    } else if (action === 'unmute') {
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(440, now + 0.15);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+      osc.start(now);
+      osc.stop(now + 0.18);
+    } else if (action === 'deafen') {
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.setValueAtTime(200, now + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    } else if (action === 'undeafen') {
+      osc.frequency.setValueAtTime(260, now);
+      osc.frequency.setValueAtTime(520, now + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    }
+  } catch(_) {}
+}
+
+function applyLocalVoiceMute() {
+  const isMuted = Boolean(isSelfMuted || isSelfDeafened || (currentVoice?.sid && db.servers[currentVoice.sid]?.serverMutes?.[me]));
+  if (localVoiceAudioStream) {
+    localVoiceAudioStream.getAudioTracks().forEach(t => {
+      t.enabled = !isMuted;
+    });
+  }
+  for (const pc of Object.values(voicePeerConnections)) {
+    try {
+      pc.getSenders().forEach(s => {
+        if (s.track && s.track.kind === 'audio') {
+          s.track.enabled = !isMuted;
+        }
+      });
+    } catch(_) {}
+  }
+
+  // Handle incoming audio for deafen
+  for (const [peerU, audioEl] of Object.entries(remoteAudioPlayers)) {
+    if (isSelfDeafened) {
+      audioEl.muted = true;
+      audioEl.volume = 0;
+    } else {
+      audioEl.muted = false;
+      syncRemoteAudioVolume(peerU);
+    }
+  }
+
+  // Broadcast state to voice peers
+  if (chan && currentVoice) {
+    chan.send({
+      type: 'broadcast',
+      event: 'voice_mute_state',
+      payload: {
+        sid: currentVoice.sid,
+        cid: currentVoice.cid,
+        u: me,
+        muted: isMuted,
+        deaf: isSelfDeafened
+      }
+    });
+  }
+}
+
 function toggleVoiceMute() {
-  if (!currentVoice) return;
-  currentVoice.muted = !currentVoice.muted;
+  isSelfMuted = !isSelfMuted;
+  localStorage.setItem('mc_self_muted', String(isSelfMuted));
+  if (currentVoice) currentVoice.muted = isSelfMuted;
+
   applyLocalVoiceMute();
-  toast(currentVoice.muted ? 'Microphone Muted' : 'Microphone Unmuted');
+  playVoiceStateChime(isSelfMuted ? 'mute' : 'unmute');
+  toast(isSelfMuted ? 'Microphone Muted' : 'Microphone Unmuted');
   render();
 }
 window.toggleVoiceMute = toggleVoiceMute;
 
 function toggleVoiceDeaf() {
-  if (!currentVoice) return;
-  currentVoice.deaf = !currentVoice.deaf;
-  if (currentVoice.deaf) currentVoice.muted = true;
-  toast(currentVoice.deaf ? 'Audio Deafened' : 'Audio Undeafened');
+  isSelfDeafened = !isSelfDeafened;
+  localStorage.setItem('mc_self_deaf', String(isSelfDeafened));
+
+  if (isSelfDeafened) {
+    isSelfMuted = true;
+    localStorage.setItem('mc_self_muted', 'true');
+  }
+
+  if (currentVoice) {
+    currentVoice.deaf = isSelfDeafened;
+    currentVoice.muted = isSelfMuted;
+  }
+
+  applyLocalVoiceMute();
+  playVoiceStateChime(isSelfDeafened ? 'deafen' : 'undeafen');
+  toast(isSelfDeafened ? 'Audio Deafened' : 'Audio Undeafened');
   render();
 }
 window.toggleVoiceDeaf = toggleVoiceDeaf;
+
+// Global hotkeys for mute (Ctrl+Shift+M) and deafen (Ctrl+Shift+D)
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.shiftKey && (e.key === 'M' || e.key === 'm')) {
+    e.preventDefault();
+    toggleVoiceMute();
+  } else if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+    e.preventDefault();
+    toggleVoiceDeaf();
+  }
+});
 
 function toggleChannelTypeFields(type) {
   const isV = (type === 'voice');
@@ -6140,52 +6538,13 @@ window.toggleVoiceCamera = toggleVoiceCamera;
 async function toggleVoiceScreenShare() {
   if (!currentVoice) return;
   if (currentVoice.screenActive) {
-    try { currentVoice.screenStream?.getTracks().forEach(t => t.stop()); } catch(_) {}
-    currentVoice.screenActive = false;
-    currentVoice.screenStream = null;
-    toast('Screen share stopped');
-    render();
+    stopCurrentVoiceScreenShare();
     return;
   }
   try {
     const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-    currentVoice.screenActive = true;
-    currentVoice.screenStream = stream;
-
-    // Send screen video track to all connected peers
-    for (const [peerU, pc] of Object.entries(voicePeerConnections)) {
-      try {
-        stream.getTracks().forEach(t => pc.addTrack(t, stream));
-      } catch(err) {
-        console.warn('Track add error to', peerU, err);
-      }
-    }
-
-    if (chan) {
-      chan.send({
-        type: 'broadcast',
-        event: 'screenshare_state',
-        payload: { sid: currentVoice.sid, cid: currentVoice.cid, u: me, active: true }
-      });
-    }
-
-    stream.getVideoTracks()[0].onended = () => {
-      if (currentVoice) {
-        currentVoice.screenActive = false;
-        currentVoice.screenStream = null;
-        if (chan) {
-          chan.send({
-            type: 'broadcast',
-            event: 'screenshare_state',
-            payload: { sid: currentVoice.sid, cid: currentVoice.cid, u: me, active: false }
-          });
-        }
-        toast('Screen sharing ended');
-        render();
-      }
-    };
+    await shareStreamToVoicePeers(stream);
     toast('Screen sharing active');
-    render();
   } catch(err) {
     if (err.name !== 'NotAllowedError') {
       toast('Could not start screen share: ' + err.message);
@@ -6405,10 +6764,11 @@ function renderServerChannels(s, S) {
         const isConnected = currentVoice?.sid === S && currentVoice?.cid === c2.id;
 
         out += `
-          <div class="nav voice-channel ${isConnected ? 'on' : ''}" data-ctx="chan:${S}|${c2.id}" onclick="joinVoiceChannel('${S}','${c2.id}')" ${dragAttrs}>
+          <div class="nav voice-channel ${isConnected ? 'on' : ''}" data-ctx="chan:${S}|${c2.id}" onclick="handleChannelClick(event,'${S}','${c2.id}','voice')" ${canManage ? `ondragover="chDragOver(event,'${c2.id}','${S}','${esc(catName)}')" ondragleave="chDragLeave(event)" ondrop="chDrop(event,'${c2.id}','${S}','${esc(catName)}')"` : ''}>
             <span style="color:var(--mu);display:flex;align-items:center">${ic('speaker', 18)}</span>
             <span class="ell sp">${esc(c2.n)}</span>
             ${limitText ? `<span class="v-limit-pill ${isFull ? 'full' : ''}">${limitText}</span>` : ''}
+            ${canManage ? `<span class="ch-drag-grip" draggable="true" ondragstart="chDragStart(event,'${c2.id}','${S}','${esc(catName)}')" onclick="event.stopPropagation()" title="Drag to reorder" style="cursor:grab;opacity:0.3;padding:0 2px;margin-left:4px;font-size:11px">⋮⋮</span>` : ''}
           </div>
           ${inVoice.length ? `
             <div class="v-members-list">
@@ -6432,10 +6792,11 @@ function renderServerChannels(s, S) {
       } else {
         const uInfo = chUnread(S, c2.id);
         out += `
-          <div class="nav ${c2.id == view.c ? 'on' : ''} ${uInfo.unread ? 'unread' : ''}" data-ctx="chan:${S}|${c2.id}" onclick="go({t:'srv',s:'${S}',c:'${c2.id}'});closeMobilePanels()" ${dragAttrs}>
+          <div class="nav ${c2.id == view.c ? 'on' : ''} ${uInfo.unread ? 'unread' : ''}" data-ctx="chan:${S}|${c2.id}" onclick="handleChannelClick(event,'${S}','${c2.id}','text')" ${canManage ? `ondragover="chDragOver(event,'${c2.id}','${S}','${esc(catName)}')" ondragleave="chDragLeave(event)" ondrop="chDrop(event,'${c2.id}','${S}','${esc(catName)}')"` : ''}>
             ${uInfo.unread && !uInfo.mentions ? '<i class="ch-dot"></i>' : ''}
             ${c2.type === 'forum' ? ic('thread', 18) : c2.type === 'rules' ? ic('shield', 18) : c2.lock ? ic('mega', 18) : ic('hash', 18)}
             <span class="ell sp">${esc(c2.n)}</span>
+            ${canManage ? `<span class="ch-drag-grip" draggable="true" ondragstart="chDragStart(event,'${c2.id}','${S}','${esc(catName)}')" onclick="event.stopPropagation()" title="Drag to reorder" style="cursor:grab;opacity:0.3;padding:0 2px;margin-left:4px;font-size:11px">⋮⋮</span>` : ''}
             ${uInfo.mentions ? `<span class="ub">${uInfo.mentions}</span>` : c2.lock ? ic('lock', 12) : ''}
           </div>
         `;
@@ -7162,7 +7523,38 @@ profile:()=>{const x=U(me);return`<div class="hero"><div style="color:var(--br)"
       <div style="font-size:11px;font-weight:700" class="ell">${esc(d.name)}</div>
     </div>`;
 }).join('')}</div><h2 style="font-size:14px">PROFILE EFFECT</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-bottom:14px">${Object.entries(PROF_EFFECTS).map(([k,d])=>`<button class="${x.pfx==k?'':'g'}" style="font-size:12px;padding:6px 8px" onclick="setProfFx('${k}')">${esc(d.name)}</button>`).join('')}</div><h2 style="font-size:14px">BANNER</h2><div class="row"><input id="eb" type="file" accept="image/*">${x.banner?`<button class="g" onclick="U(me).banner='';save();render();settings('profile')">Remove</button>`:''}</div><h2 style="font-size:14px">BANNER COLOUR</h2>${SW(x.bc||'',"setBc")}<h2 style="font-size:14px">PROFILE THEMES</h2><p class="mu" style="margin-bottom:8px">Choose primary and accent gradient colors for your profile card.</p><div class="row"><div style="flex:1"><label>PRIMARY</label><input type="color" id="ept1" value="${x.pTheme1||'#17100d'}" onchange="setProfThemeCol(this.value, null)" style="height:38px;padding:2px;cursor:pointer"></div><div style="flex:1"><label>ACCENT</label><input type="color" id="ept2" value="${x.pTheme2||'#261914'}" onchange="setProfThemeCol(null, this.value)" style="height:38px;padding:2px;cursor:pointer"></div></div><div class="row" style="flex-wrap:wrap;gap:6px;margin:6px 0 16px">${PROF_THEME_PRESETS.map(([name, c1, c2])=>`<button class="g" style="padding:4px 8px;font-size:11px;border-left:4px solid ${c2}" onclick="applyThemePreset('${c1}','${c2}')">${name}</button>`).join('')}</div><h2 style="font-size:14px">ACCENT COLOUR</h2>${SW(x.accent||CFG.accent,"setAc")}<h2 style="font-size:14px">PROFILE LINKS (UP TO 5)</h2><div id="profLinksList">${(x.links||[]).map((l,idx)=>`<div class="rowc" style="padding:8px 12px;margin-bottom:6px"><b class="sp">${esc(l.l)}</b><span class="mu ell" style="max-width:180px">${esc(l.u)}</span><button class="r" onclick="removeProfLink(${idx})">${ic('trash',14)}</button></div>`).join('')||'<p class="mu" style="margin-bottom:8px">No links added yet.</p>'}</div>${(x.links||[]).length<5?`<div class="row"><input id="newLinkL" placeholder="Label (e.g. GitHub)" maxlength="30" style="margin:0"><input id="newLinkU" placeholder="https://..." style="margin:0"><button onclick="addProfLink()">Add</button></div>`:''}<button style="margin-top:16px;width:100%" onclick="saveProfile()">Save changes</button>`},
-appearance:()=>{const cur=set(me).theme||'dark';const themes=[{id:'dark',name:'Dark',sub:'Default Discord dark',c:['#1e1f22','#2b2d31','#313338']},{id:'noire',name:'Noire Gray',sub:'Matte charcoal & slate',c:['#121316','#18191c','#1f2125']},{id:'amoled',name:'AMOLED',sub:'Pure ink black',c:['#000000','#050505','#0a0a0a']},{id:'midnight',name:'Midnight Navy',sub:'Deep starry indigo',c:['#0b0e14','#101520','#151b29']},{id:'crimson',name:'Crimson Rose',sub:'Gothic velvet wine',c:['#140c10','#1b1016','#22151c']},{id:'forest',name:'Forest Emerald',sub:'Dark evergreen pine',c:['#0c130f','#111a15','#16221c']},{id:'light',name:'Light',sub:'High-contrast daylight',c:['#e3e5e8','#f2f3f5','#ffffff']}];return `<h1>Appearance</h1><label>THEME</label><div class="theme-grid">${themes.map(t=>`<div class="theme-card ${cur===t.id?'on':''}" onclick="setTheme('${t.id}')"><div class="theme-preview"><span class="theme-swatch" style="background:${t.c[0]}"></span><span class="theme-swatch" style="background:${t.c[1]}"></span><span class="theme-swatch" style="background:${t.c[2]}"></span></div><div><b style="font-size:13px;display:block">${t.name}</b><span class="mu" style="font-size:11px">${t.sub}</span></div></div>`).join('')}</div><label>THEME DROPDOWN</label><select onchange="setTheme(this.value)">${themes.map(t=>`<option value="${t.id}" ${cur===t.id?'selected':''}>${t.name} - ${t.sub}</option>`).join('')}</select><label>TEXT SIZE</label><select onchange="U(me).set=U(me).set||{};U(me).set.fs=+this.value;save();render()">${[13,14,15,16,18].map(n=>`<option ${set(me).fs==n?'selected':''}>${n}</option>`).join('')}</select>${tog('compact','Compact messages','Tighter spacing in chat')}${tog('reduce','Reduce motion','Turn off animations')}`;},
+appearance:()=>{const cur=set(me).theme||'dark';const themes=[{id:'dark',name:'Dark',sub:'Default Discord dark',c:['#1e1f22','#2b2d31','#313338']},{id:'noire',name:'Noire Gray',sub:'Matte charcoal & slate',c:['#121316','#18191c','#1f2125']},{id:'amoled',name:'AMOLED',sub:'Pure ink black',c:['#000000','#050505','#0a0a0a']},{id:'midnight',name:'Midnight Navy',sub:'Deep starry indigo',c:['#0b0e14','#101520','#151b29']},{id:'crimson',name:'Crimson Rose',sub:'Gothic velvet wine',c:['#140c10','#1b1016','#22151c']},{id:'forest',name:'Forest Emerald',sub:'Dark evergreen pine',c:['#0c130f','#111a15','#16221c']},{id:'light',name:'Light',sub:'High-contrast daylight',c:['#e3e5e8','#f2f3f5','#ffffff']}];return `<h1>Appearance</h1><label>THEME</label><div class="theme-grid">${themes.map(t=>`<div class="theme-card ${cur===t.id?'on':''}" onclick="setTheme('${t.id}')"><div class="theme-preview"><span class="theme-swatch" style="background:${t.c[0]}"></span><span class="theme-swatch" style="background:${t.c[1]}"></span><span class="theme-swatch" style="background:${t.c[2]}"></span></div><div><b style="font-size:13px;display:block">${t.name}</b><span class="mu" style="font-size:11px">${t.sub}</span></div></div>`).join('')}</div><label>THEME DROPDOWN</label><select onchange="setTheme(this.value)">${themes.map(t=>`<option value="${t.id}" ${cur===t.id?'selected':''}>${t.name} - ${t.sub}</option>`).join('')}</select><label>TEXT SIZE</label><select onchange="U(me).set=U(me).set||{};U(me).set.fs=+this.value;save();render()">${[13,14,15,16,18].map(n=>`<option ${set(me).fs==n?'selected':''}>${n}</option>`).join('')}</select>${tog('compact','Compact messages','Tighter spacing in chat')}${tog('reduce','Reduce motion','Turn off animations')}
+
+    <hr style="margin:20px 0 16px;border:0;border-top:1px solid var(--line)">
+
+    <h2>Fonts & Typography</h2>
+    <p class="mu" style="margin-bottom:12px">Customize your client font. Select from popular typography presets or upload your own custom font file (.woff, .woff2, .ttf, .otf).</p>
+
+    <label>FONT FAMILY</label>
+    <div style="display:flex;gap:10px;margin-bottom:12px;align-items:center">
+      <select style="flex:1;margin:0" onchange="setCustomPresetFont(this.value)">
+        ${PRESET_FONT_OPTIONS.map(f => {
+          const curFont = JSON.parse(localStorage.getItem('mc_custom_font') || '{}');
+          const isSel = (curFont?.id || 'default') === f.id;
+          return `<option value="${f.id}" ${isSel ? 'selected' : ''}>${f.name}</option>`;
+        }).join('')}
+        ${(JSON.parse(localStorage.getItem('mc_custom_font') || '{}')?.id === 'custom') ? `<option value="custom" selected>Custom: ${esc(JSON.parse(localStorage.getItem('mc_custom_font') || '{}')?.name || 'Uploaded Font')}</option>` : ''}
+      </select>
+      <button type="button" class="g" style="padding:8px 12px" onclick="$('#customFontFileInput').click()">
+        ${ic('upload', 14)} Upload Font
+      </button>
+      <input type="file" id="customFontFileInput" accept=".woff,.woff2,.ttf,.otf" style="display:none" onchange="uploadCustomFontFile(event)">
+      <button type="button" class="g" style="padding:8px 12px" onclick="resetCustomFont()" title="Restore default font">
+        Reset
+      </button>
+    </div>
+
+    <label>FONT PREVIEW</label>
+    <div style="padding:14px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:15px;line-height:1.5;margin-bottom:14px">
+      <div>The quick brown fox jumps over the lazy dog. 1234567890 !@#$%^&*()</div>
+      <div class="mu" style="font-size:12px;margin-top:4px">Memocord typography preview in real-time.</div>
+    </div>
+`;},
 notifications:()=>{
   const snd=set(me).soundType||'discord';
   const vol=set(me).soundVol!==undefined?set(me).soundVol:0.6;
@@ -7207,7 +7599,41 @@ privacy:()=>{
     <hr>
     <p class="mu">Usernames cannot be changed. Banned accounts appear as Deleted User.</p>`;
 },
-developer:()=>`<h1>Developer <span class="beta">BETA</span></h1>${tog('dev','Developer mode','Right-click users / servers to copy IDs. Admins can use !ban userid, !unban userid and !banserver serverid.')}`,
+developer:() => {
+  const isDev = dev();
+  const customCss = localStorage.getItem('mc_custom_css') || '';
+  return `
+    <h1>Developer <span class="beta">BETA</span></h1>
+    ${tog('dev','Developer mode','Right-click users / servers to copy IDs. Unlocks client Custom CSS customization.')}
+    
+    <hr style="margin:20px 0 16px;border:0;border-top:1px solid var(--line)">
+    
+    <h2>Client Custom CSS</h2>
+    ${isDev ? `
+      <p class="mu" style="margin-bottom:10px">Write custom CSS rules to customize your Memocord client. Changes are saved locally and applied live.</p>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <button type="button" class="g" style="font-size:11.5px;padding:4px 8px" onclick="applyCssPreset('glass')">Glassmorphism</button>
+        <button type="button" class="g" style="font-size:11.5px;padding:4px 8px" onclick="applyCssPreset('neon')">Neon Accents</button>
+        <button type="button" class="g" style="font-size:11.5px;padding:4px 8px" onclick="applyCssPreset('compact')">Ultra Compact</button>
+        <button type="button" class="g" style="font-size:11.5px;padding:4px 8px" onclick="clearCustomCss()">Clear</button>
+      </div>
+      <textarea id="customCssTextarea" style="font-family:monospace;font-size:12px;height:160px;resize:vertical;width:100%;margin-bottom:10px;background:#0d0e10;color:#e3e5e8;border:1px solid var(--line);border-radius:6px;padding:10px" placeholder="/* Enter custom CSS rules here */\nbody {\n  --br: #ff5a36;\n}">${esc(customCss)}</textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="mu" style="font-size:11.5px">Applied live to your client</span>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="g" onclick="clearCustomCss()">Reset CSS</button>
+          <button type="button" onclick="saveCustomCss($('#customCssTextarea')?.value)">Save & Apply CSS</button>
+        </div>
+      </div>
+    ` : `
+      <div style="background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:18px;text-align:center">
+        <div style="font-size:24px;margin-bottom:6px">🔒</div>
+        <b>Custom CSS is locked</b>
+        <div class="mu" style="font-size:12px;margin-top:4px">Turn on <b>Developer mode</b> above to unlock client Custom CSS styling and mods.</div>
+      </div>
+    `}
+  `;
+},
 admin:()=>`<h1>Admin Panel</h1><h2>Badge system</h2><p class="mu" style="margin-bottom:10px">Create icon-based profile badges and grant or remove them for users here. Badges appear on profiles only, not beside chat names.</p><div class="ac"><h2 style="margin-top:0">Update log</h2><p class="mu">Shown once per version when users open the website. Change the version to show a new update again.</p><label class="row" style="justify-content:flex-start"><input id="updateEnabled" type="checkbox" ${CFG.updateLog.enabled?'checked':''} style="width:auto"> Enable update popup</label><label>VERSION</label><input id="updateVersion" maxlength=40 value="${esc(CFG.updateLog.version)}" placeholder="2026-10-24-2"><label>POPUP TITLE</label><input id="updateTitle" maxlength=80 value="${esc(CFG.updateLog.title)}" placeholder="Memocord Update"><label>UPDATE MESSAGE</label><textarea id="updateMessage" maxlength=1500 rows="5" placeholder="Describe what changed...">${esc(CFG.updateLog.message)}</textarea><button onclick="saveUpdateConfig()">Save update log settings</button></div><div class="ac"><label>BADGE KEY</label><input id="badgeName" maxlength=24 placeholder="early_supporter"><label>DISPLAY NAME</label><input id="badgeLabel" maxlength=40 placeholder="Early Supporter"><label>ICON NAME</label><input id="badgeSymbol" maxlength=24 value="star" placeholder="star, shield, gift"><label>BADGE COLOUR</label><input id="badgeColor" type="color" value="#5865f2"><label>DESCRIPTION</label><input id="badgeDesc" maxlength=240 placeholder="What this badge is awarded for..."><button onclick="createBadge()">Create badge</button></div><div class="row" style="flex-wrap:wrap">${Object.keys(db.customBadges||{}).map(k=>`<span class="bd" style="background:${hexColor(B[k]?.[1])}" title="${esc(B[k]?.[2]||k)}">${ic(IC[B[k]?.[0]]?B[k][0]:'star',14,1)}</span><span class="mu">${esc(B[k]?.[2]||k)}</span><button class="r" onclick="deleteBadge('${k}')">Delete</button>`).join('')||'<span class="mu">No custom badges yet.</span>'}</div><hr><h2>Reports (${(db.reports||[]).length})</h2>`+reportsH()+`<hr><h2>Users</h2>`+Object.keys(db.users).filter(u=>u!=me&&u!=BOT&&u!=GB).map(u=>`<div class="ac"><div class="row" style="margin-top:0"><b>${esc(U(u).display||u)}</b><span class="mu">@${esc(u)} · ${uid(u)}</span><span class="sp"></span>${U(u).banned?`<button class="g" onclick="ban('${u}',0)">Unban</button>`:`<button class="r" onclick="ban('${u}',1)">Ban</button>`}</div><div class="row" style="margin-bottom:0;flex-wrap:wrap">${Object.keys(B).filter(k=>k!=='own'&&k!=='founder').map(k=>`<button class="${bk(u).includes(k)?'':'g'}" style="min-width:38px;display:inline-flex;align-items:center;justify-content:center" aria-label="${esc(B[k][2])}" title="${esc(B[k][2])} · ${bk(u).includes(k)?'Granted — click to remove':'Not granted — click to grant'}" onclick="ownerBadge('${u}','${k}')">${ic(IC[B[k][0]]?B[k][0]:'star',16,1)}</button>`).join('')}</div></div>`).join('')+`<hr><h2>Servers</h2>`+Object.entries(db.servers).map(([id,v])=>`<div class="ac"><div class="row" style="margin-top:0"><b class="sp">${esc(v.name)}</b><span class="mu">${id}</span></div><div class="row" style="margin-bottom:0"><button class="g" onclick="ssettings('${id}','general')">Edit</button><button class="${(v.bots||[]).includes('giveaway')?'':'g'}" onclick="toggleBot('${id}');settings('admin')">${(v.bots||[]).includes('giveaway')?'Remove Giveaway bot':'Force-join Giveaway bot'}</button></div></div>`).join('')+`<hr><h2>GIF submissions</h2>`+(db.gifSug.map((g,i)=>`<div class="ac"><b>${esc(g.desc||'GIF')}</b><img src="${esc(g.url)}" style="display:block;max-width:220px;max-height:120px;margin:8px 0"><div class="mu">By @${esc(g.by)}</div><div class="row"><button onclick="apGif(${i})">Approve</button><button class="r" onclick="db.gifSug.splice(${i},1);save();settings('admin')">Reject</button></div></div>`).join('')||'<p class="mu">No submissions.</p>')+`<h2 style="margin-top:14px">Approved GIFs</h2>`+(db.gifs.map((g,i)=>`<div class="row"><img src="${esc(g.url)}" style="height:50px;border-radius:6px"><span class="mu sp ell">${esc(g.desc||'')}</span><button class="r" onclick="db.gifs.splice(${i},1);save();settings('admin')">${ic('trash',16)}</button></div>`).join('')||'<p class="mu">None yet.</p>')};
 function saveUpdateConfig(){if(!isA(me))return;CFG.updateLog.enabled=!!$('#updateEnabled')?.checked;CFG.updateLog.version=($('#updateVersion')?.value||'1').trim().slice(0,40)||'1';CFG.updateLog.title=($('#updateTitle')?.value||'Memocord Update').trim().slice(0,80)||'Memocord Update';CFG.updateLog.message=($('#updateMessage')?.value||'').trim().slice(0,1500);db.updateLog={...CFG.updateLog};save();toast('Update log settings saved for the website.');settings('admin')}
 const apGif=i=>{const g=db.gifSug.splice(i,1)[0];if(g)db.gifs.push(g);save();settings('admin')};
@@ -8581,7 +9007,7 @@ $('#root').innerHTML=`<div class="app-titlebar" id="appTitlebar">
     return `<div class="ri ${view.t=='srv'&&S==id?'on':''} ${isLvl3?'pwb-lvl3':''}" data-ctx="srv:${id}" onclick="go({t:'srv',s:'${id}',c:'general'});closeMobilePanels()" title="${esc(v.name)}${powered(v)?' (Powered)':''}">${v.icon&&id!=SID?`<img src="${esc(v.icon)}">`:id==SID?bear(30):esc(v.name[0].toUpperCase())}${powered(v)?`<span class="pwb" title="Powered">${ic('bolt',11,1)}</span>`:''}${sU.mentions?`<span class="nb">${sU.mentions}</span>`:sU.unread&&!muted?`<span class="pip"></span>`:''}</div>`;
   }).join('');
   return folderHtml+freeHtml;
-})()}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div><div class="ri add" onclick="go({t:'disc'})" title="Explore communities">${ic('compass',24)}</div>${!isApp()?'<div class="ri add" style="color:var(--br)" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(26)+'</div>':''}</nav><aside class="side">${side}</aside><main>${m}</main>${mem}${renderVoiceDock()}<div class="up"><div class="avw" style="cursor:pointer" onclick="presenceMenu(event)" title="Change status">${av(me,36)}<i class="${dotCls(me)}"></i></div><div style="min-width:0;flex:1"><b class="ell" style="display:block">${dn(me)}</b><span class="mu ell" style="display:block;cursor:pointer" onclick="presenceMenu(event)" title="Change status">${presenceLabel(getPresence(me))}${x.status?' - '+esc(x.status):''}</span></div>${currentVoice?`<button class="ib ${currentVoice.muted?'red':''}" onclick="toggleVoiceMute()" title="${currentVoice.muted?'Unmute Mic':'Mute Mic'}">${ic(currentVoice.muted?'micoff':'mic',18)}</button><button class="ib ${currentVoice.deaf?'red':''}" onclick="toggleVoiceDeaf()" title="${currentVoice.deaf?'Undeafen':'Deafen'}">${ic('headphone',18)}</button>`:''}<button class="ib ${U(me)?.act?.n?'on':''}" onclick="activitySettingsModal()" title="Game Activity & Rich Presence">${ic('gamepad',20)}</button><button class="ib" onclick="settings('account')" title="User Settings">${ic('gear',20)}</button><button class="ib" onclick="logoutModal()" title="Log out">${ic('power',20)}</button></div></div>`;
+})()}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div><div class="ri add" onclick="go({t:'disc'})" title="Explore communities">${ic('compass',24)}</div>${!isApp()?'<div class="ri add" style="color:var(--br)" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(26)+'</div>':''}</nav><aside class="side">${side}</aside><main>${m}</main>${mem}${renderVoiceDock()}<div class="up"><div class="avw" style="cursor:pointer" onclick="presenceMenu(event)" title="Change status">${av(me,36)}<i class="${dotCls(me)}"></i></div><div style="min-width:0;flex:1"><b class="ell" style="display:block">${dn(me)}</b><span class="mu ell" style="display:block;cursor:pointer" onclick="presenceMenu(event)" title="Change status">${presenceLabel(getPresence(me))}${x.status?' - '+esc(x.status):''}</span></div><button class="ib ${isSelfMuted ? 'red' : ''}" onclick="toggleVoiceMute()" title="${isSelfMuted ? 'Unmute Mic (Ctrl+Shift+M)' : 'Mute Mic (Ctrl+Shift+M)'}" style="${isSelfMuted ? 'color:#f2575c;' : ''}">${ic(isSelfMuted ? 'micoff' : 'mic', 18)}</button><button class="ib ${isSelfDeafened ? 'red' : ''}" onclick="toggleVoiceDeaf()" title="${isSelfDeafened ? 'Undeafen (Ctrl+Shift+D)' : 'Deafen (Ctrl+Shift+D)'}" style="${isSelfDeafened ? 'color:#f2575c;' : ''}">${ic(isSelfDeafened ? 'headphoneoff' : 'headphone', 18)}</button><button class="ib ${U(me)?.act?.n?'on':''}" onclick="activitySettingsModal()" title="Game Activity & Rich Presence">${ic('gamepad',20)}</button><button class="ib" onclick="settings('account')" title="User Settings">${ic('gear',20)}</button><button class="ib" onclick="logoutModal()" title="Log out">${ic('power',20)}</button></div></div>`;
 const i=$('#inp');if(i){if(aid=='inp'&&aval)i.value=aval;if(aid=='inp')i.focus();showPend();
 i.oninput=()=>{if(i.value.trim())sendTyp();acI=0;emAc();mentionAc();slashAc();channelAc()};i.onkeydown=e=>{if(editingTs&&e.key==='Escape'){e.preventDefault();cancelEdit();return}if(!editingTs&&!i.value&&e.key==='ArrowUp'){e.preventDefault();const myMsgs=msgArr().filter(m=>m.u===me&&m.x&&!m.em&&!m.btn&&!m.g);if(myMsgs.length)startEdit(myMsgs[myMsgs.length-1].ts);return}if(slashAcList.length&&(e.key==='ArrowDown'||e.key==='ArrowUp')){e.preventDefault();slashAcIndex=(slashAcIndex+(e.key==='ArrowDown'?1:-1)+slashAcList.length)%slashAcList.length;const p=$('#slashAc');if(p)[...p.querySelectorAll('.slash-item')].forEach((d,j)=>d.classList.toggle('on',j===slashAcIndex));return}
 if(slashAcList.length&&(e.key==='Enter'||e.key==='Tab')){e.preventDefault();pickSlash(slashAcIndex);return}
