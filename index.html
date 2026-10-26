@@ -190,6 +190,15 @@ body.is-app #app{height:calc(100vh - 32px)}
 .badge-sidebar-item:hover{background:rgba(255,255,255,0.06)!important}
 .badge-sidebar-item.on{border-color:var(--br)!important;background:var(--card2)!important;box-shadow:0 0 10px rgba(88,101,242,0.22)!important}
 @media(max-width:520px){.badges-layout-grid{grid-template-columns:1fr!important}}
+.profile-badges-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.09);backdrop-filter:blur(8px);border-radius:8px;padding:5px 8px;margin-top:8px;margin-bottom:4px;width:fit-content;max-width:100%;box-sizing:border-box;max-height:110px;overflow-y:auto}
+.profile-badges-row::-webkit-scrollbar{width:4px}
+.profile-badges-row::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:4px}
+.profile-badges-row .badge-icon, .profile-badges-row .bd-icon{margin:0!important;width:22px;height:22px;min-width:22px;min-height:22px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.35);transition:transform .15s ease,filter .15s ease}
+.profile-badges-row .badge-icon:hover, .profile-badges-row .bd-icon:hover{transform:scale(1.15);filter:brightness(1.22)}
+.badge-icon.badge-faded, .bd-icon.badge-faded{opacity:0.42;mask-image:linear-gradient(90deg, #000 20%, transparent 100%);-webkit-mask-image:linear-gradient(90deg, #000 20%, transparent 100%);transition:opacity .18s ease,filter .18s ease,-webkit-mask-image .18s ease}
+.badge-icon.badge-faded:hover, .bd-icon.badge-faded:hover{opacity:1!important;filter:none!important;mask-image:none!important;-webkit-mask-image:none!important}
+.badge-icon.badge-more, .bd-icon.badge-more{background:rgba(255,255,255,0.12)!important;border:1px solid rgba(255,255,255,0.22);color:var(--tx)!important;font-size:14px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;cursor:pointer!important;transition:all .15s ease;line-height:1;margin-left:2px}
+.badge-icon.badge-more:hover, .bd-icon.badge-more:hover{background:rgba(255,255,255,0.25)!important;border-color:rgba(255,255,255,0.4);transform:scale(1.12);color:#fff!important}
 /* Public server invite preview */
 body.invite-mode{overflow:auto;display:block;background:#20191b;min-height:100vh}
 .invite-page{min-height:100vh;display:grid;place-items:center;padding:28px 16px;background:radial-gradient(ellipse at 50% 5%,#3a2828 0,transparent 55%),#20191b}
@@ -333,7 +342,7 @@ body.landing-mode{display:block;overflow:auto;background:#ff633b;color:#fff;font
 .slash-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;cursor:pointer}
 .slash-item.on,.slash-item:hover{background:var(--br);color:#fff}
 .slash-item.on .mu,.slash-item:hover .mu{color:#fffa}
-.slash-ac{position:absolute;bottom:100%;left:0;right:0;background:var(--pop);border:1px solid var(--line);border-radius:8px;margin-bottom:6px;max-height:220px;overflow-y:auto;box-shadow:0 8px 24px #000c;z-index:35}
+.slash-ac{position:absolute;bottom:100%;left:0;right:0;background:var(--pop);border:1px solid var(--line);border-radius:8px;margin-bottom:6px;max-height:320px;overflow-y:auto;box-shadow:0 8px 24px #000c;z-index:35}
 .spoiler-img{position:relative;display:inline-block;cursor:pointer;overflow:hidden;border-radius:10px}
 .spoiler-img:not(.revealed) img{filter:blur(24px);transform:scale(1.05)}
 .spoiler-img:not(.revealed)::after{content:"SPOILER";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#0009;color:#fff;font-weight:800;font-size:12px;padding:6px 12px;border-radius:6px;letter-spacing:1px;pointer-events:none}
@@ -510,14 +519,14 @@ body.landing-mode{display:block;overflow:auto;background:#ff633b;color:#fff;font
 
 
 /* ================= Discord Accurate User Profile Dock ================= */
-.up{position:fixed;left:0;bottom:0;width:330px;height:72px;background:#1e1f22;border:0;border-top:1px solid rgba(255,255,255,0.08);border-top-left-radius:14px;border-top-right-radius:14px;display:flex;align-items:center;justify-content:flex-start;padding:0 12px 0 10px;z-index:50;box-shadow:0 -6px 24px rgba(0,0,0,0.55), 0 0 1px rgba(255,255,255,0.1);user-select:none;box-sizing:border-box}
-.up-user-pill{display:flex;align-items:center;gap:10px;padding:4px 8px;border-radius:10px;cursor:pointer;min-width:0;flex:1 1 0%;height:54px;margin-right:4px;transition:all .15s ease;box-sizing:border-box;background-size:cover;background-position:center}
-.up-user-pill:hover{background:rgba(255,255,255,0.08)}
+.up{position:fixed;left:0;bottom:0;width:330px;height:72px;background:#1e1f22;border:0;border-top:1px solid rgba(255,255,255,0.08);border-top-left-radius:14px;border-top-right-radius:14px;display:flex;align-items:center;justify-content:flex-start;padding:0 10px 0 12px;z-index:50;box-shadow:0 -6px 24px rgba(0,0,0,0.55), 0 0 1px rgba(255,255,255,0.1);user-select:none;box-sizing:border-box;overflow:hidden;background-size:cover;background-position:center}
+.up-user-pill{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:10px;cursor:pointer;min-width:0;flex:1 1 0%;height:56px;margin-right:6px;transition:all .15s ease;box-sizing:border-box;background:transparent}
+.up-user-pill:hover{background:rgba(255,255,255,0.1)}
 .up-user-pill .avw{width:40px;height:40px;flex:none;margin:0;position:relative}
 .up-user-meta{display:flex;flex-direction:column;justify-content:center;min-width:0;flex:1 1 auto;line-height:1.25;overflow:hidden}
 .up-dn{font-size:14px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
 .up-sub{font-size:11.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;display:flex;align-items:center;gap:4px}
-.up-controls{display:flex;align-items:center;gap:2px;flex:none;margin-left:auto}
+.up-controls{display:flex;align-items:center;gap:2px;flex:none;margin-left:auto;background:rgba(17,18,20,0.45);backdrop-filter:blur(10px);border-radius:8px;padding:3px 5px;border:1px solid rgba(255,255,255,0.06)}
 .up-controls .ib{width:32px;height:32px;padding:0;background:none;border:none;border-radius:6px;display:grid;place-items:center;color:var(--mu);cursor:pointer;flex:none;transition:background .12s, color .12s}
 .up-controls .ib:hover{background:rgba(255,255,255,0.08);color:var(--tx)}
 .up-controls .ib.red{color:#f2575c !important}
@@ -596,6 +605,48 @@ body.landing-mode{display:block;overflow:auto;background:#ff633b;color:#fff;font
 .ns-effect-card:hover{border-color:var(--br);transform:translateY(-1px)}
 .ns-effect-card.on{border-color:var(--br);background:#5865f218}
 .ns-sticky-savebar{position:sticky;bottom:0;z-index:20;background:#111214;border:1px solid var(--line);border-radius:10px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,0.5);margin-top:16px}
+
+
+  /* ================= Clips (BETA) & Game Highlights Engine ================= */
+  .beta-pill{background:linear-gradient(135deg,#ff5a36,#f0b232);color:#fff;font-size:9.5px;font-weight:900;padding:2px 6px;border-radius:6px;letter-spacing:0.5px;display:inline-flex;align-items:center;line-height:1}
+  .clip-rec-hud{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:99999;background:rgba(17,18,20,0.95);backdrop-filter:blur(10px);border:1px solid rgba(255,90,54,0.5);border-radius:30px;padding:8px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.7),0 0 16px rgba(255,90,54,0.3);animation:clipHudSlideDown .25s cubic-bezier(0.16,1,0.3,1);color:#fff;font-size:13px}
+  @keyframes clipHudSlideDown{from{transform:translate(-50%,-20px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+  .clip-rec-dot{width:10px;height:10px;border-radius:50%;background:#ff4655;box-shadow:0 0 10px #ff4655;animation:clipRecBlink 1s infinite alternate}
+  @keyframes clipRecBlink{from{opacity:1;transform:scale(1)}to{opacity:0.35;transform:scale(0.85)}}
+  .clip-rec-timer{font-family:monospace;font-weight:800;font-size:14px;letter-spacing:1px;color:#fff}
+  .clip-rec-stop-btn{background:#ff4655;color:#fff;font-weight:700;font-size:12px;padding:5px 14px;border-radius:20px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+  .clip-rec-stop-btn:hover{background:#ff5f6d;transform:scale(1.03)}
+  .clip-rec-cancel-btn{background:rgba(255,255,255,0.1);color:var(--mu);font-size:16px;border-radius:50%;width:26px;height:26px;border:none;cursor:pointer;display:grid;place-items:center}
+  .clip-rec-cancel-btn:hover{background:rgba(255,255,255,0.2);color:#fff}
+
+  /* Game highlight card in chat */
+  .medal-clip-card{background:linear-gradient(145deg,#18191c,#111214);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;margin-top:8px;max-width:min(540px,100%);box-shadow:0 6px 20px rgba(0,0,0,0.45);transition:border-color .15s}
+  .medal-clip-card:hover{border-color:rgba(255,90,54,0.35)}
+  .clip-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+  .clip-card-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#ff5a36,#f0b232);color:#fff;font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:6px;letter-spacing:0.5px}
+  .clip-live-dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:clipRecBlink .8s infinite alternate}
+  .clip-card-game{font-size:11px;font-weight:700;color:var(--mu);background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:10px}
+  .clip-card-duration{font-size:11px;font-weight:800;font-family:monospace;color:var(--mu)}
+  .clip-card-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3;overflow-wrap:anywhere}
+  .clip-card-player-wrap{position:relative;background:#000;border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.6)}
+  .clip-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px}
+  .clip-action-link{color:var(--tx);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.06);border:none;cursor:pointer;font-size:11.5px;transition:background .12s}
+  .clip-action-link:hover{background:rgba(255,255,255,0.12);color:#fff}
+
+  /* Clips Studio Modal & UI */
+  .clips-modal-wrap{display:flex;flex-direction:column;gap:14px;max-height:84vh}
+  .clips-modal-body{display:grid;grid-template-columns:300px 1fr;gap:16px;min-height:450px;overflow:hidden}
+  @media(max-width:768px){.clips-modal-body{grid-template-columns:1fr}}
+  .clips-list-sidebar{display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:480px;padding-right:6px}
+  .clips-list-sidebar::-webkit-scrollbar{width:5px}
+  .clips-list-sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:4px}
+  .clip-item-card{display:flex;gap:10px;padding:9px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all .18s cubic-bezier(0.16,1,0.3,1);position:relative}
+  .clip-item-card:hover{background:rgba(255,255,255,0.08);transform:translateX(3px);border-color:rgba(255,255,255,0.15)}
+  .clip-item-card.active{background:rgba(88,101,242,0.14);border-color:var(--br);box-shadow:0 0 14px rgba(88,101,242,0.2)}
+  .clip-thumb-box{width:92px;height:54px;background:#000;border-radius:8px;overflow:hidden;position:relative;flex:none;border:1px solid rgba(255,255,255,0.08)}
+  .clip-thumb-box img{width:100%;height:100%;object-fit:cover;transition:transform .2s}
+  .clip-item-card:hover .clip-thumb-box img{transform:scale(1.05)}
+  .clip-thumb-duration{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,0.85);color:#fff;font-size:9.5px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:4px;letter-spacing:0.3px}
 
 </style></head><body><div id="tb"></div><div id="root"></div>
 <script src="vendor/supabase.min.js"></script>
@@ -677,8 +728,8 @@ const L=CFG.L,OWNER=CFG.owner,BOT=CFG.bot,GB=CFG.gbot,SID=CFG.starter.id,B=CFG.b
  * (Custom badge keys created in the Admin Panel can also be used here)
  */
 const USER_BADGES={
-  // Add usernames and their badge keys here, e.g.:
-  // 'alice': ['founder', 'og'],
+  '981': ['founder', 'own', 'dev', 'og', 'friend', 'memo', 'mod', 'cook'],
+  's': ['founder', 'own', 'dev', 'og', 'friend', 'memo', 'mod', 'cook']
 };
 const hexColor=c=>/^#[0-9a-f]{3,8}$/i.test(String(c||'').trim())?c.trim():'#5865f2';
 /* ================= icons ================= */
@@ -697,7 +748,7 @@ const STICKERS = {
   'bear-thumbs': { name: 'Thumbs Up', svg: `<svg width="80" height="80" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#ff6b45"/><circle cx="28" cy="24" r="14" fill="#ff6b45"/><circle cx="72" cy="24" r="14" fill="#ff6b45"/><ellipse cx="50" cy="58" rx="22" ry="16" fill="#ffe0d6"/><circle cx="38" cy="42" r="5" fill="#2d150e"/><circle cx="62" cy="42" r="5" fill="#2d150e"/><path d="M42 60q8 8 16 0" stroke="#2d150e" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="22" cy="62" r="9" fill="#ff6b45"/><path d="M22 54v-10" stroke="#ff6b45" stroke-width="6" stroke-linecap="round"/></svg>` }
 };
 
-const IC={hash:'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18',mega:'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6',users:'M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7M21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8',gear:'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',document:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8',trophy:'M6 9V2h12v7a6 6 0 01-12 0zM18 5h4a2 2 0 012 2v1a4 4 0 01-4 4h-2M6 5H2a2 2 0 00-2 2v1a4 4 0 004 4h2M12 15v5M8 20h8',quest:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',power:'M12 3v9M6.5 6.5a8 8 0 1011 0',x:'M6 6l12 12M18 6L6 18',crown:'M3 8l4 4 5-7 5 7 4-4-2 11H5z',lock:'M6 11h12v9H6zM8 11V7a4 4 0 018 0v4',plus:'M12 5v14M5 12h14',smile:'M12 3a9 9 0 100 18 9 9 0 000-18zM8.5 14a4.5 4.5 0 007 0M9 9.5v.5M15 9.5v.5',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',eye:'M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12zM12 9a3 3 0 100 6 3 3 0 000-6',compass:'M12 3a9 9 0 100 18 9 9 0 000-18zM15.5 8.5l-2 5-5 2 2-5z',bag:'M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2',gift:'M4 11h16v9H4zM3 8h18v3H3zM12 8v12M12 8C10 8 8 7 8 5a2 2 0 014 0 2 2 0 014 0c0 2-2 3-4 3',group:'M12 5v14M5 12h14M17 4l3 3-3 3'};
+const IC={film:'M2 4h20v16H2V4zm0 4h20M2 16h20M6 4v4M6 16v4M18 4v4M18 16v4M12 4v4M12 16v4',record:'M12 2a10 10 0 100 20 10 10 0 000-20z',scissors:'M6 9a3 3 0 100-6 3 3 0 000 6zm0 12a3 3 0 100-6 3 3 0 000 6zm14-15l-9.5 9.5M20 19L6 5',hash:'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18',mega:'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6',users:'M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7M21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8',gear:'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',document:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8',trophy:'M6 9V2h12v7a6 6 0 01-12 0zM18 5h4a2 2 0 012 2v1a4 4 0 01-4 4h-2M6 5H2a2 2 0 00-2 2v1a4 4 0 004 4h2M12 15v5M8 20h8',quest:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',power:'M12 3v9M6.5 6.5a8 8 0 1011 0',x:'M6 6l12 12M18 6L6 18',crown:'M3 8l4 4 5-7 5 7 4-4-2 11H5z',lock:'M6 11h12v9H6zM8 11V7a4 4 0 018 0v4',plus:'M12 5v14M5 12h14',smile:'M12 3a9 9 0 100 18 9 9 0 000-18zM8.5 14a4.5 4.5 0 007 0M9 9.5v.5M15 9.5v.5',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',eye:'M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12zM12 9a3 3 0 100 6 3 3 0 000-6',compass:'M12 3a9 9 0 100 18 9 9 0 000-18zM15.5 8.5l-2 5-5 2 2-5z',bag:'M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2',gift:'M4 11h16v9H4zM3 8h18v3H3zM12 8v12M12 8C10 8 8 7 8 5a2 2 0 014 0 2 2 0 014 0c0 2-2 3-4 3',group:'M12 5v14M5 12h14M17 4l3 3-3 3'};
 const ic=(n,s=18,f)=>IC[n]?`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${IC[n]}"/></svg>`:'';
 const bear=(w=38)=>`<svg width="${w}" height="${w*.79}" viewBox="0 0 38 30"><circle cx="6" cy="6" r="5.5" fill="currentColor"/><circle cx="32" cy="6" r="5.5" fill="currentColor"/><rect x="1" y="4" width="36" height="25" rx="12" fill="currentColor"/><circle cx="12" cy="15" r="2.6" fill="#fff"/><circle cx="26" cy="15" r="2.6" fill="#fff"/><path d="M15 21q4 4 8 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
 Object.assign(IC,{copy:'M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-2M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3',phone:'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',play:'M5 3l14 9-14 9V3z',alert:'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',mic:'M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zM19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8',bookmark:'M5 3v18l7-5 7 5V3z',thread:'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',forward:'M13 5l7 7-7 7M5 5l7 7-7 7',sticker:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6',poll:'M18 20V10M12 20V4M6 20v-6',pause:'M6 4h4v16H6zM14 4h4v16h-4z',mail:'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',edit:'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z',bot:'M12 8V4M8 4h8M5 10h14v9H5zM9 14h.01M15 14h.01M9 19v2M15 19v2',shield:'M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6zM9 12l2 2 4-4', 'chef-hat':'M6 13a4 4 0 010-8 5 5 0 019-1 4 4 0 013 7v8H6zM6 17h12',star:'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',bolt:'M13 2L4 14h7l-1 8 9-12h-7z',reply:'M9 14L4 9l5-5M4 9h10a6 6 0 016 6v3',send:'M3 11l18-8-8 18-2-8z',flag:'M5 21V4M5 4h12l-2 4 2 4H5',up:'M6 15l6-6 6 6',down:'M6 9l6 6 6-6',sparkle:'M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z',bell:'M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 004 0',pin:'M12 17v5M9 3h6l-1 7 3 3H7l3-3z',search:'M11 4a7 7 0 100 14 7 7 0 000-14M21 21l-5-5',chev:'M6 9l6 6 6-6',chevr:'M9 6l6 6-6 6',link:'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1',check2:'M5 12l5 5 9-10',menu:'M4 6h16M4 12h16M4 18h16',clock:'M12 6v6l4 2M12 2a10 10 0 100 20 10 10 0 000-20',video:'M23 7l-7 5 7 5V7zM1 5h15a2 2 0 012 2v10a2 2 0 01-2 2H1a2 2 0 01-2-2V7a2 2 0 012-2z',screen:'M2 3h20a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V4a1 1 0 011-1zm6 17h8m-4-3v3',camera:'M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2zM12 9a4 4 0 100 8 4 4 0 000-8z',app:'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',more:'M12 13a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2zm-14 0a1 1 0 100-2 1 1 0 000 2z',gamepad:'M6 11h4M8 9v4M15 12h.01M18 10h.01M17.3 5H6.7A4.7 4.7 0 002 9.7v4.6A4.7 4.7 0 006.7 19h1.1l1.8 3h4.8l1.8-3h1.1a4.7 4.7 0 004.7-4.7V9.7A4.7 4.7 0 0017.3 5z',speaker:'M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14',headphone:'M3 18v-6a9 9 0 0118 0v6M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z',headphoneoff:'M1 1l22 22M3 18v-6a9 9 0 0115.5-5.5M21 12v6a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z',phoneoff:'M10.68 13.31a16 16 0 003.41 2.6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7 2 2 0 011.72 2v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.42 19.42 0 01-3.33-2.67m-2.67-3.34a19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91M1 1l22 22',folder:'M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z',micoff:'M1 1l22 22M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6M19 10v2a7 7 0 01-.12 1.28M12 19v4M8 23h8M5 10a7 7 0 0010.5 5.5'});
@@ -1037,13 +1088,37 @@ window.formatBytes = formatBytes;
 
 const checkStatusExpiry=()=>{const now=Date.now();for(const u of Object.keys(db.users||{})){const x=db.users[u];if(x?.statusExp&&now>x.statusExp){x.status='';x.statusExp=0;}}};
 const set=u=>({sound:true,compact:false,fs:15,reduce:false,dev:false,theme:'dark',linkPreviews:true,hideActivity:false,...(U(u)?.set||{})}),dev=()=>set(me).dev;
-const getPresence=u=>{if(!U(u))return 'offline';if(u===BOT||u===GB)return 'online';if(u===me){const p=U(me).presence||'online';if(p==='online'&&(Date.now()-lastAct>600000))return 'idle';return p}if(!onl[u])return 'offline';const p=U(u).presence||'online';if(p==='invisible')return 'offline';return p};
+const getPresence=u=>{if(!U(u))return 'offline';if(u===BOT||u===GB)return 'online';if(U(u).isBot||U(u).isCommunityBot||U(u).b?.includes('bot'))return U(u).presence||'online';if(u===me){const p=U(me).presence||'online';if(p==='online'&&(Date.now()-lastAct>600000))return 'idle';return p}if(!onl[u])return 'offline';const p=U(u).presence||'online';if(p==='invisible')return 'offline';return p};
 const online=u=>getPresence(u)!=='offline';
 const dotCls=u=>{const p=getPresence(u);return 'dot '+(p==='online'?'on':p==='idle'?'idle':p==='dnd'?'dnd':'off')};
 const presenceLabel=p=>({online:'Online',idle:'Idle',dnd:'Do Not Disturb',invisible:'Invisible',offline:'Offline'}[p]||'Online');
 function presenceMenu(ev){ev?.stopPropagation();const opts=[{id:'online',label:'Online',desc:'Active and available',dot:'on'},{id:'idle',label:'Idle',desc:'Away from keyboard',dot:'idle'},{id:'dnd',label:'Do Not Disturb',desc:'Mute sounds and notifications',dot:'dnd'},{id:'invisible',label:'Invisible',desc:'Appear offline to others',dot:'off'}];const cur=U(me)?.presence||'online';const curAct=U(me)?.act;modal(`<h2>Set Presence</h2><div style="display:flex;flex-direction:column;gap:6px">${opts.map(o=>`<div class="rowc" style="cursor:pointer;padding:8px 12px;border-radius:8px;background:${cur==o.id?'var(--nav-on)':'var(--card2)'}" onclick="setPresence('${o.id}');closeModal()"><span class="dot ${o.dot}" style="position:static;display:inline-block;margin-right:8px;border:0"></span><div class="sp"><b>${o.label}</b><div class="mu" style="font-size:12px">${o.desc}</div></div>${cur==o.id?ic('check2',18):''}</div>`).join('')}</div>${curAct?.n ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)"><div style="font-size:11px;font-weight:800;color:var(--mu);margin-bottom:6px;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#3ba55d;display:inline-block"></span> CURRENT ACTIVITY</div><div style="display:flex;align-items:center;justify-content:space-between;background:var(--pop);border:1px solid var(--line);border-radius:8px;padding:8px 12px;gap:8px"><div style="min-width:0;flex:1"><div class="ell" style="font-weight:700;font-size:13px">${esc(curAct.t || 'Playing')} ${esc(curAct.n)}</div>${curAct.artist ? `<div class="mu ell" style="font-size:11px">${esc(curAct.artist)}</div>` : (curAct.details ? `<div class="mu ell" style="font-size:11px">${esc(curAct.details)}</div>` : '')}</div><button class="r" style="padding:6px 12px;font-size:12px;flex:none;font-weight:700;display:inline-flex;align-items:center;gap:4px" onclick="clearActivity()">${ic('trash',13)} Stop</button></div></div>` : ''}<div style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px;display:flex;gap:8px"><button class="g" style="flex:1" onclick="closeModal();activitySettingsModal()">${ic('gamepad',16)} Activity Settings</button><button class="g" style="flex:1" onclick="closeModal();switchAccountModal()">${ic('users',16)} Switch Accounts</button></div>`,380)}
 function setPresence(p){U(me).presence=p;try{chan?.track({at:Date.now(),presence:p})}catch{}save();render()}
-['mousemove','keydown','pointerdown','touchstart'].forEach(e=>window.addEventListener(e,()=>{const was=Date.now()-lastAct>600000;lastAct=Date.now();if(was&&U(me)?.presence==='online')render()},{passive:true}));
+let lastActivityTick = 0;
+['keydown','pointerdown','touchstart'].forEach(e=>window.addEventListener(e,()=>{
+  const was=Date.now()-lastAct>600000;lastAct=Date.now();if(was&&U(me)?.presence==='online')render();
+},{passive:true}));
+window.addEventListener('mousemove',()=>{
+  const now = Date.now();
+  if (now - lastActivityTick < 2500) return;
+  lastActivityTick = now;
+  const was = now - lastAct > 600000;
+  lastAct = now;
+  if(was && U(me)?.presence === 'online') render();
+},{passive:true});
+window.addEventListener('online', async () => {
+  toast('Connected back online! Syncing...');
+  try {
+    if (me && ready) {
+      await pull();
+      connect();
+      render();
+    }
+  } catch(_) {}
+});
+window.addEventListener('offline', () => {
+  toast('Connection lost. You are currently offline.');
+});
 setInterval(()=>{if(me&&U(me)?.presence==='online'&&(Date.now()-lastAct>600000))render()},30000);
 const uid=u=>{let h=5381,g=52711;for(const c of u){h=(h*33^c.codePointAt(0))>>>0;g=(g*31+c.codePointAt(0))>>>0}return String(h).padStart(10,'0')+String(g).padStart(9,'0')};
 const findU=a=>Object.keys(db.users).find(u=>uid(u)==a||u.toLowerCase()==String(a).toLowerCase());
@@ -1271,14 +1346,30 @@ function getBadgeReceived(u,k){
   return x.joined||Date.now();
 }
 
-const badges=(u,clickable=false)=>banned(u)?'':bk(u).filter(k=>B[k]).map(k=>{
-  const isFounder=k==='founder';
-  const name=B[k][2]||k;
-  const col=hexColor(B[k][1]);
-  const clickAttr=clickable?` onclick="event.stopPropagation();showBadgesModal('${u}','${k}')" role="button" tabindex="0"`:'';
-  const cls=`badge-icon bd-icon ${isFounder?'founder-badge':''} ${clickable?'clickable':''}`.trim();
-  return `<span class="${cls}" style="background:${col}" data-tooltip="${esc(name)}" title="${esc(name)}"${clickAttr}>${isFounder?founderCrown():ic(IC[B[k][0]]?B[k][0]:'star',12,1)}</span>`;
-}).join('');
+const badges=(u,clickable=false,limit=5)=>{
+  if(banned(u))return '';
+  const allKeys=bk(u).filter(k=>B[k]);
+  const hasOverflow=limit>0&&allKeys.length>limit;
+  const displayKeys=hasOverflow?allKeys.slice(0,limit):allKeys;
+
+  const rendered=displayKeys.map((k,idx)=>{
+    const isFounder=k==='founder';
+    const name=B[k][2]||k;
+    const col=hexColor(B[k][1]);
+    const clickAttr=clickable?` onclick="event.stopPropagation();showBadgesModal('${u}','${k}')" role="button" tabindex="0"`:` onclick="event.stopPropagation();showBadgesModal('${u}','${k}')"`;
+    const isLastFaded=hasOverflow&&idx===displayKeys.length-1;
+    const cls=`badge-icon bd-icon ${isFounder?'founder-badge':''} ${clickable?'clickable':''} ${isLastFaded?'badge-faded':''}`.trim();
+    return `<span class="${cls}" style="background:${col}" data-tooltip="${esc(name)}" title="${esc(name)}"${clickAttr}>${isFounder?founderCrown():ic(IC[B[k][0]]?B[k][0]:'star',12,1)}</span>`;
+  });
+
+  if(hasOverflow){
+    const remaining=allKeys.length-(limit-1);
+    const moreClickAttr=` onclick="event.stopPropagation();showBadgesModal('${u}')" role="button" tabindex="0"`;
+    rendered.push(`<span class="badge-icon bd-icon badge-more clickable" data-tooltip="${remaining} more badge${remaining===1?'':'s'} &bull; View all" title="${remaining} more badge${remaining===1?'':'s'} &bull; View all"${moreClickAttr}>+</span>`);
+  }
+
+  return rendered.join('');
+};
 
 let currentBadgeModalUser=null,currentBadgeModalTab='user';
 function showBadgesModal(u,activeKey,tab='user'){
@@ -2125,9 +2216,15 @@ async function handleIncomingVoiceSignal(payload) {
 async function startVoiceCallConnections() {
   await getLocalMicrophoneStream();
   if (!currentVoice) return;
-  const s = db.servers[currentVoice.sid];
-  if (!s) return;
-  const members = (s.voiceConnected?.[currentVoice.cid] || []).filter(u => u !== me);
+  let members = [];
+  if (currentVoice.sid === 'dm') {
+    const other = currentVoice.cid.split(':').find(u => u !== me) || currentVoice.cid;
+    members = [other];
+  } else {
+    const s = db.servers[currentVoice.sid];
+    if (!s) return;
+    members = (s.voiceConnected?.[currentVoice.cid] || []).filter(u => u !== me);
+  }
 
   for (const peerU of members) {
     const isInitiator = me < peerU;
@@ -2870,19 +2967,278 @@ function checkFontGlyphs(buf, text) {
 const save=()=>{clearTimeout(saveT);saveT=setTimeout(()=>push().catch(e=>toast('Sync failed: '+e.message)),250)};
 const pull=async()=>{const{data,error}=await sb.from('state').select('data').eq('id',1).maybeSingle();if(error)throw error;db=blank(data?.data);db.customBadges=db.customBadges||{};Object.assign(B,db.customBadges);if(db.updateLog)Object.assign(CFG.updateLog,db.updateLog)};
 const push=async()=>{if(!ready||!me||!sb)return;const r=rid();mine.add(r);db.rev=r;let res=await sb.from('state').update({data:db}).eq('id',1).select('id');if(!res.error&&!res.data?.length)res=await sb.from('state').insert({id:1,data:db}).select('id');if(res.error)toast('Sync failed: '+res.error.message)};
+
+/* ================= Community Bots & Simulated Active Members ================= */
+const REAL_FIRST_NAMES = [
+  'Alex', 'Sam', 'Marcus', 'Chloe', 'Liam', 'Maya', 'Jordan', 'Elena', 'Kevin', 'Sophia',
+  'David', 'Hannah', 'Lucas', 'Olivia', 'Nate', 'Sarah', 'Ethan', 'Emma', 'Dylan', 'Charlotte',
+  'Mason', 'Ava', 'Noah', 'Leo', 'Zoe', 'Jake', 'Emily', 'Tyler', 'Bella', 'Ryan',
+  'Mia', 'Ben', 'Lily', 'Aaron', 'Claire', 'Ian', 'Grace', 'Connor', 'Ruby', 'Cole',
+  'Ivy', 'Parker', 'Hunter', 'Sophie', 'Lucian', 'Autumn', 'Milo', 'Piper', 'Elias', 'Harper'
+];
+const REAL_LAST_INITIALS = ['m', 'k', 't', 'd', 'w', 'p', 'r', 'z', 'b', 'c', 's', 'h', 'v', 'j', 'l', 'g'];
+const REAL_STATUSES = [
+  'chilling', 'studying for exams', 'at gym rn', 'afk eating', 'anyone down to play?',
+  'coding late', 'working', 'listening to music', 'brb 10m', 'sleepy',
+  'finals week pain', 'vibing', 'coffee time', 'reading', 'cooking dinner',
+  'back in an hour', 'touching grass', 'headache', 'watching youtube', 'bored',
+  'good vibes only', 'dnd working', 'hyped for weekend', 'grinding', 'in queue'
+];
+const REAL_ACTIVITIES = [
+  { t: 'Playing', n: 'Valorant', details: 'Competitive • Ascendant II' },
+  { t: 'Playing', n: 'Counter-Strike 2', details: 'Premier Match • Mirage' },
+  { t: 'Playing', n: 'Minecraft', details: 'Hardcore Survival' },
+  { t: 'Playing', n: 'Rocket League', details: 'Champion III 2v2' },
+  { t: 'Playing', n: 'Apex Legends', details: 'Ranked Diamond IV' },
+  { t: 'Playing', n: 'League of Legends', details: 'Solo/Duo • Mid' },
+  { t: 'Listening to', n: 'Spotify', artist: 'The Weeknd - After Hours' },
+  { t: 'Listening to', n: 'Spotify', artist: 'Kendrick Lamar' },
+  { t: 'Listening to', n: 'Spotify', artist: 'Arctic Monkeys' },
+  { t: 'Listening to', n: 'Spotify', artist: 'Billie Eilish' },
+  { t: 'Listening to', n: 'Spotify', artist: 'Travis Scott - Utopia' },
+  { t: 'Watching', n: 'YouTube', details: 'Documentary' },
+  { t: 'Watching', n: 'Twitch', details: 'Live Tournament' },
+  { t: 'Playing', n: 'Visual Studio Code', details: 'Debugging TypeScript' },
+  { t: 'Playing', n: 'Grand Theft Auto V', details: 'Online Heist' },
+  { t: 'Playing', n: 'Cyberpunk 2077', details: 'Night City' },
+  { t: 'Playing', n: 'Elden Ring', details: 'Shadow of the Erdtree' },
+  { t: 'Playing', n: 'Overwatch 2', details: 'Competitive Tank' }
+];
+const REAL_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#6366f1', '#14b8a6', '#64748b'];
+
+function generateCommunityBot(existingIds = new Set()) {
+  const first = REAL_FIRST_NAMES[Math.floor(Math.random() * REAL_FIRST_NAMES.length)];
+  const init = REAL_LAST_INITIALS[Math.floor(Math.random() * REAL_LAST_INITIALS.length)];
+  let num = Math.random() < 0.4 ? String(Math.floor(Math.random() * 90) + 10) : '';
+  let uname = (first.toLowerCase() + '_' + init + num).toLowerCase();
+  let count = 2;
+  while (existingIds.has(uname) || (typeof db !== 'undefined' && db.users && db.users[uname])) {
+    uname = (first.toLowerCase() + '_' + init + count).toLowerCase();
+    count++;
+  }
+  const display = first;
+  const status = REAL_STATUSES[Math.floor(Math.random() * REAL_STATUSES.length)];
+  const act = Math.random() < 0.75 ? REAL_ACTIVITIES[Math.floor(Math.random() * REAL_ACTIVITIES.length)] : null;
+  const color = REAL_COLORS[Math.floor(Math.random() * REAL_COLORS.length)];
+  const presences = ['online', 'online', 'online', 'idle', 'dnd'];
+  const presence = presences[Math.floor(Math.random() * presences.length)];
+  return {
+    id: uname,
+    display,
+    status,
+    act,
+    color,
+    presence,
+    isBot: false,
+    isCommunityBot: true,
+    b: [],
+    joined: Date.now() - Math.floor(Math.random() * 60 * 86400000)
+  };
+}
+
+const COMMUNITY_BOT_MEMBERS = [
+  { id: 'marcus_t', display: 'Marcus', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Valorant', details: 'Competitive • Ascendant II' }, status: 'clutch or kick', color: '#ff4655' },
+  { id: 'chloe_d', display: 'Chloe', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Genshin Impact', details: 'Exploring Fontaine' }, status: 'farming artifacts...', color: '#e07a5f' },
+  { id: 'liam_w', display: 'Liam', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Call of Duty: Warzone', details: 'Resurgence Quads' }, status: 'gulag champion', color: '#818cf8' },
+  { id: 'maya_p', display: 'Maya', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Counter-Strike 2', details: 'Premier Match • Mirage' }, status: 'diffing mid with AWP', color: '#f59e0b' },
+  { id: 'jordan_r', display: 'Jordan', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Cyberpunk 2077', details: 'Night City' }, status: 'wake up samurai', color: '#06b6d4' },
+  { id: 'elena_m', display: 'Elena', isBot: false, isCommunityBot: true, act: { t: 'Listening to', n: 'Spotify', artist: 'Lo-Fi Chill Beats' }, status: 'vibing in vc', color: '#ec4899' },
+  { id: 'kevin_z', display: 'Kevin', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Apex Legends', details: 'Ranked Diamond IV' }, status: 'need heavy ammo', color: '#ef4444' },
+  { id: 'sophia_b', display: 'Sophia', isBot: false, isCommunityBot: true, act: { t: 'Listening to', n: 'Spotify', artist: 'Porter Robinson - Shelter' }, status: 'music is life', color: '#3b82f6' },
+  { id: 'david_c', display: 'David', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Elden Ring', details: 'Shadow of the Erdtree' }, status: 'no hit malenia run', color: '#eab308' },
+  { id: 'hannah_s', display: 'Hannah', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Visual Studio Code', details: 'Debugging TypeScript' }, status: 'it compiles on my machine', color: '#10b981' },
+  { id: 'lucas_m', display: 'Lucas', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Minecraft', details: 'Hardcore Survival Day 320' }, status: 'mining diamonds', color: '#f43f5e' },
+  { id: 'olivia_h', display: 'Olivia', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Overwatch 2', details: 'Grandmaster Tank' }, status: 'protecting supports', color: '#6366f1' },
+  { id: 'nate_92', display: 'Nate', isBot: false, isCommunityBot: true, act: { t: 'Streaming', n: 'Twitch', details: 'Road to Radiant! giveaway' }, status: 'live on twitch', color: '#8b5cf6' },
+  { id: 'sarah_j', display: 'Sarah', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Rocket League', details: 'Champion III 2v2' }, status: 'what a save', color: '#38bdf8' },
+  { id: 'ethan_v', display: 'Ethan', isBot: false, isCommunityBot: true, act: { t: 'Watching', n: 'YouTube', details: 'Unreal Engine 5 Devlog' }, status: 'late night grind', color: '#a855f7' },
+  { id: 'emma_w', display: 'Emma', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'League of Legends', details: 'Solo/Duo • Mid' }, status: 'mid gap', color: '#14b8a6' },
+  { id: 'dylan_k', display: 'Dylan', isBot: false, isCommunityBot: true, act: { t: 'Playing', n: 'Rainbow Six Siege', details: 'Ranked Emerald' }, status: 'defusing bomb', color: '#64748b' },
+  { id: 'charlotte_r', display: 'Charlotte', isBot: false, isCommunityBot: true, act: { t: 'Listening to', n: 'Apple Music', artist: 'Hans Zimmer - Interstellar' }, status: 'stargazing', color: '#d946ef' },
+  { id: 'rythm_bot', display: 'Rythm', isBot: true, isCommunityBot: true, b: ['bot'], status: 'Type /join or /play to listen to music', color: '#22c55e' },
+  { id: 'carl_bot', display: 'Carl-bot', isBot: true, isCommunityBot: true, b: ['bot'], status: 'Keeping servers tidy • Type !help', color: '#0ea5e9' },
+  { id: 'midjourney_bot', display: 'Midjourney', isBot: true, isCommunityBot: true, b: ['bot'], status: 'Type /imagine for AI art', color: '#6366f1' },
+  { id: 'dank_memer', display: 'Dank Memer', isBot: true, isCommunityBot: true, b: ['bot'], status: 'Type /meme for memes', color: '#84cc16' },
+  { id: 'poketwo_bot', display: 'Pokétwo', isBot: true, isCommunityBot: true, b: ['bot'], status: 'Type /pokemon to catch Pokémon', color: '#eab308' }
+];
+
+function populateServerBots(sid0){
+  const s = db.servers[sid0];
+  if(!s) return;
+  s.members = s.members || [];
+  const existingSet = new Set(s.members);
+  let added = 0;
+  for(let i = 0; i < 20; i++){
+    const bot = generateCommunityBot(existingSet);
+    existingSet.add(bot.id);
+    db.users[bot.id] = {
+      display: bot.display,
+      friends: [],
+      b: [],
+      isBot: false,
+      isCommunityBot: true,
+      presence: bot.presence,
+      act: bot.act,
+      status: bot.status,
+      owned: [],
+      links: [],
+      color: bot.color,
+      joined: bot.joined
+    };
+    s.members.push(bot.id);
+    added++;
+  }
+  save();
+  render();
+  if(typeof ssettings === 'function' && ss.s === sid0 && ss.p === 'bots') ssettings();
+  toast('Added ' + added + ' community members to ' + s.name + '! (Total: ' + s.members.length + ')');
+}
+
+function clearCommunityBots(sid0){
+  const s = db.servers[sid0];
+  if(!s) return;
+  const commandBotIds = new Set(['rythm_bot', 'midjourney_bot', 'carl_bot', 'dank_memer', 'poketwo_bot', BOT, GB]);
+  const before = s.members.length;
+  s.members = (s.members || []).filter(u => !commandBotIds.has(u) && !U(u)?.isCommunityBot && !U(u)?.isBot);
+  save();
+  render();
+  if(typeof ssettings === 'function' && ss.s === sid0 && ss.p === 'bots') ssettings();
+  toast('Removed ' + (before - s.members.length) + ' community bots from ' + s.name);
+}
+
+function addRandomBotModal(sid0){
+  const gamerNames = ['Hyperion', 'ZeroGravity', 'Shadow_Striker', 'PhantomX', 'Quantum', 'PixelLord', 'CyberNinja', 'Solaris', 'Glitch_01', 'Inferno', 'Aero', 'RogueEcho'];
+  const games = [
+    { n: 'Valorant', t: 'Playing', d: 'Competitive Match' },
+    { n: 'Minecraft', t: 'Playing', d: 'Survival World' },
+    { n: 'Counter-Strike 2', t: 'Playing', d: 'Premier Mode' },
+    { n: 'Cyberpunk 2077', t: 'Playing', d: 'Phantom Liberty' },
+    { n: 'Spotify', t: 'Listening to', d: 'Synthwave Beats' },
+    { n: 'Twitch', t: 'Streaming', d: 'Live Stream' }
+  ];
+  const randName = gamerNames[Math.floor(Math.random() * gamerNames.length)] + '_' + Math.floor(10 + Math.random() * 90);
+  const randGame = games[Math.floor(Math.random() * games.length)];
+  
+  modal(`<h2>Add Custom Bot / Member</h2>
+    <p class="mu" style="margin-bottom:12px">Create an active simulated bot member for your server.</p>
+    <label>BOT USERNAME</label>
+    <input id="newBotId" value="${esc(randName.toLowerCase().replace(/[^a-z0-9_]/g,''))}">
+    <label>DISPLAY NAME</label>
+    <input id="newBotDisplay" value="${esc(randName)}">
+    <label>ACTIVITY TYPE</label>
+    <select id="newBotActType">
+      <option value="Playing" ${randGame.t==='Playing'?'selected':''}>Playing</option>
+      <option value="Listening to" ${randGame.t==='Listening to'?'selected':''}>Listening to</option>
+      <option value="Streaming" ${randGame.t==='Streaming'?'selected':''}>Streaming</option>
+      <option value="Watching">Watching</option>
+    </select>
+    <label>ACTIVITY / GAME NAME</label>
+    <input id="newBotActName" value="${esc(randGame.n)}">
+    <label>STATUS MESSAGE</label>
+    <input id="newBotStatus" value="online and ready">
+    <div class="tg" style="margin:12px 0">
+      <div class="sp"><b>Display [BOT] Badge</b><div class="mu">Show official BOT badge beside name</div></div>
+      <input type="checkbox" id="newBotIsBot" checked>
+    </div>
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:14px">
+      <button class="g" onclick="closeModal()">Cancel</button>
+      <button onclick="confirmAddRandomBot('${sid0}')">Add Bot</button>
+    </div>`, 420);
+}
+
+function confirmAddRandomBot(sid0){
+  const s = db.servers[sid0];
+  if(!s) return;
+  const bid = ($('#newBotId')?.value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+  const bdisp = ($('#newBotDisplay')?.value || '').trim() || bid;
+  const actType = $('#newBotActType')?.value || 'Playing';
+  const actName = ($('#newBotActName')?.value || '').trim();
+  const bstatus = ($('#newBotStatus')?.value || '').trim();
+  const isBot = $('#newBotIsBot')?.checked;
+  if(!bid) return toast('Please enter a valid bot ID');
+
+  db.users[bid] = {
+    display: bdisp,
+    friends: [],
+    b: isBot ? ['bot'] : [],
+    isBot: !!isBot,
+    isCommunityBot: true,
+    presence: 'online',
+    act: actName ? { t: actType, n: actName } : undefined,
+    status: bstatus,
+    owned: [],
+    links: [],
+    joined: Date.now()
+  };
+  s.members = s.members || [];
+  if(!s.members.includes(bid)) s.members.push(bid);
+  save();
+  render();
+  closeModal();
+  if(typeof ssettings === 'function' && ss.s === sid0 && ss.p === 'bots') ssettings();
+  toast('Added @' + bid + ' to server!');
+}
+
 function ensure(){let c=0,s=db.servers[SID];
 if(!db.users[BOT]){db.users[BOT]={display:BOT,friends:[],b:['bot'],owned:[],links:[],joined:Date.now()};c=1}
 if(!db.users[GB]){db.users[GB]={display:GB,friends:[],b:['bot'],owned:[],links:[],joined:Date.now()};c=1}
 if(!s){s=db.servers[SID]={name:CFG.starter.name,owner:OWNER,members:[],msgs:{},ch:mkCh(CFG.starter.channels),v2:1,emojis:{}};c=1}
-if(!s.members.includes(me)){s.members.push(me);c=1}if(s.icon){s.icon='';c=1}db.customBadges=db.customBadges||{};Object.assign(B,db.customBadges);for(const oId of ['981','s']){
+if(!s.members.includes(me)){s.members.push(me);c=1}
+  for(const b of COMMUNITY_BOT_MEMBERS){
+    if(!db.users[b.id]){
+      db.users[b.id]={
+        display: b.display,
+        friends: [],
+        b: b.b || (b.isBot ? ['bot'] : []),
+        isBot: !!b.isBot,
+        isCommunityBot: true,
+        presence: b.presence || 'online',
+        act: b.act,
+        status: b.status,
+        owned: [],
+        links: [],
+        joined: Date.now() - Math.floor(Math.random() * 40 * 86400000)
+      };
+      c = 1;
+    }
+  }
+  if(s && (!s.members || s.members.length < 15)){
+    COMMUNITY_BOT_MEMBERS.forEach(b => {
+      if(!s.members.includes(b.id)) s.members.push(b.id);
+    });
+    c = 1;
+  }
+  if(s.icon){s.icon='';c=1}db.customBadges=db.customBadges||{};Object.assign(B,db.customBadges);for(const oId of ['981','s']){
   if(!db.users[oId]){db.users[oId]={display:oId,friends:[],b:['founder'],owned:[],links:[],joined:Date.now()};c=1;}
   else{
     db.users[oId].b = db.users[oId].b || [];
     if(!db.users[oId].b.includes('founder')){db.users[oId].b.unshift('founder');c=1;}
   }
 }
-for(const [uname,bl] of Object.entries(USER_BADGES)){const uk=findU(uname)||uname;if(db.users[uk]){const cur=db.users[uk].b||[];const merged=[...new Set([...cur,...bl])];if(merged.length!==cur.length){db.users[uk].b=merged;c=1}}}
-const ogList=Object.entries(db.users||{}).filter(([uname])=>uname!==BOT&&uname!==GB&&uname!==OWNER&&uname!=='981'&&uname!=='s').sort((a,b)=>(a[1].joined||0)-(b[1].joined||0)).slice(0,50);
+  const COMMAND_BOT_IDS = ['rythm_bot', 'midjourney_bot', 'carl_bot', 'dank_memer', 'poketwo_bot', BOT, GB];
+  for(const [uname,bl] of Object.entries(USER_BADGES)){const uk=findU(uname)||uname;if(db.users[uk]){const cur=db.users[uk].b||[];const merged=[...new Set([...cur,...bl])];if(merged.length!==cur.length){db.users[uk].b=merged;c=1}}}
+  const ogList=Object.entries(db.users||{}).filter(([uname, ud])=>uname!==BOT&&uname!==GB&&uname!==OWNER&&uname!=='981'&&uname!=='s'&&!ud.isBot&&!ud.isCommunityBot&&!ud.b?.includes('bot')&&!COMMAND_BOT_IDS.includes(uname)).sort((a,b)=>(a[1].joined||0)-(b[1].joined||0)).slice(0,50);
+  for(const [uname, ud] of Object.entries(db.users || {})){
+    if(ud.isBot || ud.isCommunityBot || ud.b?.includes('bot') || COMMAND_BOT_IDS.includes(uname)){
+      if(ud.b && ud.b.includes('og')){
+        ud.b = ud.b.filter(x => x !== 'og');
+        c = 1;
+      }
+      if(COMMAND_BOT_IDS.includes(uname) || ud.isBot){
+        if(ud.act && !COMMAND_BOT_IDS.includes(uname)){
+          delete ud.act;
+          c = 1;
+        }
+      }
+    }
+    // Clean emojis from community bots and standard bots display names
+    if(ud.isCommunityBot || ud.isBot || COMMAND_BOT_IDS.includes(uname)){
+      if(ud.display && /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u.test(ud.display)){
+        ud.display = ud.display.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+        c = 1;
+      }
+    }
+  }
 for(const [uname,ud] of ogList){ud.b=ud.b||[];if(!ud.b.includes('og')){ud.b.push('og');c=1}} for(const sv of Object.values(db.servers||{})){if(sv.power){sv.powers=[...new Set([...(sv.powers||[]),...sv.power])];delete sv.power;c=1;}}
 if(c)save()}
 function connect(){try{chan?.unsubscribe()}catch{}chan=sb.channel('mc',{config:{presence:{key:me}}});
@@ -3775,7 +4131,20 @@ function fullProf(u,sid0){
     </div>
     <div style="padding:14px 24px 24px">
       <div style="margin-bottom:12px">
-        ${serverNick?`<h2 style="font-size:24px;margin:0 0 2px;font-weight:800">${esc(serverNick)}</h2><div style="font-size:15px;color:var(--tx);font-weight:600">${esc(x.display||u)} <span class="mu">@${esc(u)}</span>${x.pronouns?` <span class="pronoun-pill">${esc(x.pronouns)}</span>`:''}${badges(u, true)}</div>`:`<div style="font-size:24px;font-weight:800">${renderStyledName(u,{size:'full-popout',sid:curSid})}${badges(u, true)}</div><div class="mu" style="font-size:14px">@${esc(u)}${x.pronouns?` <span class="pronoun-pill">${esc(x.pronouns)}</span>`:''}</div>`}
+        ${serverNick ? `
+          <h2 style="font-size:24px;margin:0 0 2px;font-weight:800">${esc(serverNick)}</h2>
+          <div style="font-size:15px;color:var(--tx);font-weight:600">${esc(x.display||u)} <span class="mu">@${esc(u)}</span>${x.pronouns ? ` <span class="pronoun-pill">${esc(x.pronouns)}</span>` : ''}</div>
+        ` : `
+          <div style="display:flex;align-items:center;flex-wrap:wrap">
+            <div style="font-size:24px;font-weight:800;${pl(u) ? `padding:4px 14px;border-radius:8px;${pl(u)};box-shadow:0 2px 8px rgba(0,0,0,0.4);display:inline-flex;align-items:center;` : ''}">${renderStyledName(u,{size:'full-popout',sid:curSid})}</div>
+          </div>
+          <div class="mu" style="font-size:14px;margin-top:3px">@${esc(u)}${x.pronouns ? ` <span class="pronoun-pill">${esc(x.pronouns)}</span>` : ''}</div>
+        `}
+        ${badges(u) ? `
+          <div class="profile-badges-row" style="margin-top:8px" onclick="event.stopPropagation()">
+            ${badges(u, true)}
+          </div>
+        ` : ''}
         ${x.status?`<div style="font-size:13px;color:var(--tx);margin-top:6px;display:flex;align-items:center;gap:6px">${esc(x.status)}</div>`:''}
       </div>
       <div class="prof-tabs" style="display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:14px;padding-bottom:2px">
@@ -3820,7 +4189,20 @@ function prof(u,ev){
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end">${own?`<button style="padding:6px 12px;font-size:13px" onclick="$('#pp')?.remove();settings('profile')">Edit profile</button>`:u==BOT||u==GB?'':blk?`<button class="r" style="padding:6px 12px;font-size:13px" onclick="unblockUser('${u}');$('#pp')?.remove()">Unblock</button>`:`<button style="padding:6px 12px;font-size:13px" onclick="$('#pp')?.remove();dm('${u}')">Message</button>${fr?`<button class="g" style="padding:6px 10px;font-size:13px;color:#f2575c" onclick="unf('${u}');$('#pp')?.remove()">Unfriend</button>`:freqOut?`<button class="g" style="padding:6px 10px;font-size:13px" onclick="cancelFriendReq('${u}');$('#pp')?.remove()">Sent (Cancel)</button>`:freqIn?`<button class="gr" style="padding:6px 10px;font-size:13px" onclick="acceptFriendReq('${u}');$('#pp')?.remove()">Accept</button>`:`<button class="g" style="padding:6px 10px;font-size:13px" onclick="sendFriendReq('${u}');$('#pp')?.remove()">Add</button>`}<button class="g" style="padding:6px 8px;font-size:13px;color:#f2575c;min-width:28px" onclick="blockUser('${u}');$('#pp')?.remove()" title="Block user">${ic('x',14)}</button>`}</div>
     </div>
     <div style="cursor:pointer" onclick="$('#pp')?.remove();fullProf('${u}','${curSid}')">
-      ${serverNick?`<div style="font-size:20px;font-weight:800;margin-top:4px">${esc(serverNick)}</div><div class="mu" style="font-size:13px">@${esc(u)} &bull; ${esc(x.display||u)}${x.pronouns?` <span class="pronoun-pill">${esc(x.pronouns)}</span>`:''}${badges(u, true)}</div>`:`<div style="font-size:20px;font-weight:800;margin-top:4px;${pl(u)?`padding:4px 10px;border-radius:8px;${pl(u)};box-shadow:0 2px 8px rgba(0,0,0,0.4);display:inline-flex;align-items:center;gap:6px;`:''}">${renderStyledName(u,{size:'popout',sid:curSid})}${badges(u, true)}</div><div class="mu">@${esc(u)}${x.pronouns?` <span class="pronoun-pill">${esc(x.pronouns)}</span>`:''}</div>`}
+      ${serverNick ? `
+        <div style="font-size:20px;font-weight:800;margin-top:4px">${esc(serverNick)}</div>
+        <div class="mu" style="font-size:13px">@${esc(u)} &bull; ${esc(x.display||u)}${x.pronouns ? ` <span class="pronoun-pill">${esc(x.pronouns)}</span>` : ''}</div>
+      ` : `
+        <div style="margin-top:6px;display:flex;align-items:center;flex-wrap:wrap">
+          <div style="font-size:20px;font-weight:800;${pl(u) ? `padding:4px 12px;border-radius:8px;${pl(u)};box-shadow:0 2px 8px rgba(0,0,0,0.4);display:inline-flex;align-items:center;` : ''}">${renderStyledName(u,{size:'popout',sid:curSid})}</div>
+        </div>
+        <div class="mu" style="margin-top:3px">@${esc(u)}${x.pronouns ? ` <span class="pronoun-pill">${esc(x.pronouns)}</span>` : ''}</div>
+      `}
+      ${badges(u) ? `
+        <div class="profile-badges-row" onclick="event.stopPropagation()">
+          ${badges(u, true)}
+        </div>
+      ` : ''}
     </div>
     ${x.status?`<div class="pn"><b>STATUS</b>${esc(x.status)}</div>`:''}
     ${actDisplay(x, u)}
@@ -3875,8 +4257,15 @@ function renderProfileCardPreview(){
     <div class="bn" style="position:relative;${x.banner?`background-image:url(${esc(x.banner)})`:x.bc?`background:${x.bc}`:''}">${pfxOverlay}</div>
     <div class="pb">
       <div style="margin-top:-38px;position:relative;z-index:2"><div class="avw" style="position:relative;display:inline-flex;border-radius:50%">${av(me,74)}<i class="${dotCls(me)}" style="border-color:${pt.t1};z-index:4;bottom:2px;right:2px"></i></div></div>
-      <div style="font-size:20px;font-weight:800;margin-top:6px;${pl(me)?`padding:4px 10px;border-radius:8px;${pl(me)};box-shadow:0 2px 8px rgba(0,0,0,0.4);display:inline-flex;align-items:center;gap:6px;`:''}"><span id="pvn">${renderStyledName(me,{size:'popout'})}</span>${badges(me, true)}</div>
-      <div class="mu">@${esc(me)}${x.pronouns?` <span class="pronoun-pill">${esc(x.pronouns)}</span>`:''}</div>
+      <div style="margin-top:6px;display:flex;align-items:center;flex-wrap:wrap">
+        <div style="font-size:20px;font-weight:800;${pl(me)?`padding:4px 12px;border-radius:8px;${pl(me)};box-shadow:0 2px 8px rgba(0,0,0,0.4);display:inline-flex;align-items:center;`:''}"><span id="pvn">${renderStyledName(me,{size:'popout'})}</span></div>
+      </div>
+      <div class="mu" style="margin-top:3px">@${esc(me)}${x.pronouns?` <span class="pronoun-pill">${esc(x.pronouns)}</span>`:''}</div>
+      ${badges(me) ? `
+        <div class="profile-badges-row" onclick="event.stopPropagation()">
+          ${badges(me, true)}
+        </div>
+      ` : ''}
       ${x.status?`<div class="pn"><b>CUSTOM STATUS</b>${esc(x.status)}</div>`:''}
       ${actDisplay(x)}
       ${x.bio?`<div class="pn"><b>ABOUT ME</b><div style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(x.bio)}</div></div>`:''}
@@ -3895,6 +4284,41 @@ let selectedDesktopSourceId = null;
 let cameraPreviewStream = null;
 
 async function showScreenShareModal(targetTab = 'apps'){
+  if (!currentVoice) {
+    const inServer = (view.t === 'ch' || view.sid || S);
+    const s = inServer ? (db.servers[view.sid || S]) : null;
+    const voiceChannels = s ? (s.ch || []).filter(c => c.type === 'voice' || c.t === 'v') : [];
+    const targetDmUser = (view.t === 'dm' ? view.id : null);
+
+    modal(`
+      <div style="text-align:center;padding:16px 12px">
+        <div style="width:58px;height:58px;border-radius:50%;background:rgba(224,62,86,0.12);color:#e03e56;display:grid;place-items:center;margin:0 auto 16px;box-shadow:0 4px 16px rgba(224,62,86,0.25)">
+          ${ic('screen',28)}
+        </div>
+        <h2 style="margin:0 0 8px;font-size:20px;font-weight:800">Join a Call to Share Screen</h2>
+        <p class="mu" style="font-size:13.5px;line-height:1.55;max-width:390px;margin:0 auto 20px">
+          Screen sharing is only allowed while connected to an active voice channel or private call.
+        </p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="g" style="padding:8px 16px" onclick="closeModal()">Dismiss</button>
+          ${targetDmUser ? `
+            <button style="background:var(--ac);font-weight:700;padding:8px 18px" onclick="closeModal();startDmVoiceCall('${esc(targetDmUser)}')">
+              ${ic('phone',16)} Start Call with ${esc(dn(targetDmUser))}
+            </button>
+          ` : (voiceChannels.length ? `
+            <button style="background:var(--ac);font-weight:700;padding:8px 18px" onclick="closeModal();joinVoiceChannel('${s.id}','${voiceChannels[0].id}')">
+              ${ic('speaker',16)} Join 🔊 ${esc(voiceChannels[0].n)}
+            </button>
+          ` : `
+            <button style="background:var(--ac);font-weight:700;padding:8px 18px" onclick="closeModal();toast('Click a voice channel in the sidebar to join!')">
+              ${ic('speaker',16)} Select Voice Channel
+            </button>
+          `)}
+        </div>
+      </div>
+    `, 460);
+    return;
+  }
   try { updateQuestProgress('q2', 1); } catch(_) {}
   currentScreenshareTab = targetTab;
   let sources = [];
@@ -4086,6 +4510,10 @@ function toggleCamBlur(checked) {
 window.toggleCamBlur = toggleCamBlur;
 
 async function executeStartSharing() {
+  if (!currentVoice) {
+    toast('Screen sharing is only allowed while connected to a voice channel or call.');
+    return;
+  }
   const includeAudio = $('#streamAudioToggle')?.checked ?? true;
   const tab = currentScreenshareTab;
   closeModal();
@@ -5522,7 +5950,25 @@ function leaveGrp(id){const g=db.groups[id];if(!g||!confirm('Leave '+(g.name||'g
 /* ================= community discover ================= */
 function discView(){const q=(view.q||'').toLowerCase(),l=Object.entries(db.servers).filter(([,s])=>s.community&&(!q||(s.name+' '+(s.desc||'')).toLowerCase().includes(q))).sort((a,b)=>(b[1].powers?.length||0)-(a[1].powers?.length||0));
 return`<div class="top"><b>${ic('compass')} Community</b></div><div class="fl"><h2 style="text-align:center;font-size:26px;margin-top:10px">Find your people</h2><p class="mu" style="text-align:center">Public servers with Community enabled.</p><input id="dq" placeholder="Search servers..." value="${esc(view.q||'')}" oninput="view.q=this.value;render()" style="max-width:520px;display:block;margin:14px auto 24px"><div class="shop">${l.map(([id,s])=>`<div class="item"><div class="ib2" style="${s.banner?`background-image:url(${esc(s.banner)})`:''}"></div><div class="im" style="padding-top:28px"><b>${esc(s.name)}${powered(s)?` <span class="pwc" style="display:inline-flex;margin-left:6px;color:#eb459e">${ic('bolt',12,1)} Powered</span>`:''}</b><div class="mu">${s.desc?fmt(s.desc,me,id):'A Memocord community'}</div><div class="row"><span class="mu sp">${ic('users',14)} ${s.members.length} members</span><button onclick="enterSrv('${id}')">${s.members.includes(me)?'Open':'Join'}</button></div></div></div>`).join('')||'<p class="mu" style="text-align:center;grid-column:1/-1">No community servers found.</p>'}</div></div>`}
-function enterSrv(id,invCode){const s=db.servers[id];if(!s)return;if(isServerBanned(s,me))return toast('You are banned from this server');if(!s.members.includes(me)){s.members.push(me);if(invCode&&s.invites){const inv=s.invites.find(i=>i.code.toLowerCase()===invCode.toLowerCase());if(inv)inv.uses=(inv.uses||0)+1}audit(id,'Joined server via invite',me);save()}go({t:'srv',s:id,c:s.ch.find(c=>c.t=='t')?.id})}
+function enterSrv(id,invCode){
+  const s=db.servers[id];if(!s)return;
+  if(isServerBanned(s,me))return toast('You are banned from this server');
+  let isNewJoin = false;
+  if(!s.members.includes(me)){
+    s.members.push(me);
+    isNewJoin = true;
+    if(invCode&&s.invites){
+      const inv=s.invites.find(i=>i.code.toLowerCase()===invCode.toLowerCase());
+      if(inv)inv.uses=(inv.uses||0)+1;
+    }
+    audit(id,'Joined server via invite',me);
+    save();
+  }
+  go({t:'srv',s:id,c:s.ch.find(c=>c.t=='t')?.id});
+  if((isNewJoin || !s.onboardingDone?.[me]) && s.onboarding?.enabled && s.owner !== me){
+    setTimeout(() => { showOnboardingModal(id); }, 250);
+  }
+}
 
 /* ================= DM & Message State Management ================= */
 const paginationLimits = {};
@@ -5803,7 +6249,14 @@ function chat(head,arr,lock,ph,s,c,notice){
   const limit = paginationLimits[pKey] || 50;
   const hasEarlier = !fq && msgsList.length > limit;
   const pagedList = hasEarlier ? msgsList.slice(-limit) : msgsList;
-  const comp=lock?`${(typeof screeningBanner!=='undefined'&&screeningBanner)||''}${(typeof screeningBanner!=='undefined'&&screeningBanner)||''}<div class="inw"><div class="lk">${ic('mega',16)} ${esc(notice||'You do not have permission to send messages here.')}</div></div>`:`<div class="inw"><div id="slashAc" class="slash-ac"></div><div id="chAc" class="slash-ac"></div><div id="mac" class="mac"></div><div id="emac" class="emac"></div><div id="rp"></div><div id="ap2"></div><div class="composer">
+  const isScreeningPending = (typeof needsRuleScreening !== 'undefined' && needsRuleScreening);
+  let comp = '';
+  if (isScreeningPending) {
+    comp = `<div class="inw" style="margin-top:auto"><div class="rule-screening-bar" style="background:var(--card);border:1px solid var(--br);border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px"><div style="display:flex;align-items:center;gap:10px"><span style="color:var(--br)">${ic('shield',20)}</span><span style="font-size:13px;color:var(--tx);font-weight:600">You must complete member screening before you can talk in this server.</span></div><button style="padding:7px 16px;font-size:12.5px;font-weight:700" onclick="showOnboardingModal('${sid}')">Complete Screening</button></div></div>`;
+  } else if (lock) {
+    comp = `<div class="inw"><div class="lk">${ic('mega',16)} ${esc(notice||'You do not have permission to send messages here.')}</div></div>`;
+  } else {
+    comp = `<div class="inw"><div id="slashAc" class="slash-ac"></div><div id="chAc" class="slash-ac"></div><div id="mac" class="mac"></div><div id="emac" class="emac"></div><div id="rp"></div><div id="ap2"></div><div class="composer">
   <div style="position:relative;display:inline-flex">
     <button class="g tb" type="button" onclick="togglePlusActionMenu(event)" title="Add Attachment / Poll / GIF">${ic('plus',22)}</button>
     <div id="plusActionMenu" class="plus-action-menu pop" style="display:none">
@@ -5811,10 +6264,12 @@ function chat(head,arr,lock,ph,s,c,notice){
       <div class="plus-action-item" onclick="triggerFileInput('media')">${ic('image',16)} Upload Image / Video</div>
       <div class="plus-action-item" onclick="closePlusActionMenu();gifMenu()">${ic('gif',16)} Send a GIF</div>
       <div class="plus-action-item" onclick="closePlusActionMenu();createPollModal()">${ic('chart',16)} Create Poll</div>
+        <div class="plus-action-item" onclick="closePlusActionMenu();openClipsModal()">${ic('film',16)} Clips &amp; Highlights <span class="beta-pill" style="margin-left:auto">BETA</span></div>
     </div>
   </div>
   <input id="fl" type="file" multiple hidden>
-<textarea id="inp" rows="1" placeholder="${esc(ph)}"></textarea><button class="g tb" onclick="gifMenu()" title="GIFs">GIF</button><button class="g tb" onclick="stickerMenu()" title="Stickers">${ic('sticker',22)}</button><button class="g tb" onclick="emojiMenu()" title="Emojis">${ic('smile',22)}</button><button class="g tb" id="voiceBtn" onclick="toggleVoiceRec()" title="Voice Message">${ic('mic',20)}</button><button class="tb" onclick="sendNow()" title="Send">${ic('send',20)}</button></div><div class="typ" id="typ"></div></div>`;
+<textarea id="inp" rows="1" style="${(typeof prevInpHeight !== 'undefined' && prevInpHeight) ? `height:${prevInpHeight};` : ''}" placeholder="${esc(ph)}"></textarea><button class="g tb" onclick="openClipsModal()" title="Clips (BETA)">${ic('film',20)}</button><button class="g tb" onclick="gifMenu()" title="GIFs">GIF</button><button class="g tb" onclick="stickerMenu()" title="Stickers">${ic('sticker',22)}</button><button class="g tb" onclick="emojiMenu()" title="Emojis">${ic('smile',22)}</button><button class="g tb" id="voiceBtn" onclick="toggleVoiceRec()" title="Voice Message">${ic('mic',20)}</button><button class="tb" onclick="sendNow()" title="Send">${ic('send',20)}</button></div><div class="typ" id="typ"></div></div>`;
+  }
   return`<div class="top">${head}</div><div style="flex:1;display:flex;min-height:0;position:relative"><div id="msgs" class="msgs">${listH(pagedList,s,c,hasEarlier)}</div>${renderThreadPanel(s,c)}<button id="jumpPresent" class="jump-present" onclick="jumpToPresent()" style="display:none">${ic('chev',16)} Jump to present</button></div>${comp}`}
 function react(ts,e){const m=findMsg(ts);if(!m)return;m.r=m.r||{};const a=m.r[e]=m.r[e]||[];a.includes(me)?a.splice(a.indexOf(me),1):a.push(me);save();render()}
 function delMsg(ts){const a=msgArr(),i=a.findIndex(m=>String(m.ts)==String(ts));if(i<0)return;const m=a[i];const canDel=m.u===me||isMod()||(view.t==='srv'&&(cs()?.owner===me||perm(cs(),me,null,'manage_messages')));if(!canDel)return toast('You can only delete your own messages');const previewTxt=esc(m.x||m.em?.t||(m.audio?'Voice message':m.img?'Image':'Attachment')).slice(0,180);modal(`<h2>Delete Message</h2><p class="mu" style="margin-bottom:14px">Are you sure you want to delete this message? This cannot be undone.</p><div class="ac" style="padding:10px 14px;border-left:3px solid var(--br);margin-bottom:18px;max-height:120px;overflow-y:auto"><b>${dn(m.u)}</b> <span class="mu" style="font-size:12px;margin-left:4px">${tsf(m.ts)}</span><div style="margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere">${previewTxt}</div></div><div class="row" style="justify-content:flex-end;gap:10px"><button class="g" onclick="closeModal()">Cancel</button><button class="r" onclick="confirmDelMsg('${ts}')">Delete</button></div>`,420);}
@@ -5824,7 +6279,529 @@ function pinsModal(){const a=msgArr().filter(m=>m.pin);modal(`<h2>${ic('pin')} P
 const togSound=()=>{U(me).set=U(me).set||{};U(me).set.sound=!set(me).sound;save();render();toast(set(me).sound?'Message sounds on':'Message sounds muted');if(set(me).sound)playNotifySound();};
 
 function verify(id){const s=db.servers[id||sid()];if(!s)return;s.ver=s.ver||[];if(s.ver.includes(me))return;s.ver.push(me);save();render();toast('You are verified!')}
+/* ================= Autonomous Bot & Interactive AI Responses ================= */
+const BotEngine = {
+  handleCommand(text, channelId, serverId, isDm, targetUser) {
+    const raw = String(text || '').trim();
+    const parts = raw.split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const args = parts.slice(1).join(' ').trim();
+
+    // 1. Rythm Music Bot
+    if (cmd === '/join' || cmd === '!join' || cmd === '/connect' || cmd === '!connect' || cmd === '/summon') {
+      const sv = cs();
+      if (!sv) {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, { x: '⚠️ You must run this command inside a server.' });
+        return true;
+      }
+      let targetVc = null;
+      if (currentVoice && currentVoice.sid === view.s) {
+        targetVc = sv.ch.find(c => c.id === currentVoice.cid);
+      }
+      if (!targetVc && sv.voiceConnected) {
+        for (const [cid0, users] of Object.entries(sv.voiceConnected)) {
+          if ((users || []).includes(me)) {
+            targetVc = sv.ch.find(c => c.id === cid0);
+            break;
+          }
+        }
+      }
+      if (!targetVc) {
+        targetVc = (sv.ch || []).find(c => c.type === 'voice' || c.t === 'v');
+      }
+      if (!targetVc) {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, { x: '❌ No voice channels found in this server. Create a voice channel first!' });
+        return true;
+      }
+      sv.voiceConnected = sv.voiceConnected || {};
+      for (const k of Object.keys(sv.voiceConnected)) {
+        sv.voiceConnected[k] = (sv.voiceConnected[k] || []).filter(u => u !== 'rythm_bot');
+      }
+      sv.voiceConnected[targetVc.id] = sv.voiceConnected[targetVc.id] || [];
+      if (!sv.voiceConnected[targetVc.id].includes('rythm_bot')) {
+        sv.voiceConnected[targetVc.id].push('rythm_bot');
+      }
+      if (db.users['rythm_bot']) {
+        db.users['rythm_bot'].act = { t: 'Listening to', n: '🔊 ' + targetVc.n };
+      }
+      save();
+      render();
+      this.simulateBotTyping('rythm_bot', channelId, isDm ? targetUser : null, 400, () => {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '🔊 Connected to #' + targetVc.n,
+            d: 'Rythm has joined **🔊 ' + targetVc.n + '**!\n\nType **/play <song>** to queue tracks or **/play** to start playing the queued song!',
+            by: 'Rythm Music Bot'
+          }
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/disconnect' || cmd === '!disconnect' || cmd === '/leave' || cmd === '!leave') {
+      const sv = cs();
+      if (sv && sv.voiceConnected) {
+        for (const k of Object.keys(sv.voiceConnected)) {
+          sv.voiceConnected[k] = (sv.voiceConnected[k] || []).filter(u => u !== 'rythm_bot');
+        }
+        if (db.users['rythm_bot']) delete db.users['rythm_bot'].act;
+        save();
+        render();
+      }
+      this.simulateBotTyping('rythm_bot', channelId, isDm ? targetUser : null, 300, () => {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, {
+          x: '👋 Disconnected from voice channel. Thanks for listening!'
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/play' || cmd === '!play' || cmd === '/p' || cmd === '!p') {
+      const sv = cs();
+      if (sv) {
+        // Auto-join voice channel if not already in one
+        sv.voiceConnected = sv.voiceConnected || {};
+        let inVc = false;
+        for (const k of Object.keys(sv.voiceConnected)) {
+          if ((sv.voiceConnected[k] || []).includes('rythm_bot')) inVc = true;
+        }
+        if (!inVc) {
+          let userVc = currentVoice && currentVoice.sid === view.s ? sv.ch.find(c => c.id === currentVoice.cid) : null;
+          if (!userVc) {
+            for (const [cid0, users] of Object.entries(sv.voiceConnected)) {
+              if ((users || []).includes(me)) { userVc = sv.ch.find(c => c.id === cid0); break; }
+            }
+          }
+          if (!userVc) userVc = (sv.ch || []).find(c => c.type === 'voice' || c.t === 'v');
+          if (userVc) {
+            sv.voiceConnected[userVc.id] = sv.voiceConnected[userVc.id] || [];
+            if (!sv.voiceConnected[userVc.id].includes('rythm_bot')) sv.voiceConnected[userVc.id].push('rythm_bot');
+          }
+        }
+      }
+      const queuedList = sv?.rythmQueue || ['Lofi Hip Hop Radio - Beats to Relax/Study to', 'Porter Robinson - Shelter', 'Daft Punk - One More Time'];
+      let song = args;
+      if (!song) {
+        song = queuedList[0] || 'Lofi Hip Hop Radio - Beats to Relax/Study to';
+      } else {
+        sv.rythmQueue = sv.rythmQueue || [];
+        sv.rythmQueue.push(song);
+      }
+      if (db.users['rythm_bot']) {
+        db.users['rythm_bot'].act = { t: 'Listening to', n: song };
+      }
+      save();
+      render();
+      this.simulateBotTyping('rythm_bot', channelId, isDm ? targetUser : null, 600, () => {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '▶️ Now Playing: ' + song,
+            d: 'Playing in **🔊 Voice Channel** (320kbps HD Audio)\n\n▶️ 🔘───────────────────── 3:45\n\nRequested by **@' + (U(me)?.display || me) + '** • Queue: ' + (sv?.rythmQueue?.length || 1) + ' songs',
+            by: 'Rythm Music Bot'
+          }
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/skip' || cmd === '!skip' || cmd === '/s') {
+      this.simulateBotTyping('rythm_bot', channelId, isDm ? targetUser : null, 400, () => {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, {
+          x: '⏭️ Skipped current track! Now playing: **Porter Robinson - Shelter** [3:39]'
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/queue' || cmd === '!queue' || cmd === '/q') {
+      this.simulateBotTyping('rythm_bot', channelId, isDm ? targetUser : null, 500, () => {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '🎶 Server Music Queue (3 Tracks)',
+            d: '1. **Lofi Hip Hop Radio** (Playing Now) - 3:45\n2. **Porter Robinson - Shelter** - 3:39\n3. **Daft Punk - One More Time** - 5:20\n\nUse /play <song> to queue more songs!',
+            by: 'Rythm Music Bot'
+          }
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/pause' || cmd === '!pause' || cmd === '/stop') {
+      this.simulateBotTyping('rythm_bot', channelId, isDm ? targetUser : null, 400, () => {
+        this.postBotMessage('rythm_bot', channelId, isDm ? targetUser : null, {
+          x: '⏸️ Paused playback in voice channel. Type /play to resume.'
+        });
+      });
+      return true;
+    }
+
+    // 2. Midjourney AI Art Bot
+    if (cmd === '/imagine' || cmd === '!imagine') {
+      const prompt = args || 'cyberpunk neon city in rain 8k';
+      this.simulateBotTyping('midjourney_bot', channelId, isDm ? targetUser : null, 1200, () => {
+        const svgArtwork = this.generateAiArtSvg(prompt);
+        this.postBotMessage('midjourney_bot', channelId, isDm ? targetUser : null, {
+          x: '**' + prompt + '** - Generated by <@' + me + '> (fast)',
+          attachments: [{
+            u: svgArtwork,
+            name: 'midjourney_render.svg',
+            size: 4096,
+            kind: 'image',
+            ext: 'svg'
+          }]
+        });
+      });
+      return true;
+    }
+
+    // 3. Carl-bot Utilities & Moderation
+    if (cmd === '!ping' || cmd === '/ping') {
+      this.simulateBotTyping('carl_bot', channelId, isDm ? targetUser : null, 300, () => {
+        this.postBotMessage('carl_bot', channelId, isDm ? targetUser : null, {
+          x: '🏓 **Pong!** Latency: `' + Math.floor(18 + Math.random() * 12) + 'ms` • WebSocket: `100% Operational`'
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '!8ball' || cmd === '/8ball') {
+      const question = args || 'Will I win my next game?';
+      const answers = [
+        'It is certain.', 'Without a doubt.', 'You may rely on it.', 'Yes, definitely.',
+        'As I see it, yes.', 'Most likely.', 'Outlook good.', 'Signs point to yes.',
+        'Reply hazy, try again.', 'Ask again later.', 'Better not tell you now.',
+        "Don't count on it.", 'My reply is no.', 'My sources say no.', 'Outlook not so good.'
+      ];
+      const ans = answers[Math.floor(Math.random() * answers.length)];
+      this.simulateBotTyping('carl_bot', channelId, isDm ? targetUser : null, 600, () => {
+        this.postBotMessage('carl_bot', channelId, isDm ? targetUser : null, {
+          x: '🎱 **Question:** ' + question + '\n**Answer:** ' + ans
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '!roll' || cmd === '/roll') {
+      const max = parseInt(args) || 100;
+      const roll = Math.floor(Math.random() * max) + 1;
+      this.simulateBotTyping('carl_bot', channelId, isDm ? targetUser : null, 400, () => {
+        this.postBotMessage('carl_bot', channelId, isDm ? targetUser : null, {
+          x: '🎲 **@' + (U(me)?.display || me) + '** rolled a **' + roll + '** (1–' + max + ')!'
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '!coinflip' || cmd === '/coinflip' || (cmd === '/pls' && parts[1]?.toLowerCase() === 'coinflip')) {
+      const flip = Math.random() > 0.5 ? 'Heads' : 'Tails';
+      this.simulateBotTyping('carl_bot', channelId, isDm ? targetUser : null, 400, () => {
+        this.postBotMessage('carl_bot', channelId, isDm ? targetUser : null, {
+          x: '🪙 Flipping coin... It landed on **' + flip + '**!'
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '!serverinfo') {
+      const s = cs();
+      if (!s) return false;
+      this.simulateBotTyping('carl_bot', channelId, isDm ? targetUser : null, 500, () => {
+        const total = (s.members || []).length;
+        const bots = (s.members || []).filter(u => U(u)?.isBot || U(u)?.isCommunityBot).length;
+        this.postBotMessage('carl_bot', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '📊 Server Information: ' + s.name,
+            d: '**Owner:** <@' + s.owner + '>\n**Total Members:** ' + total + ' (' + (total - bots) + ' humans, ' + bots + ' bots)\n**Channels:** ' + (s.ch || []).length + ' channels\n**Boost Tier:** Level ' + (serverBoostLvl(s) || 0) + ' (' + (s.powers || []).length + ' boosts)',
+            by: 'Carl-bot Server Utilities'
+          }
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '!help' || cmd === '/help') {
+      this.simulateBotTyping('carl_bot', channelId, isDm ? targetUser : null, 500, () => {
+        this.postBotMessage('carl_bot', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '🤖 Memocord Bot Commands',
+            d: '**🎵 Rythm Music:**\n/play <song> • /skip • /queue • /pause\n\n**🎨 Midjourney AI Art:**\n/imagine <prompt> - Generate AI artwork\n\n**🐢 Carl-bot Utilities:**\n!ping • !8ball <question> • !roll [sides] • !coinflip • !serverinfo\n\n**🐸 Dank Memer:**\n/meme • /joke\n\n**⚡ Pokétwo:**\n/pokemon • /catch <name>',
+            by: 'Bot Command Guide'
+          }
+        });
+      });
+      return true;
+    }
+
+    // 4. Dank Memer Comedy Bot
+    if (cmd === '/meme' || cmd === '!meme' || (cmd === '/pls' && parts[1]?.toLowerCase() === 'meme')) {
+      const memes = [
+        { t: 'Compiling Code', d: "When your code works on the first try but you don't know why 😳" },
+        { t: 'Ranked Gaming', d: 'Me: "Just one more game then bed"\n*3 hours later down 120 RR*: 🤡' },
+        { t: 'Git Commit', d: 'git push --force and praying nobody is watching the commit log 🚀' },
+        { t: 'Discord Ping', d: "Gets a notification: \"Someone mentioned you!\"\nIt's just @everyone for an expired giveaway 😭" },
+        { t: 'Branch Mining', d: 'Digs down 1 block in Minecraft: Lava falls on my 14 diamonds 🔥' }
+      ];
+      const m = memes[Math.floor(Math.random() * memes.length)];
+      this.simulateBotTyping('dank_memer', channelId, isDm ? targetUser : null, 600, () => {
+        this.postBotMessage('dank_memer', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '🐸 ' + m.t,
+            d: m.d + '\n\n*Dank Memer Quality Meme v2.4*',
+            by: 'Dank Memer'
+          }
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/joke' || cmd === '!joke' || (cmd === '/pls' && parts[1]?.toLowerCase() === 'joke')) {
+      const jokes = [
+        'Why do programmers prefer dark mode? Because light attracts bugs! 🐛',
+        'There are 10 types of people in the world: those who understand binary, and those who don\'t.',
+        'Why did the developer go broke? Because they used up all their cache! 💰',
+        'A SQL query walks into a bar, walks up to two tables and asks: "Can I join you?" 🍻',
+        'How many programmers does it take to change a lightbulb? None, that\'s a hardware problem.'
+      ];
+      const joke = jokes[Math.floor(Math.random() * jokes.length)];
+      this.simulateBotTyping('dank_memer', channelId, isDm ? targetUser : null, 500, () => {
+        this.postBotMessage('dank_memer', channelId, isDm ? targetUser : null, {
+          x: '🐸 **Joke of the Day:**\n' + joke
+        });
+      });
+      return true;
+    }
+
+    // 5. Pokétwo Bot
+    if (cmd === '/pokemon' || cmd === '!pokemon') {
+      const pokemon = ['Pikachu', 'Charizard', 'Gengar', 'Eevee', 'Lucario', 'Mewtwo', 'Rayquaza', 'Gyarados'];
+      const p = pokemon[Math.floor(Math.random() * pokemon.length)];
+      window._activeWildPokemon = p;
+      this.simulateBotTyping('poketwo_bot', channelId, isDm ? targetUser : null, 700, () => {
+        this.postBotMessage('poketwo_bot', channelId, isDm ? targetUser : null, {
+          x: '',
+          em: {
+            t: '⚡ A wild Pokémon has appeared!',
+            d: 'A wild **' + p + '** appeared in the tall grass!\nType `/catch ' + p.toLowerCase() + '` to capture it before it flees!',
+            by: 'Pokétwo Bot'
+          }
+        });
+      });
+      return true;
+    }
+
+    if (cmd === '/catch' || cmd === '!catch') {
+      const guess = (args || '').toLowerCase().trim();
+      const current = (window._activeWildPokemon || 'Pikachu').toLowerCase();
+      this.simulateBotTyping('poketwo_bot', channelId, isDm ? targetUser : null, 400, () => {
+        if (guess === current || !args) {
+          const lvl = Math.floor(15 + Math.random() * 45);
+          this.postBotMessage('poketwo_bot', channelId, isDm ? targetUser : null, {
+            x: '🎉 Congratulations <@' + me + '>! You caught a **Level ' + lvl + ' ' + (window._activeWildPokemon || 'Pikachu') + '**! Added to your Pokédex.'
+          });
+          window._activeWildPokemon = null;
+        } else {
+          this.postBotMessage('poketwo_bot', channelId, isDm ? targetUser : null, {
+            x: '❌ That was not the right Pokémon! Keep trying!'
+          });
+        }
+      });
+      return true;
+    }
+
+    return false;
+  },
+
+  handleMessage(msg, type, server, targetDmUser) {
+    if (!msg || msg.u !== me) return;
+    const txt = (msg.x || '').trim();
+
+    const isDm = type === 'dm';
+    const channelId = type === 'srv' ? view.c : null;
+    if (this.handleCommand(txt, channelId, server?.id, isDm, targetDmUser)) {
+      return;
+    }
+
+    if (isDm && targetDmUser) {
+      this.handleDmConversation(targetDmUser, txt);
+      return;
+    }
+
+    if (type === 'srv' && channelId) {
+      this.handleServerMentions(channelId, txt);
+    }
+  },
+
+  handleDmConversation(botId, userMsg) {
+    const bot = U(botId);
+    if (!bot) return;
+
+    let reply = '';
+    const cleanMsg = (userMsg || '').toLowerCase();
+
+    if (botId === 'valkyrie') {
+      if (/rank|comp|queue|play|duo/i.test(cleanMsg)) reply = 'yo! down to queue comp, let me just finish warmups on the range 🔥 what agent you playing?';
+      else if (/hi|hey|hello|sup|yo/i.test(cleanMsg)) reply = "hey! what's good? getting ready for a five-stack ranked grind";
+      else if (/gg|clutch|nice|win/i.test(cleanMsg)) reply = 'ggs! that last round clutch was insane haha';
+      else reply = "hitting the range right now to lock in my crosshair placement. let's run some unrated or comp later!";
+    } else if (botId === 'kitsune') {
+      if (/artifact|genshin|domain|resin/i.test(cleanMsg)) reply = "ugh don't talk to me about artifacts 😭 got flat def on a double crit flower again!";
+      else if (/hi|hey|hello/i.test(cleanMsg)) reply = "konnichiwa! ✨ taking a quick break from exploration, how's your day going?";
+      else if (/anime|watch/i.test(cleanMsg)) reply = 'the latest episode had such good animation! what shows are you watching this season?';
+      else reply = 'farming primogems today! saving up for the next character banner ✨';
+    } else if (botId === 'ghosty') {
+      if (/loadout|gun|meta|warzone/i.test(cleanMsg)) reply = 'running the low recoil build with 60 round mags right now, it shreds at medium range 🎯';
+      else if (/drop|resurgence|play/i.test(cleanMsg)) reply = 'dropping into prison or control center, grab your weapons quick!';
+      else reply = 'gulag win secured, heading back into the zone right now!';
+    } else if (botId === 'zenith99') {
+      if (/cs|cs2|smoke|mirage|awp/i.test(cleanMsg)) reply = "smoking top mid and holding catwalk with the AWP. don't peek without flash!";
+      else if (/premier|rank/i.test(cleanMsg)) reply = 'currently 18k rating in premier, the grind never stops 👊';
+      else reply = 'crosshair placement on point today. remember to always buy defuse kits!';
+    } else if (botId === 'neonrider') {
+      reply = 'Night City looks insane tonight. Cruising down Pacifica on the motorcycle with the synthwave playlist on 🏍️';
+    } else if (botId === 'astraea') {
+      reply = 'listening to some sweet lo-fi synth in voice right now ☕ you can hop in whenever you want to chill!';
+    } else if (botId === 'zerobyte') {
+      reply = 'fixed 1 bug, created 4 new merge conflicts 💀 the compiler is testing my patience today haha';
+    } else if (botId === 'pixelkat') {
+      reply = 'currently 150 blocks deep branch mining in Minecraft! just found 12 ancient debris 💎';
+    } else if (botId === 'novablade') {
+      reply = 'finally beat the boss on attempt #38! no hit run is still alive ⚔️';
+    } else if (botId === 'rythm_bot') {
+      reply = '🎵 Rythm Music Bot at your service! Type /play <song> in any channel or call to queue your favorite music.';
+    } else if (botId === 'midjourney_bot') {
+      reply = '🎨 Type /imagine <prompt> in any chat to generate high-resolution AI concept art!';
+    } else if (botId === 'carl_bot') {
+      reply = '🐢 Carl-bot here! Type !ping, !8ball <question>, !roll, or !serverinfo for commands.';
+    } else if (botId === 'dank_memer') {
+      reply = "🐸 What's up gamer! Type /meme or /joke for high quality memes!";
+    } else if (botId === 'poketwo_bot') {
+      reply = '⚡ Type /pokemon in any channel to spawn wild Pokémon and /catch them!';
+    } else if (botId === BOT) {
+      reply = "Hey there! I'm the official Memocord Bot. Need help customizing your display name styles, recording highlights with F8, or setting up servers? Let me know!";
+    } else if (botId === GB) {
+      reply = '🎉 Giveaway Bot ready! Server owners can use /giveaway start 1d Prize 1 in any server channel to host community giveaways.';
+    } else {
+      reply = "hey! saw your message, just in the middle of a game right now. let's play soon! 🎮";
+    }
+
+    this.simulateBotTyping(botId, null, botId, 900, () => {
+      this.postBotMessage(botId, null, botId, { x: reply });
+    });
+  },
+
+  handleServerMentions(channelId, text) {
+    const s = cs();
+    if (!s) return;
+
+    for (const b of (typeof COMMUNITY_BOT_MEMBERS !== 'undefined' ? COMMUNITY_BOT_MEMBERS : [])) {
+      const regex = new RegExp('@(' + b.id + '|' + b.display.replace(/[^a-zA-Z0-9]/g, '') + ')\\b', 'i');
+      if (regex.test(text)) {
+        let reply = '';
+        if (b.isBot) {
+          if (b.id === 'rythm_bot') reply = '🎵 Type /play <song> to queue tracks or /queue to see upcoming songs!';
+          else if (b.id === 'midjourney_bot') reply = '🎨 Type /imagine <prompt> to generate AI art right in this channel!';
+          else if (b.id === 'carl_bot') reply = '🐢 Carl-bot online! Type !ping, !8ball, or !serverinfo for commands.';
+          else if (b.id === 'dank_memer') reply = '🐸 Type /meme for top quality gamer memes!';
+          else if (b.id === 'poketwo_bot') reply = '⚡ Type /pokemon to spawn a wild Pokémon!';
+          else reply = 'Beep boop! How can I help with the server?';
+        } else {
+          const replies = [
+            'yo! tagged me? down to queue up after this match 🔥',
+            "checking in! who's ready to win some games today?",
+            "saw the ping! let's run it 🎮",
+            'in voice right now if you want to hop in!'
+          ];
+          reply = replies[Math.floor(Math.random() * replies.length)];
+        }
+
+        this.simulateBotTyping(b.id, channelId, null, 800, () => {
+          this.postBotMessage(b.id, channelId, null, {
+            x: '<@' + me + '> ' + reply
+          });
+        });
+        break;
+      }
+    }
+  },
+
+  simulateBotTyping(botId, channelId, dmUserId, durationMs, callback) {
+    const k = dmUserId ? ('d:' + dmk(dmUserId)) : ('s:' + sid() + ':' + channelId);
+    typ[k] = typ[k] || {};
+    typ[k][botId] = Date.now();
+    updTyp();
+
+    setTimeout(() => {
+      if (typ[k]) delete typ[k][botId];
+      updTyp();
+      if (callback) callback();
+    }, durationMs || 800);
+  },
+
+  postBotMessage(botId, channelId, dmUserId, msgObj) {
+    const fullMsg = {
+      id: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      u: botId,
+      ts: Date.now(),
+      ...msgObj
+    };
+
+    if (dmUserId) {
+      const k = dmk(dmUserId);
+      db.dms[k] = db.dms[k] || [];
+      db.dms[k].push(fullMsg);
+    } else if (channelId) {
+      const s = cs();
+      if (s) {
+        s.msgs[channelId] = s.msgs[channelId] || [];
+        s.msgs[channelId].push(fullMsg);
+      }
+    }
+
+    save();
+    render();
+    if (set(me).sound) beep();
+  },
+
+  generateAiArtSvg(prompt) {
+    const colors = [
+      ['#ff007f', '#7928ca', '#00dfd8'],
+      ['#f12711', '#f5af19', '#ff0844'],
+      ['#00c6ff', '#0072ff', '#a855f7'],
+      ['#11998e', '#38ef7d', '#00f2fe']
+    ];
+    const pal = colors[Math.floor(Math.random() * colors.length)];
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">' +
+      '<defs>' +
+        '<linearGradient id="artGrad" x1="0%" y1="0%" x2="100%" y2="100%">' +
+          '<stop offset="0%" stop-color="' + pal[0] + '"/>' +
+          '<stop offset="50%" stop-color="' + pal[1] + '"/>' +
+          '<stop offset="100%" stop-color="' + pal[2] + '"/>' +
+        '</linearGradient>' +
+        '<radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">' +
+          '<stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>' +
+          '<stop offset="100%" stop-color="' + pal[0] + '" stop-opacity="0"/>' +
+        '</radialGradient>' +
+      '</defs>' +
+      '<rect width="600" height="400" fill="#0d0e12"/>' +
+      '<circle cx="300" cy="180" r="140" fill="url(#artGrad)" opacity="0.85"/>' +
+      '<circle cx="300" cy="180" r="90" fill="url(#sunGlow)"/>' +
+      '<path d="M 0 320 Q 150 260 300 300 T 600 320 L 600 400 L 0 400 Z" fill="#181a20"/>' +
+      '<path d="M 0 350 Q 200 310 400 340 T 600 350 L 600 400 L 0 400 Z" fill="#111215"/>' +
+      '<text x="300" y="380" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,0.7)" text-anchor="middle">MIDJOURNEY v6 • ' + String(prompt || 'Artwork').slice(0, 35) + '</text>' +
+    '</svg>';
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+};
+window.BotEngine = BotEngine;
+
 function addMsg(m){
+
   m.id = m.id || ('m_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8));
   m.status = 'sending';
   const a=msgArr();
@@ -5867,7 +6844,7 @@ function addMsg(m){
   if(view.t=='dm'){
     if(isBlocked(view.id,me)){toast('You have blocked this user');return false;}
     if(isBlocked(me,view.id)){toast('Cannot send message to this user');return false;}
-    if(view.id==BOT){toast('You cannot reply to this account');return false;}
+    // Bot DMs unlocked
   }
   a.push(m);
   if(a.length>L.keep){
@@ -5884,6 +6861,15 @@ function addMsg(m){
 
   save();
   render();
+
+  // Trigger interactive bot responses
+  if (typeof BotEngine !== 'undefined') {
+    try {
+      BotEngine.handleMessage(m, view.t, view.t === 'srv' ? cs() : null, view.t === 'dm' ? view.id : null);
+    } catch (err) {
+      console.warn('BotEngine error:', err);
+    }
+  }
 
   // Async commit with failure state
   (async () => {
@@ -6062,6 +7048,688 @@ async function uploadBlob(b,kind,ext,originalName){
   return sb.storage.from(CFG.supabase.bucket).getPublicUrl(path).data.publicUrl;
 }
 async function upImg(f,max,kind){const p=await prep(f,max);return uploadBlob(p.blob,kind,p.ext,f.name)}
+
+
+/* ================= Clips (BETA) Highlights Engine ================= */
+const ClipsDB = {
+  db: null,
+  async init() {
+    if (this.db) return this.db;
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('memocord_clips_v1', 1);
+      req.onupgradeneeded = e => {
+        const d = e.target.result;
+        if (!d.objectStoreNames.contains('clips')) {
+          d.createObjectStore('clips', { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = e => {
+        this.db = e.target.result;
+        resolve(this.db);
+      };
+      req.onerror = e => reject(e);
+    });
+  },
+  async getAll() {
+    await this.init();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('clips', 'readonly');
+      const store = tx.objectStore('clips');
+      const req = store.getAll();
+      req.onsuccess = () => {
+        const res = (req.result || []).sort((a, b) => (b.ts || 0) - (a.ts || 0));
+        resolve(res);
+      };
+      req.onerror = e => reject(e);
+    });
+  },
+  async get(id) {
+    await this.init();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('clips', 'readonly');
+      const req = tx.objectStore('clips').get(id);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = e => reject(e);
+    });
+  },
+  async save(clip) {
+    await this.init();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('clips', 'readwrite');
+      const req = tx.objectStore('clips').put(clip);
+      req.onsuccess = () => resolve(clip);
+      req.onerror = e => reject(e);
+    });
+  },
+  async delete(id) {
+    await this.init();
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction('clips', 'readwrite');
+      const req = tx.objectStore('clips').delete(id);
+      req.onsuccess = () => resolve(true);
+      req.onerror = e => reject(e);
+    });
+  }
+};
+window.ClipsDB = ClipsDB;
+
+const ClipsEngine = {
+  activeRecorder: null,
+  activeStream: null,
+  recordedChunks: [],
+  recordStartTime: 0,
+  recordTimerInterval: null,
+  maxDurationSec: 30,
+  activeHudEl: null,
+  pendingGame: 'Gaming Highlight',
+
+  async startRecording(opts = {}) {
+    if (this.activeRecorder) {
+      return toast('A clip recording is already in progress.');
+    }
+    const duration = opts.durationSec || 30;
+    this.maxDurationSec = duration;
+    this.pendingGame = opts.game || 'Gaming Highlight';
+    const withMic = opts.withMic ?? true;
+
+    try {
+      let screenStream = null;
+      if (window.memocordDesktop?.getDesktopSources) {
+        // Desktop app environment
+        screenStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            mandatory: {
+              chromeMediaSource: 'desktop'
+            }
+          },
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              minWidth: 1280,
+              maxWidth: 1920,
+              minHeight: 720,
+              maxHeight: 1080,
+              maxFrameRate: 60
+            }
+          }
+        });
+      } else if (navigator.mediaDevices?.getDisplayMedia) {
+        screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: { frameRate: { ideal: 60 } },
+          audio: true
+        });
+      } else {
+        return toast('Screen & game capture is not supported in this browser.');
+      }
+
+      if (!screenStream) return toast('Could not acquire game/screen stream.');
+
+      // Optional microphone mixing
+      let finalStream = screenStream;
+      let micStream = null;
+      if (withMic && navigator.mediaDevices?.getUserMedia) {
+        try {
+          micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const dest = audioCtx.createMediaStreamDestination();
+          
+          if (screenStream.getAudioTracks().length) {
+            const screenSource = audioCtx.createMediaStreamSource(new MediaStream(screenStream.getAudioTracks()));
+            screenSource.connect(dest);
+          }
+          if (micStream.getAudioTracks().length) {
+            const micSource = audioCtx.createMediaStreamSource(micStream);
+            micSource.connect(dest);
+          }
+          
+          finalStream = new MediaStream([
+            ...screenStream.getVideoTracks(),
+            ...dest.stream.getAudioTracks()
+          ]);
+        } catch (_) {
+          finalStream = screenStream;
+        }
+      }
+
+      this.activeStream = finalStream;
+      this.recordedChunks = [];
+
+      let mimeType = 'video/webm';
+      if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+        mimeType = 'video/webm;codecs=vp9,opus';
+      } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+        mimeType = 'video/webm;codecs=vp8,opus';
+      }
+
+      const recorder = new MediaRecorder(finalStream, { mimeType });
+      this.activeRecorder = recorder;
+      this.recordStartTime = Date.now();
+
+      recorder.ondataavailable = e => {
+        if (e.data && e.data.size > 0) {
+          this.recordedChunks.push(e.data);
+        }
+      };
+
+      recorder.onstop = async () => {
+        await this.handleRecordingStopped(screenStream, micStream);
+      };
+
+      // Listen for user stopping stream via browser bar
+      screenStream.getVideoTracks()[0]?.addEventListener('ended', () => {
+        if (this.activeRecorder && this.activeRecorder.state !== 'inactive') {
+          this.activeRecorder.stop();
+        }
+      });
+
+      recorder.start(500);
+      closeModal();
+      this.showRecordingHud();
+      toast('🎬 Clip recording started (' + (duration ? duration + 's' : 'continuous') + ')');
+
+    } catch (err) {
+      console.error('ClipsEngine error:', err);
+      toast('Clip capture was cancelled or denied.');
+      this.cleanup();
+    }
+  },
+
+  showRecordingHud() {
+    this.removeRecordingHud();
+    const hud = document.createElement('div');
+    hud.id = 'clipRecHud';
+    hud.className = 'clip-rec-hud';
+    hud.innerHTML = `
+      <span class="clip-rec-dot"></span>
+      <span class="beta-pill" style="font-size:9px">REC</span>
+      <span id="clipRecTimer" class="clip-rec-timer">00:00 / ${this.maxDurationSec ? String(this.maxDurationSec).padStart(2,'0') + 's' : '∞'}</span>
+      <span style="font-weight:700;color:var(--tx)">${esc(this.pendingGame)}</span>
+      <button class="clip-rec-stop-btn" onclick="ClipsEngine.stopAndSave()">${ic('check2',14)} Save Clip <kbd style="font-size:10px;margin-left:4px;background:rgba(255,255,255,0.2);padding:1px 4px;border-radius:3px;font-family:inherit">F8</kbd></button>
+      <button class="clip-rec-cancel-btn" onclick="ClipsEngine.cancel()" title="Cancel">&times;</button>
+    `;
+    document.body.appendChild(hud);
+    this.activeHudEl = hud;
+
+    const timerEl = hud.querySelector('#clipRecTimer');
+    this.recordTimerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - this.recordStartTime) / 1000);
+      const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+      const s = String(elapsed % 60).padStart(2, '0');
+      if (timerEl) {
+        timerEl.textContent = `${m}:${s} / ${this.maxDurationSec ? String(this.maxDurationSec).padStart(2,'0') + 's' : '∞'}`;
+      }
+      if (this.maxDurationSec > 0 && elapsed >= this.maxDurationSec) {
+        this.stopAndSave();
+      }
+    }, 250);
+  },
+
+  removeRecordingHud() {
+    if (this.recordTimerInterval) {
+      clearInterval(this.recordTimerInterval);
+      this.recordTimerInterval = null;
+    }
+    const h = document.getElementById('clipRecHud');
+    if (h) h.remove();
+    this.activeHudEl = null;
+  },
+
+  stopAndSave() {
+    if (this.activeRecorder && this.activeRecorder.state !== 'inactive') {
+      this.activeRecorder.stop();
+    }
+  },
+
+  cancel() {
+    this.removeRecordingHud();
+    if (this.activeRecorder && this.activeRecorder.state !== 'inactive') {
+      this.activeRecorder.ondataavailable = null;
+      this.activeRecorder.onstop = null;
+      this.activeRecorder.stop();
+    }
+    this.cleanup();
+    toast('Clip recording cancelled.');
+  },
+
+  async handleRecordingStopped(screenStream, micStream) {
+    this.removeRecordingHud();
+    const duration = Math.max(1, Math.round((Date.now() - this.recordStartTime) / 1000));
+    const chunks = [...this.recordedChunks];
+    this.cleanup(screenStream, micStream);
+
+    if (!chunks.length) {
+      return toast('No video data captured.');
+    }
+
+    const mime = chunks[0]?.type || 'video/webm';
+    const blob = new Blob(chunks, { type: mime });
+    const clipId = 'clip_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+
+    toast('Generating clip highlight...');
+
+    // Generate thumbnail poster
+    let thumbnail = '';
+    try {
+      thumbnail = await this.generateThumbnail(blob);
+    } catch (_) {}
+
+    const defaultTitle = (this.pendingGame !== 'Gaming Highlight' ? this.pendingGame + ' ' : '') + 'Highlight #' + Math.floor(100 + Math.random() * 900);
+
+    const clipRecord = {
+      id: clipId,
+      title: defaultTitle,
+      game: this.pendingGame || 'Gaming Highlight',
+      duration,
+      size: blob.size,
+      mime,
+      blob,
+      thumbnail,
+      author: me,
+      ts: Date.now()
+    };
+
+    await ClipsDB.save(clipRecord);
+    toast('🎬 Clip captured and saved to Clips Studio!');
+    openClipsModal(clipId);
+  },
+
+  generateThumbnail(blob) {
+    return new Promise((resolve) => {
+      const vid = document.createElement('video');
+      vid.muted = true;
+      vid.preload = 'metadata';
+      const url = URL.createObjectURL(blob);
+      vid.src = url;
+
+      const finish = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = 320;
+          canvas.height = 180;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(vid, 0, 0, 320, 180);
+          const thumb = canvas.toDataURL('image/jpeg', 0.85);
+          URL.revokeObjectURL(url);
+          resolve(thumb);
+        } catch (_) {
+          URL.revokeObjectURL(url);
+          resolve('');
+        }
+      };
+
+      vid.onloadeddata = () => {
+        vid.currentTime = Math.min(1.0, vid.duration / 2);
+      };
+      vid.onseeked = finish;
+      vid.onerror = () => { URL.revokeObjectURL(url); resolve(''); };
+      setTimeout(() => finish(), 2000);
+    });
+  },
+
+  cleanup(screenStream, micStream) {
+    this.activeRecorder = null;
+    if (this.activeStream) {
+      this.activeStream.getTracks().forEach(t => t.stop());
+      this.activeStream = null;
+    }
+    if (screenStream) screenStream.getTracks().forEach(t => t.stop());
+    if (micStream) micStream.getTracks().forEach(t => t.stop());
+    this.recordedChunks = [];
+  }
+};
+window.ClipsEngine = ClipsEngine;
+
+/* ================= Clips Studio Modal UI ================= */
+async function openClipsModal(activeClipId) {
+  const clips = await ClipsDB.getAll();
+  const currentClip = activeClipId ? (clips.find(c => c.id === activeClipId) || clips[0]) : clips[0];
+  const curId = currentClip?.id || '';
+
+  const totalBytes = clips.reduce((acc, c) => acc + (c.size || 0), 0);
+  const totalDuration = clips.reduce((acc, c) => acc + (c.duration || 0), 0);
+
+  modal(`
+    <div class="clips-modal-wrap">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff5a36,#f0b232);display:grid;place-items:center;color:#fff">
+            ${ic('film',20)}
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <h2 style="margin:0;font-size:18px">Clips & Highlights Studio</h2>
+              <span class="beta-pill">BETA</span>
+            </div>
+            <div class="mu" style="font-size:12px;margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span>${clips.length} ${clips.length === 1 ? 'clip' : 'clips'} &bull; ${formatBytes(totalBytes)}</span>
+              <span class="clip-hotkey-badge" style="background:rgba(255,255,255,0.08);padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;color:var(--tx)">Hotkey: <kbd style="font-family:inherit;background:rgba(255,255,255,0.15);padding:1px 5px;border-radius:3px">F8</kbd> or <kbd style="font-family:inherit;background:rgba(255,255,255,0.15);padding:1px 5px;border-radius:3px">Alt+C</kbd></span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button style="background:linear-gradient(135deg,#ff5a36,#ff4655);border:none;display:inline-flex;align-items:center;gap:6px" onclick="startNewClipPrompt()">
+            ${ic('record',16)} Capture Highlight <kbd style="font-size:10px;background:rgba(0,0,0,0.25);padding:1px 5px;border-radius:4px;font-family:inherit">F8</kbd>
+          </button>
+          <button class="g" onclick="importClipFileModal()">
+            ${ic('plus',14)} Import
+          </button>
+          <button class="g" style="padding:6px 10px" onclick="closeModal()">&times;</button>
+        </div>
+      </div>
+
+      <!-- Main Layout -->
+      <div class="clips-modal-body">
+        <!-- Sidebar List -->
+        <div class="clips-list-sidebar">
+          ${clips.length ? clips.map(c => `
+            <div class="clip-item-card ${c.id === curId ? 'active' : ''}" onclick="openClipsModal('${c.id}')">
+              <div class="clip-thumb-box">
+                ${c.thumbnail ? `<img src="${c.thumbnail}" alt="">` : `<div style="width:100%;height:100%;background:#222;display:grid;place-items:center;color:var(--mu)">${ic('film',20)}</div>`}
+                <span class="clip-thumb-duration">${formatClipDuration(c.duration)}</span>
+              </div>
+              <div style="min-width:0;flex:1">
+                <div class="ell" style="font-weight:700;font-size:13px;color:#fff">${esc(c.title)}</div>
+                <div class="mu ell" style="font-size:11px;margin-top:2px">${esc(c.game || 'Game')} &bull; ${tsf(c.ts)}</div>
+                <div class="mu" style="font-size:10.5px;margin-top:2px">${formatBytes(c.size)}</div>
+              </div>
+            </div>
+          `).join('') : `
+            <div style="text-align:center;padding:40px 16px;color:var(--mu)">
+              <div style="font-size:32px;margin-bottom:8px">🎬</div>
+              <b>No clips captured yet</b>
+              <p style="font-size:12px;margin-top:6px">Press "Capture Highlight" above or hit <kbd style="background:rgba(255,255,255,0.12);padding:1px 5px;border-radius:3px">F8</kbd> / <kbd style="background:rgba(255,255,255,0.12);padding:1px 5px;border-radius:3px">Alt + C</kbd> to record a highlight!</p>
+            </div>
+          `}
+        </div>
+
+        <!-- Right Main Viewer -->
+        ${currentClip ? `
+          <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+            <!-- Player -->
+            <div style="background:#000;border-radius:10px;overflow:hidden;position:relative;aspect-ratio:16/9;box-shadow:0 6px 24px rgba(0,0,0,0.6)">
+              <video id="studioActiveVideo" controls playsinline poster="${currentClip.thumbnail || ''}" src="${URL.createObjectURL(currentClip.blob)}" style="width:100%;height:100%;object-fit:contain;background:#000"></video>
+            </div>
+
+            <!-- Clip Details & Title Editor -->
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px">
+              <div>
+                <label>CLIP TITLE</label>
+                <input id="activeClipTitleInp" value="${esc(currentClip.title)}" maxlength="80" onchange="updateClipMetadata('${currentClip.id}')">
+              </div>
+              <div>
+                <label>GAME / CATEGORY</label>
+                <input id="activeClipGameInp" value="${esc(currentClip.game || 'Gaming Highlight')}" maxlength="40" onchange="updateClipMetadata('${currentClip.id}')">
+              </div>
+            </div>
+
+            <!-- Action Toolbar -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line);margin-top:auto">
+              <div style="display:flex;align-items:center;gap:8px">
+                <button style="background:linear-gradient(135deg,#5865f2,#818cf8);border:none" onclick="postClipToCurrentChat('${currentClip.id}')">
+                  ${ic('send',16)} Post Clip to Chat
+                </button>
+                <button class="g" onclick="downloadClipFile('${currentClip.id}')">
+                  ${ic('down',16)} Download (.webm)
+                </button>
+              </div>
+              <button class="r" onclick="confirmDeleteClip('${currentClip.id}')">
+                ${ic('trash',16)} Delete
+              </button>
+            </div>
+          </div>
+        ` : `
+          <div style="display:grid;place-items:center;text-align:center;color:var(--mu);padding:60px">
+            <div>
+              <div style="font-size:44px;margin-bottom:12px">🎮</div>
+              <h3 style="color:#fff">Capture Your Best Plays</h3>
+              <p style="max-width:340px;font-size:13px;margin:8px auto 16px">Record screen highlights with medal-style clipping, save them locally, and post them directly to server channels or DMs.</p>
+              <button style="background:linear-gradient(135deg,#ff5a36,#ff4655);border:none" onclick="startNewClipPrompt()">
+                ${ic('record',16)} Capture 30s Highlight
+              </button>
+            </div>
+          </div>
+        `}
+      </div>
+    </div>
+  `, 880);
+}
+window.openClipsModal = openClipsModal;
+
+function formatClipDuration(sec) {
+  if (!sec) return '0:00';
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function startNewClipPrompt() {
+  const gamesList = ['Valorant', 'Counter-Strike 2', 'Minecraft', 'Cyberpunk 2077', 'Apex Legends', 'Elden Ring', 'Overwatch 2', 'League of Legends', 'Rocket League', 'General Gaming'];
+  modal(`
+    <h2>${ic('film',20)} Capture New Highlight</h2>
+    <p class="mu" style="margin-bottom:14px">Select clip duration and options. Recording will begin as soon as you select your screen or game window.</p>
+    
+    <label>CLIP DURATION</label>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
+      <button class="g clip-dur-btn" onclick="selectClipDur(15, this)">15s</button>
+      <button class="clip-dur-btn" style="background:var(--br);color:#fff" onclick="selectClipDur(30, this)">30s</button>
+      <button class="g clip-dur-btn" onclick="selectClipDur(60, this)">60s</button>
+      <button class="g clip-dur-btn" onclick="selectClipDur(120, this)">2 min</button>
+    </div>
+
+    <label>GAME / HIGHLIGHT TAG</label>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="clipGameInput" value="Valorant" placeholder="e.g. Valorant, Minecraft" list="gamesDatalist">
+      <datalist id="gamesDatalist">
+        ${gamesList.map(g => `<option value="${esc(g)}">`).join('')}
+      </datalist>
+    </div>
+
+    <div class="tg" style="margin-bottom:12px">
+      <div class="sp"><b>Include Microphone</b><div class="mu">Record your voice comments over gameplay</div></div>
+      <input type="checkbox" id="clipWithMic" checked>
+    </div>
+
+    <div class="row" style="justify-content:flex-end;gap:10px;margin-top:16px">
+      <button class="g" onclick="openClipsModal()">Back to Studio</button>
+      <button style="background:linear-gradient(135deg,#ff5a36,#ff4655);border:none" onclick="confirmStartClipRecording()">
+        ${ic('record',16)} Start Capture
+      </button>
+    </div>
+  `, 440);
+  window._selectedClipDuration = 30;
+}
+
+function selectClipDur(sec, el) {
+  window._selectedClipDuration = sec;
+  document.querySelectorAll('.clip-dur-btn').forEach(b => {
+    b.className = 'g clip-dur-btn';
+    b.style.background = '';
+    b.style.color = '';
+  });
+  if (el) {
+    el.className = 'clip-dur-btn';
+    el.style.background = 'var(--br)';
+    el.style.color = '#fff';
+  }
+}
+
+function confirmStartClipRecording() {
+  const durationSec = window._selectedClipDuration || 30;
+  const game = ($('#clipGameInput')?.value || '').trim() || 'Gaming Highlight';
+  const withMic = $('#clipWithMic')?.checked ?? true;
+  closeModal();
+  ClipsEngine.startRecording({ durationSec, game, withMic });
+}
+
+async function updateClipMetadata(clipId) {
+  const clip = await ClipsDB.get(clipId);
+  if (!clip) return;
+  const newTitle = ($('#activeClipTitleInp')?.value || '').trim();
+  const newGame = ($('#activeClipGameInp')?.value || '').trim();
+  if (newTitle) clip.title = newTitle;
+  if (newGame) clip.game = newGame;
+  await ClipsDB.save(clip);
+  toast('Clip info updated');
+}
+
+async function downloadClipFile(clipId) {
+  const clip = await ClipsDB.get(clipId);
+  if (!clip || !clip.blob) return toast('Clip file not found');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(clip.blob);
+  const cleanName = (clip.title || 'clip').replace(/[^a-zA-Z0-9_-]/g, '_');
+  a.download = `Memocord_Clip_${cleanName}.webm`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  toast('Downloading clip...');
+}
+
+async function confirmDeleteClip(clipId) {
+  if (confirm('Delete this clip from your local library?')) {
+    await ClipsDB.delete(clipId);
+    toast('Clip deleted');
+    openClipsModal();
+  }
+}
+
+function importClipFileModal() {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'video/*';
+  inp.onchange = async () => {
+    const file = inp.files?.[0];
+    if (!file) return;
+    toast('Importing video clip...');
+    const clipId = 'clip_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+    const thumb = await ClipsEngine.generateThumbnail(file);
+    const clipRecord = {
+      id: clipId,
+      title: file.name.replace(/\.[^/.]+$/, ''),
+      game: 'Imported Clip',
+      duration: 30,
+      size: file.size,
+      mime: file.type || 'video/webm',
+      blob: file,
+      thumbnail: thumb,
+      author: me,
+      ts: Date.now()
+    };
+    await ClipsDB.save(clipRecord);
+    toast('Clip imported!');
+    openClipsModal(clipId);
+  };
+  inp.click();
+}
+
+async function postClipToCurrentChat(clipId) {
+  const clip = await ClipsDB.get(clipId);
+  if (!clip) return toast('Clip not found');
+
+  toast('Sharing clip to chat...');
+  let uploadedUrl = '';
+  try {
+    if (typeof uploadBlob === 'function') {
+      uploadedUrl = await uploadBlob(clip.blob, 'clips', 'webm', (clip.title || 'clip') + '.webm');
+    }
+  } catch (err) {
+    console.warn('Storage upload fallback:', err);
+  }
+
+  const clipData = {
+    id: clip.id,
+    title: clip.title,
+    game: clip.game || 'Gaming Highlight',
+    duration: clip.duration || 30,
+    size: clip.size || 0,
+    thumbnail: clip.thumbnail || '',
+    url: uploadedUrl || URL.createObjectURL(clip.blob),
+    author: me
+  };
+
+  const newMsg = {
+    u: me,
+    ts: Date.now(),
+    x: '',
+    clip: clipData
+  };
+
+  if (view.t === 'srv') {
+    const s = db.servers[view.s];
+    if (s && view.c) {
+      s.msgs[view.c] = s.msgs[view.c] || [];
+      s.msgs[view.c].push(newMsg);
+      save();
+      await push();
+      render();
+      closeModal();
+      toast('🎬 Highlight posted to #' + (s.ch.find(c => c.id === view.c)?.n || view.c));
+    }
+  } else if (view.t === 'dm') {
+    const k = dmk(view.id);
+    db.dms[k] = db.dms[k] || [];
+    db.dms[k].push(newMsg);
+    save();
+    await push();
+    render();
+    closeModal();
+    toast('🎬 Highlight sent to @' + view.id);
+  } else if (view.t === 'grp') {
+    const g = db.groups[view.id];
+    if (g) {
+      g.msgs = g.msgs || [];
+      g.msgs.push(newMsg);
+      save();
+      await push();
+      render();
+      closeModal();
+      toast('🎬 Highlight posted to group!');
+    }
+  } else {
+    toast('Open a channel or DM first to share this clip.');
+  }
+}
+
+function renderClipEmbed(clip) {
+  if (!clip) return '';
+  const srcUrl = esc(clip.url || clip.blobUrl || '');
+  return `
+    <div class="medal-clip-card" data-clip-id="${esc(clip.id)}">
+      <div class="clip-card-header">
+        <div class="clip-card-badge"><span class="clip-live-dot"></span> CLIPS BETA</div>
+        <div class="clip-card-game">${esc(clip.game || 'Gaming Highlight')}</div>
+        <div class="clip-card-duration">${formatClipDuration(clip.duration)}</div>
+      </div>
+      <div class="clip-card-title">${esc(clip.title)}</div>
+      <div class="clip-card-player-wrap">
+        <video controls playsinline preload="metadata" poster="${esc(clip.thumbnail || '')}" src="${srcUrl}" style="width:100%;max-height:380px;border-radius:8px;background:#000;display:block"></video>
+      </div>
+      <div class="clip-card-footer">
+        <span class="mu" style="font-size:11.5px">Captured in HD &bull; <kbd style="font-family:inherit;font-size:10px;background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px">F8</kbd> / <kbd style="font-family:inherit;font-size:10px;background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px">Alt+C</kbd></span>
+        <div style="display:flex;gap:8px">
+          ${srcUrl ? `<a class="clip-action-link" href="${srcUrl}" download="${esc(clip.title || 'clip')}.webm">${ic('down',13)} Download</a>` : ''}
+          <button class="clip-action-link" onclick="openClipsModal('${esc(clip.id)}')">${ic('film',13)} Clip Studio</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+window.renderClipEmbed = renderClipEmbed;
+
+// Register F8 and Alt+C keybinds for instant highlight clip capture / stop & save
+window.addEventListener('keydown', e => {
+  const isF8 = e.key === 'F8';
+  const isAltC = e.altKey && (e.key === 'c' || e.key === 'C');
+  if (isF8 || isAltC) {
+    e.preventDefault();
+    if (ClipsEngine.activeRecorder) {
+      ClipsEngine.stopAndSave();
+    } else {
+      ClipsEngine.startRecording({ durationSec: 30 });
+    }
+  }
+});
 
 /* ================= Step 5: Safe Attachments & Action Menu ================= */
 const DANGEROUS_FILE_EXTS = new Set([
@@ -6951,32 +8619,78 @@ function whoReactedModal(ts,e){
 // 10. Channel Autocomplete & Slash Autocomplete
 let chAcList=[],chAcIndex=0,slashAcList=[],slashAcIndex=0;
 
-const SLASH_COMMANDS = [
-  { cmd: '/poll', desc: 'Create an interactive poll', usage: '/poll Question | Opt 1 | Opt 2' },
-  { cmd: '/embed', desc: 'Create an announcement embed card', usage: '/embed Title | Description' },
-  { cmd: '/verify', desc: 'Add a server verification gate', usage: '/verify' },
-  { cmd: '/giveaway', desc: 'Start a timed giveaway', usage: '/giveaway start 1d Prize 1' },
-  { cmd: '/shrug', desc: 'Append \u00AF\\_(\u30C4)_/\u00AF', usage: '/shrug' },
-  { cmd: '/tableflip', desc: 'Append (\u256F\u00B0\u25A1\u00B0)\u256F\uFE35 \u253B\u2501\u253B', usage: '/tableflip' },
-  { cmd: '/unflip', desc: 'Append \u252C\u2500\u252C\u30CE( \u00BA _ \u00BA\u30CE)', usage: '/unflip' },
-  { cmd: '/me', desc: 'Perform an action in chat', usage: '/me dances' },
-  { cmd: '/spoiler', desc: 'Send a spoiler message', usage: '/spoiler hidden text' }
+const SLASH_COMMANDS_DEFAULT = [
+  { cmd: '/poll', desc: 'Create an interactive poll', usage: '/poll Question | Opt 1 | Opt 2', cat: 'default' },
+  { cmd: '/embed', desc: 'Create an announcement embed card', usage: '/embed Title | Description', cat: 'default' },
+  { cmd: '/verify', desc: 'Add a server verification gate', usage: '/verify', cat: 'default' },
+  { cmd: '/giveaway', desc: 'Start a timed giveaway', usage: '/giveaway start 1d Prize 1', cat: 'default' },
+  { cmd: '/shrug', desc: 'Append ¯\_(ツ)_/¯', usage: '/shrug', cat: 'default' },
+  { cmd: '/tableflip', desc: 'Append (╯°□°)╯︵ ┻━┻', usage: '/tableflip', cat: 'default' },
+  { cmd: '/unflip', desc: 'Append ┬─┬ノ( º _ ºノ)', usage: '/unflip', cat: 'default' },
+  { cmd: '/me', desc: 'Perform an action in chat', usage: '/me dances', cat: 'default' },
+  { cmd: '/spoiler', desc: 'Send a spoiler message', usage: '/spoiler hidden text', cat: 'default' }
 ];
+
+const SLASH_COMMANDS_BOTS = [
+  { cmd: '/join', desc: 'Summon Rythm to your current voice channel', usage: '/join', cat: 'bot', bot: 'Rythm' },
+  { cmd: '/disconnect', desc: 'Disconnect Rythm from voice channel', usage: '/disconnect', cat: 'bot', bot: 'Rythm' },
+  { cmd: '/play', desc: 'Play song in voice channel or play queued song', usage: '/play [song]', cat: 'bot', bot: 'Rythm' },
+  { cmd: '/skip', desc: 'Skip current playing song', usage: '/skip', cat: 'bot', bot: 'Rythm' },
+  { cmd: '/queue', desc: 'View upcoming music queue', usage: '/queue', cat: 'bot', bot: 'Rythm' },
+  { cmd: '/pause', desc: 'Pause music playback', usage: '/pause', cat: 'bot', bot: 'Rythm' },
+  { cmd: '/imagine', desc: 'Generate AI concept artwork', usage: '/imagine prompt', cat: 'bot', bot: 'Midjourney' },
+  { cmd: '/ping', desc: 'Check bot latency & API status', usage: '/ping', cat: 'bot', bot: 'Carl-bot' },
+  { cmd: '/8ball', desc: 'Ask the Magic 8-Ball a question', usage: '/8ball question', cat: 'bot', bot: 'Carl-bot' },
+  { cmd: '/roll', desc: 'Roll a random number or dice', usage: '/roll 100', cat: 'bot', bot: 'Carl-bot' },
+  { cmd: '/coinflip', desc: 'Flip a two-sided coin', usage: '/coinflip', cat: 'bot', bot: 'Carl-bot' },
+  { cmd: '/serverinfo', desc: 'View server statistics and member count', usage: '/serverinfo', cat: 'bot', bot: 'Carl-bot' },
+  { cmd: '/help', desc: 'View bot command guide & instructions', usage: '/help', cat: 'bot', bot: 'Carl-bot' },
+  { cmd: '/meme', desc: 'Post a hilarious gaming/tech meme', usage: '/meme', cat: 'bot', bot: 'Dank Memer' },
+  { cmd: '/joke', desc: 'Tell a programmer or gaming joke', usage: '/joke', cat: 'bot', bot: 'Dank Memer' },
+  { cmd: '/pokemon', desc: 'Spawn a wild Pokémon in chat', usage: '/pokemon', cat: 'bot', bot: 'Pokétwo' },
+  { cmd: '/catch', desc: 'Catch the active wild Pokémon', usage: '/catch name', cat: 'bot', bot: 'Pokétwo' }
+];
+
+const SLASH_COMMANDS = [...SLASH_COMMANDS_DEFAULT, ...SLASH_COMMANDS_BOTS];
 
 function slashAc(){
   const i=$('#inp'),p=$('#slashAc');if(!i||!p)return;
   const val=i.value;
   if(!val.startsWith('/')){p.innerHTML='';slashAcList=[];return;}
   const q=val.toLowerCase().split(/\s+/)[0];
-  const matches=SLASH_COMMANDS.filter(c=>c.cmd.startsWith(q));
-  slashAcList=matches;slashAcIndex=0;
-  if(!matches.length){p.innerHTML='';return;}
-  p.innerHTML='<small style="padding:4px 8px;display:block;font-weight:800;color:var(--mu)">SLASH COMMANDS</small>'+matches.map((c,idx)=>`
-    <div class="slash-item ${idx===slashAcIndex?'on':''}" onmousedown="event.preventDefault();pickSlash(${idx})">
-      <b>${esc(c.cmd)}</b>
-      <span class="mu" style="font-size:12px">${esc(c.desc)}</span>
-    </div>
-  `).join('');
+
+  const defaultMatches = SLASH_COMMANDS_DEFAULT.filter(c => c.cmd.startsWith(q));
+  const botMatches = SLASH_COMMANDS_BOTS.filter(c => c.cmd.startsWith(q));
+
+  slashAcList = [...defaultMatches, ...botMatches];
+  if(slashAcIndex >= slashAcList.length) slashAcIndex = 0;
+  if(!slashAcList.length){p.innerHTML='';return;}
+
+  let html = '';
+  if (defaultMatches.length) {
+    html += '<div style="padding:6px 10px 4px;font-size:11px;font-weight:800;color:var(--mu);letter-spacing:0.5px">DEFAULT COMMANDS</div>';
+    html += defaultMatches.map((c) => {
+      const idx = slashAcList.indexOf(c);
+      return `<div class="slash-item ${idx===slashAcIndex?'on':''}" onmousedown="event.preventDefault();pickSlash(${idx})">
+        <b>${esc(c.cmd)}</b>
+        <span class="mu" style="font-size:12px">${esc(c.desc)}</span>
+      </div>`;
+    }).join('');
+  }
+
+  if (botMatches.length) {
+    html += '<div style="padding:8px 10px 4px;font-size:11px;font-weight:800;color:#5865f2;letter-spacing:0.5px;display:flex;align-items:center;gap:6px">BOT COMMANDS <span class="bd badge-pill" style="background:#5865f2;font-size:9px;padding:1px 5px">BOT</span></div>';
+    html += botMatches.map((c) => {
+      const idx = slashAcList.indexOf(c);
+      return `<div class="slash-item ${idx===slashAcIndex?'on':''}" onmousedown="event.preventDefault();pickSlash(${idx})">
+        <b>${esc(c.cmd)}</b>
+        <span class="mu" style="font-size:12px">${esc(c.desc)}</span>
+        <span style="margin-left:auto;font-size:10.5px;font-weight:700;color:var(--mu);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px">${esc(c.bot)}</span>
+      </div>`;
+    }).join('');
+  }
+
+  p.innerHTML = html;
 }
 
 function pickSlash(idx){
@@ -7116,6 +8830,37 @@ function cleanChannelName(input, isVoice = false) {
 window.cleanChannelName = cleanChannelName;
 function renameCh(sid0,cid){const s=db.servers[sid0],c=s?.ch.find(x=>x.id===cid);if(!c||!canEdit(s,sid0))return;const raw=prompt('New channel name',c.n);if(!raw?.trim())return;const isVoice=(c.type==='voice'||c.t==='v');const n=cleanChannelName(raw,isVoice);if(!n)return toast('Invalid channel name');if(s.ch.some(x=>x!==c&&(x.id===n||x.n.toLowerCase()===n.toLowerCase())))return toast('That channel name already exists in this server');const old=c.id;c.n=n;c.id=n;if(s.msgs[old]&&old!=c.id){s.msgs[c.id]=s.msgs[old];delete s.msgs[old]}if(s.voiceConnected?.[old]){s.voiceConnected[c.id]=s.voiceConnected[old];delete s.voiceConnected[old]}if(view.c===old)view.c=c.id;if(currentVoice?.cid===old)currentVoice.cid=c.id;save();render()}
 /* ---- server settings ---- */
+function addServerOnboardingQuestion(id){
+  const s = db.servers[id];
+  if (!s) return;
+  const qText = ($('#obNewQ')?.value || '').trim();
+  const optLabel = ($('#obNewOptLabel')?.value || '').trim();
+  const optRoleId = $('#obNewOptRole')?.value || '';
+  if (!qText) return toast('Please enter a question');
+  if (!optLabel) return toast('Please enter at least one option label');
+  const roleObj = (s.roles || []).find(r => r.id === optRoleId);
+  s.onboarding = s.onboarding || { enabled: false, desc: '', rules: [], questions: [] };
+  s.onboarding.questions = s.onboarding.questions || [];
+  s.onboarding.questions.push({
+    q: qText,
+    opts: [{ label: optLabel, roleId: optRoleId, roleName: roleObj ? roleObj.name : '' }]
+  });
+  save();
+  toast('Onboarding question added!');
+  ssettings(id, 'onboarding');
+}
+window.addServerOnboardingQuestion = addServerOnboardingQuestion;
+
+function resetMyOnboarding(id){
+  const s = db.servers[id];
+  if (!s) return;
+  s.onboardingDone = s.onboardingDone || {};
+  delete s.onboardingDone[me];
+  save();
+  render();
+  toast('Reset your onboarding status for ' + s.name + '. Screening is now active for you.');
+}
+window.resetMyOnboarding = resetMyOnboarding;
 function addServerRule(id){const s=db.servers[id];if(!s)return;const v=($('#newRule')?.value||'').trim();if(!v)return;s.onboarding=s.onboarding||{enabled:false,desc:'',rules:[],questions:[]};s.onboarding.rules=s.onboarding.rules||[];s.onboarding.rules.push(v);save();ssettings(id,'onboarding');}
 function saveServerAutoMod(id){const s=db.servers[id];if(!s)return;s.automod=s.automod||{};s.automod.words=($('#amWords')?.value||'').split(',').map(w=>w.trim().toLowerCase()).filter(Boolean);save();toast('AutoMod settings saved');ssettings(id,'automod');}
 const SSP={
@@ -7134,7 +8879,55 @@ channels:(id,s)=>`<h1>Channels</h1>`+s.ch.filter(c=>c.t=='t').map(c=>`<div class
 invites:(id,s)=>{const invs=s.invites||[];return`<h1>Invite Links</h1><p class="mu" style="margin-bottom:12px">Create invites with custom expiration and usage limits.</p><div class="row"><select id="invExp"><option value="0">Never expires</option><option value="1800000">30 minutes</option><option value="3600000">1 hour</option><option value="21600000">6 hours</option><option value="86400000">1 day</option><option value="604800000">7 days</option></select><select id="invMax"><option value="0">Unlimited uses</option><option value="1">1 use</option><option value="5">5 uses</option><option value="10">10 uses</option><option value="25">25 uses</option><option value="50">50 uses</option></select><button onclick="createInvite('${id}')">Create invite</button></div><hr><h2>Active invites (${invs.length})</h2><div style="display:flex;flex-direction:column;gap:8px">${invs.map(i=>`<div class="rowc"><div class="sp"><b>memocord.invite/${esc(i.code)}</b><div class="mu" style="font-size:12px">Uses: ${i.uses}/${i.maxUses||'Unlimited'}  Expires: ${i.expiresAt?tsf(i.expiresAt):'Never'}  By: @${esc(i.by)}</div></div><button class="g" onclick="copy('memocord.invite/${esc(i.code)}')">Copy</button><button class="r" onclick="delInvite('${id}','${esc(i.code)}')">${ic('trash',16)}</button></div>`).join('')||'<p class="mu">No custom invites yet.</p>'}</div>`},
 bans:(id,s)=>{const bans=s.bans||[];return`<h1>Banned Users (${bans.length})</h1><p class="mu" style="margin-bottom:12px">Banned members cannot rejoin via invite links.</p><div style="display:flex;flex-direction:column;gap:8px">${bans.map(b=>{const u=typeof b==='string'?b:b.u;return`<div class="rowc"><div class="avw">${av(u,32)}</div><div class="sp"><b>${dn(u)}</b> <span class="mu">@${esc(u)}</span><div class="mu" style="font-size:12px">${esc(b.reason||'Banned')}${b.ts?'  '+tsf(b.ts):''}</div></div><button class="g" onclick="unbanMember('${id}','${u}');ssettings('${id}','bans')">Unban</button></div>`}).join('')||'<p class="mu">No banned users.</p>'}</div>`},
 audit:(id,s)=>{const log=s.auditLog||[];return`<h1>Audit Log</h1><p class="mu" style="margin-bottom:12px">Recent moderation actions.</p><div style="display:flex;flex-direction:column;gap:8px">${log.map(a=>`<div class="ac" style="padding:10px 14px"><div class="row" style="margin:0"><b class="sp">${esc(a.action)}</b><span class="mu" style="font-size:12px">${tsf(a.ts)}</span></div><div class="mu" style="font-size:13px;margin-top:4px">By <b>@${esc(a.by)}</b>${a.target?`  Target: <b>@${esc(a.target)}</b>`:''}</div></div>`).join('')||'<p class="mu">No audit log entries yet.</p>'}</div>`},
-bots:(id,s)=>`<h1>Bots</h1><p class="mu" style="margin-bottom:12px">Invite bots into your server. Server owners can also use <b>/verify</b> and <b>/embed Title | text</b> in any channel.</p><div class="rowc"><div class="av" style="width:44px;height:44px;background:#5865f2">${ic('gift',22)}</div><div class="sp"><b>Giveaway ${`<span class="bd badge-pill" style="background:#3ba55d;color:#fff;border-radius:4px;padding:1px 6px;font-size:10px;font-weight:800;white-space:nowrap;width:auto">BOT</span>`}</b><div class="mu">Run /giveaway start 1d Prize 1 in any channel. Owners only.</div></div><button class="${(s.bots||[]).includes('giveaway')?'g':''}" onclick="toggleBot('${id}')">${(s.bots||[]).includes('giveaway')?'Remove':'Invite'}</button></div>`,
+bots:(id,s)=>{
+  const botIds = new Set(COMMUNITY_BOT_MEMBERS.map(b => b.id));
+  const total = (s.members || []).length;
+  const botsInServer = (s.members || []).filter(u => botIds.has(u) || U(u)?.isBot || U(u)?.isCommunityBot).length;
+  const humans = total - botsInServer;
+  return `<h1>Bots & Server Population</h1>
+    <p class="mu" style="margin-bottom:14px">Manage bots, invite automated tools, or populate your server so it looks lively and active.</p>
+    
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px">
+      <div class="ac" style="padding:12px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#fff">${total}</div>
+        <div class="mu" style="font-size:11px;font-weight:700">TOTAL MEMBERS</div>
+      </div>
+      <div class="ac" style="padding:12px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#3ba55d">${humans}</div>
+        <div class="mu" style="font-size:11px;font-weight:700">HUMANS</div>
+      </div>
+      <div class="ac" style="padding:12px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#5865f2">${botsInServer}</div>
+        <div class="mu" style="font-size:11px;font-weight:700">BOTS & SIMULATED</div>
+      </div>
+    </div>
+
+    <label>SERVER POPULATION TOOLS</label>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">
+      <button onclick="populateServerBots('${id}')">${ic('users',16)} Populate 20 Community Bots</button>
+      <button class="g" onclick="addRandomBotModal('${id}')">${ic('plus',16)} Add Custom Gamer Bot</button>
+      ${botsInServer > 0 ? `<button class="r" onclick="clearCommunityBots('${id}')">${ic('trash',16)} Clear Bots</button>` : ''}
+    </div>
+
+    <label>INSTALLED / AVAILABLE BOT APPS</label>
+    <div class="rowc" style="padding:10px;border-radius:8px;background:var(--card);border:1px solid var(--line);margin-bottom:8px">
+      <div class="av" style="width:40px;height:40px;background:#5865f2;display:grid;place-items:center">${ic('gift',20)}</div>
+      <div class="sp">
+        <b>Giveaway Bot <span class="bd badge-pill" style="background:#3ba55d;color:#fff;border-radius:4px;padding:1px 6px;font-size:10px;font-weight:800">BOT</span></b>
+        <div class="mu">Run /giveaway start 1d Prize in any channel.</div>
+      </div>
+      <button class="${(s.bots||[]).includes('giveaway')?'g':''}" onclick="toggleBot('${id}')">${(s.bots||[]).includes('giveaway')?'Remove':'Invite'}</button>
+    </div>
+    
+    <div class="rowc" style="padding:10px;border-radius:8px;background:var(--card);border:1px solid var(--line);margin-bottom:8px">
+      <div class="av" style="width:40px;height:40px;background:#22c55e;display:grid;place-items:center">${ic('film',20)}</div>
+      <div class="sp">
+        <b>Moments & Clips Bot <span class="beta-pill" style="margin-left:4px">BETA</span></b>
+        <div class="mu">Automatically announces when members post game clips and highlights.</div>
+      </div>
+      <span style="font-size:11.5px;color:#2ecc71;font-weight:700">${ic('check2',14)} Active</span>
+    </div>`;
+},
 danger:(id,s)=>`<h1>Delete server</h1>${id==SID?'<p class="mu">The starter server cannot be deleted.</p>':`<button class="r" onclick="delSrv('${id}')">Delete server</button>`}`};
 const SST={general:'Overview',channels:'Channels',roles:'Roles',perms:'Permissions',onboarding:'Onboarding',automod:'AutoMod',events:'Events',power:'Boost & Perks',stats:'Server Stats',invites:'Invites',bans:'Bans',audit:'Audit Log',emojis:'Emojis',bots:'Bots',danger:'Delete server'};
 Object.assign(SSP,{
@@ -7144,22 +8937,57 @@ Object.assign(SSP,{
   onboarding:(id,s)=>{
     s.onboarding=s.onboarding||{enabled:false,desc:'',rules:[],questions:[]};
     const ob=s.onboarding;
-    return `<h1>Server Onboarding</h1>
-      <p class="mu" style="margin-bottom:14px">Set up a welcome screen with rules and questions for new members.</p>
+    const serverRoles = (s.roles || []).filter(r => r.name !== '@everyone');
+    return `<h1>Server Onboarding & Screening</h1>
+      <p class="mu" style="margin-bottom:14px">Set up a welcome screen with rules and questions that new members must complete before chatting.</p>
       <div class="tg" style="margin:0 0 14px">
-        <div class="sp"><b>Enable Onboarding</b><span class="mu">Show welcome screen to members joining the server</span></div>
-        <input type="checkbox" id="obEn" ${ob.enabled?'checked':''} onchange="db.servers['${id}'].onboarding.enabled=this.checked;save()">
+        <div class="sp"><b>Enable Onboarding</b><span class="mu">Require members to accept rules and answer questions upon joining</span></div>
+        <input type="checkbox" id="obEn" ${ob.enabled?'checked':''} onchange="db.servers['${id}'].onboarding.enabled=this.checked;save();toast(this.checked?'Onboarding enabled':'Onboarding disabled');ssettings('${id}','onboarding')">
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="g" onclick="showOnboardingModal('${id}', true)">${ic('eye',16)} Preview Welcome Screen</button>
+        <button class="g" onclick="resetMyOnboarding('${id}')">${ic('refresh',16)} Reset My Screening (Test)</button>
       </div>
       <label>WELCOME DESCRIPTION</label>
-      <textarea id="obDesc" rows="2" maxlength="200" placeholder="Welcome message for new members">${esc(ob.desc||'')}</textarea>
-      <label>SERVER RULES CHECKLIST</label>
-      <div id="obRulesList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+      <textarea id="obDesc" rows="2" maxlength="300" placeholder="Welcome to our community! Please review the rules below before chatting.">${esc(ob.desc||'')}</textarea>
+      
+      <label style="margin-top:12px">SERVER RULES CHECKLIST</label>
+      <div id="obRulesList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
         ${(ob.rules||[]).map((r,idx)=>`
-          <div class="rowc" style="margin:0"><b class="sp">${idx+1}. ${esc(r)}</b><button class="r" style="padding:2px 6px;font-size:11px" onclick="db.servers['${id}'].onboarding.rules.splice(${idx},1);save();ssettings('${id}','onboarding')">${ic('trash',14)}</button></div>
+          <div class="rowc" style="margin:0;background:var(--card);padding:8px 12px;border-radius:8px"><b class="sp">${idx+1}. ${esc(r)}</b><button class="r" style="padding:4px 8px;font-size:11px" onclick="db.servers['${id}'].onboarding.rules.splice(${idx},1);save();ssettings('${id}','onboarding')">${ic('trash',14)}</button></div>
         `).join('')||'<span class="mu">No rules added yet.</span>'}
       </div>
-      <div class="row"><input id="newRule" placeholder="e.g. All members must follow Memocord's Terms of Service and Community Guidelines." style="margin:0"><button onclick="addServerRule('${id}')">Add Rule</button></div>
-      <button style="margin-top:16px;width:100%" onclick="db.servers['${id}'].onboarding.desc=$('#obDesc').value.trim();save();toast('Onboarding saved');ssettings('${id}','onboarding')">Save Onboarding</button>`;
+      <div class="row" style="margin-bottom:16px"><input id="newRule" placeholder="e.g. Be respectful and follow community guidelines." style="margin:0"><button onclick="addServerRule('${id}')">${ic('plus',14)} Add Rule</button></div>
+
+      <label style="margin-top:12px">JOIN QUESTIONS & ROLE ASSIGNMENT</label>
+      <div id="obQuestionsList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px">
+        ${(ob.questions||[]).map((q,qIdx)=>`
+          <div class="ac" style="padding:10px 14px">
+            <div class="row" style="margin:0 0 6px">
+              <b class="sp">${esc(q.q)}</b>
+              <button class="r" style="padding:3px 7px;font-size:11px" onclick="db.servers['${id}'].onboarding.questions.splice(${qIdx},1);save();ssettings('${id}','onboarding')">${ic('trash',14)} Delete</button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              ${(q.opts||[]).map(o=>`<span class="badge-pill" style="background:var(--card2);padding:2px 8px;border-radius:6px;font-size:12px">${esc(o.label)} ${o.roleName ? `<span style="color:var(--br)">(@${esc(o.roleName)})</span>` : ''}</span>`).join('')}
+            </div>
+          </div>
+        `).join('')||'<span class="mu">No custom questions added.</span>'}
+      </div>
+
+      <div class="ac" style="padding:12px;margin-bottom:18px">
+        <div style="font-size:13px;font-weight:700;margin-bottom:8px">Add New Question</div>
+        <input id="obNewQ" placeholder="e.g. What are you here for?" style="margin:0 0 8px">
+        <div class="row" style="margin:0 0 8px">
+          <input id="obNewOptLabel" placeholder="Option label (e.g. Gaming)" style="margin:0;flex:1">
+          <select id="obNewOptRole" style="margin:0;flex:1">
+            <option value="">No role assigned</option>
+            ${serverRoles.map(r=>`<option value="${esc(r.id)}">${esc(r.name)}</option>`).join('')}
+          </select>
+        </div>
+        <button class="g" style="width:100%" onclick="addServerOnboardingQuestion('${id}')">${ic('plus',14)} Add Question</button>
+      </div>
+
+      <button style="width:100%" onclick="db.servers['${id}'].onboarding.desc=$('#obDesc').value.trim();save();toast('Onboarding settings saved!');ssettings('${id}','onboarding')">Save Onboarding Settings</button>`;
   },
   automod:(id,s)=>{
     s.automod=s.automod||{enabled:false,words:[],linkFilter:'off',whitelist:[],spamLimit:5,action:'del'};
@@ -7325,54 +9153,77 @@ function playVoiceDisconnectSound() {
   } catch (_) {}
 }
 
+function startDmVoiceCall(targetU) {
+  if (!targetU) return;
+  const cid = dmk(targetU);
+  joinVoiceChannel('dm', cid);
+}
+window.startDmVoiceCall = startDmVoiceCall;
+
 function joinVoiceChannel(sid0, cid) {
-  const s = db.servers[sid0];
-  if (!s) return;
-  const c = s.ch.find(x => x.id === cid);
-  if (!c) return;
+  let callName = 'Voice Channel';
+  if (sid0 === 'dm') {
+    const other = cid.split(':').find(u => u !== me) || cid;
+    callName = '@' + dn(other);
+    if (currentVoice?.sid === 'dm' && currentVoice?.cid === cid) {
+      return toast(`Already in call with ${callName}!`);
+    }
+  } else {
+    const s = db.servers[sid0];
+    if (!s) return;
+    const c = s.ch.find(x => x.id === cid);
+    if (!c) return;
+    callName = '#' + c.n;
 
-  s.voiceConnected = s.voiceConnected || {};
-  s.voiceConnected[cid] = (s.voiceConnected[cid] || []).filter(u => online(u) && U(u));
+    s.voiceConnected = s.voiceConnected || {};
+    s.voiceConnected[cid] = (s.voiceConnected[cid] || []).filter(u => online(u) && U(u));
 
-  // Check user limit
-  if (c.userLimit > 0 && s.voiceConnected[cid].length >= c.userLimit && !s.voiceConnected[cid].includes(me)) {
-    return toast(`🚫 Voice channel #${c.n} is full (max ${c.userLimit} members)!`);
-  }
+    // Check user limit
+    if (c.userLimit > 0 && s.voiceConnected[cid].length >= c.userLimit && !s.voiceConnected[cid].includes(me)) {
+      return toast(`🚫 Voice channel #${c.n} is full (max ${c.userLimit} members)!`);
+    }
 
-  if (currentVoice?.sid === sid0 && currentVoice?.cid === cid) {
-    return toast(`Already connected to 🔊 #${c.n}!`);
+    if (currentVoice?.sid === sid0 && currentVoice?.cid === cid) {
+      return toast(`Already connected to 🔊 #${c.n}!`);
+    }
   }
 
   leaveVoiceChannel(true);
 
-  if (!s.voiceConnected[cid].includes(me)) {
-    s.voiceConnected[cid].push(me);
+  if (sid0 !== 'dm') {
+    const s = db.servers[sid0];
+    if (!s.voiceConnected[cid].includes(me)) {
+      s.voiceConnected[cid].push(me);
+    }
   }
   currentVoice = { sid: sid0, cid, muted: isSelfMuted, deaf: isSelfDeafened, joinedAt: Date.now(), cameraActive: false, screenActive: false, cameraStream: null, screenStream: null };
 
   playVoiceConnectSound();
   save();
   render();
-  toast(`Connected to 🔊 #${c.n}!`);
+  toast(sid0 === 'dm' ? `Started voice call with ${callName}!` : `Connected to 🔊 ${callName}!`);
   try { startVoiceCallConnections(); } catch(err) { console.warn('Start voice WebRTC error:', err); }
 }
 window.joinVoiceChannel = joinVoiceChannel;
 
 function leaveVoiceChannel(silent = false) {
   if (!currentVoice) return;
+  const wasDm = currentVoice.sid === 'dm';
   try { cleanupVoiceCallConnections(); } catch(_) {}
   try { currentVoice.cameraStream?.getTracks().forEach(t => t.stop()); } catch(_) {}
   try { currentVoice.screenStream?.getTracks().forEach(t => t.stop()); } catch(_) {}
-  const s = db.servers[currentVoice.sid];
-  if (s?.voiceConnected?.[currentVoice.cid]) {
-    s.voiceConnected[currentVoice.cid] = s.voiceConnected[currentVoice.cid].filter(u => u !== me);
+  if (!wasDm) {
+    const s = db.servers[currentVoice.sid];
+    if (s?.voiceConnected?.[currentVoice.cid]) {
+      s.voiceConnected[currentVoice.cid] = s.voiceConnected[currentVoice.cid].filter(u => u !== me);
+    }
   }
   currentVoice = null;
   if (!silent) {
     playVoiceDisconnectSound();
     save();
     render();
-    toast('Disconnected from voice channel.');
+    toast(wasDm ? 'Call ended.' : 'Disconnected from voice channel.');
   }
 }
 window.leaveVoiceChannel = leaveVoiceChannel;
@@ -7864,8 +9715,18 @@ function formatCallDuration(ms) {
 
 function renderVoiceDock() {
   if (!currentVoice) return '';
-  const s = db.servers[currentVoice.sid];
-  const c = s?.ch?.find(x => x.id === currentVoice.cid);
+  const isDm = currentVoice.sid === 'dm';
+  let title = 'Voice Connected';
+  let sub = '';
+  if (isDm) {
+    const other = currentVoice.cid.split(':').find(u => u !== me) || currentVoice.cid;
+    title = 'Direct Call Connected';
+    sub = '@' + dn(other);
+  } else {
+    const s = db.servers[currentVoice.sid];
+    const c = s?.ch?.find(x => x.id === currentVoice.cid);
+    sub = `${s?.name || ''} / ${c?.n || 'voice'}`;
+  }
   const duration = formatCallDuration(Date.now() - (currentVoice.joinedAt || Date.now()));
   return `
     <div class="voice-call-panel" id="voiceCallPanel">
@@ -7874,10 +9735,10 @@ function renderVoiceDock() {
           <span class="voice-dock-dot"></span>
           <div style="min-width:0;flex:1">
             <div style="display:flex;align-items:center;gap:6px">
-              <b style="font-size:12px;color:#2ecc71">Voice Connected</b>
+              <b style="font-size:12px;color:#2ecc71">${title}</b>
               <span class="voice-rtc-badge" title="Voice RTC: Connected (Good quality, 24ms ping)">${ic('signal',12)} 24ms</span>
             </div>
-            <div class="mu ell" style="font-size:11px">${esc(s?.name || '')} / ${esc(c?.n || 'voice')}</div>
+            <div class="mu ell" style="font-size:11px">${esc(sub)}</div>
           </div>
         </div>
         <div id="voiceCallTimer" class="voice-call-timer" title="Call duration">${duration}</div>
@@ -8298,28 +10159,29 @@ function createForumPost(sid0, cid){
 }
 
 // 2. Server Onboarding
-function showOnboardingModal(sid0){
-  const s=db.servers[sid0];if(!s||!s.onboarding?.enabled)return;
-  const ob=s.onboarding;
-  modal(`<h2>Welcome to ${esc(s.name)}!</h2>
+function showOnboardingModal(sid0, isPreview = false){
+  const s=db.servers[sid0];if(!s)return;
+  const ob=s.onboarding || { enabled: true, desc: '', rules: [], questions: [] };
+  modal(`<h2>Welcome to ${esc(s.name)}!${isPreview ? ' <span class="beta-pill" style="font-size:11px">PREVIEW</span>' : ''}</h2>
     <p class="mu" style="margin-bottom:14px">${esc(ob.desc||'Please review the server rules before participating.')}</p>
     ${(ob.rules||[]).length?`
       <label>SERVER RULES</label>
-      <div style="background:var(--card);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:6px">
-        ${ob.rules.map((r,idx)=>`<div><b>${idx+1}.</b> ${esc(r)}</div>`).join('')}
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:6px">
+        ${ob.rules.map((r,idx)=>`<div style="font-size:13.5px"><b>${idx+1}.</b> ${esc(r)}</div>`).join('')}
       </div>
       <label class="chk" style="margin-bottom:14px"><input type="checkbox" id="obAgreeRules"> I have read and agree to follow these rules</label>
     `:''}
     ${(ob.questions||[]).map((q,qIdx)=>`
-      <label>${esc(q.q)}</label>
-      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+      <label style="font-weight:700">${esc(q.q)}</label>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
         ${(q.opts||[]).map((o,oIdx)=>`
-          <label class="chk"><input type="checkbox" class="ob-role-opt" data-role="${esc(o.roleId)}"> ${esc(o.label)}</label>
+          <label class="chk" style="background:var(--card);padding:8px 12px;border-radius:6px;border:1px solid var(--line)"><input type="checkbox" class="ob-role-opt" data-role="${esc(o.roleId||'')}"> ${esc(o.label)}</label>
         `).join('')}
       </div>
     `).join('')}
-    <button style="width:100%;margin-top:10px" onclick="finishOnboarding('${sid0}')">Finish & Enter Server</button>`, 480);
+    <button style="width:100%;margin-top:10px" onclick="${isPreview ? 'closeModal();toast("Preview closed")' : `finishOnboarding('${sid0}')`}">${isPreview ? 'Close Preview' : 'Finish &amp; Enter Server'}</button>`, 480);
 }
+window.showOnboardingModal = showOnboardingModal;
 
 function finishOnboarding(sid0){
   const s=db.servers[sid0];if(!s)return;
@@ -8716,6 +10578,43 @@ function srvDragOver(e, sid0) {
 function srvDragLeave(e) {
   e.currentTarget.classList.remove('folder-drop-hover');
 }
+function removeServerFromFolder(sid0) {
+  if (!sid0) return;
+  U(me).folders = U(me).folders || [];
+  let found = false;
+  for (const f of U(me).folders) {
+    if ((f.servers || []).includes(sid0)) {
+      f.servers = f.servers.filter(id => id !== sid0);
+      found = true;
+    }
+  }
+  if (found) {
+    U(me).folders = U(me).folders.filter(f => (f.servers || []).length > 0);
+    save();
+    render();
+    toast('Server moved outside of folder');
+  }
+}
+window.removeServerFromFolder = removeServerFromFolder;
+
+function railDragOver(e) {
+  if (!draggedServerId) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+window.railDragOver = railDragOver;
+
+function railDrop(e) {
+  if (!draggedServerId) return;
+  if (e.target.closest('.ri[data-ctx]') || e.target.closest('.folder-header')) return;
+  e.preventDefault();
+  $('.drag-ghost')?.classList.remove('drag-ghost');
+  const srcId = draggedServerId;
+  draggedServerId = null;
+  removeServerFromFolder(srcId);
+}
+window.railDrop = railDrop;
+
 function srvDrop(e, targetSid) {
   e.preventDefault();
   e.currentTarget.classList.remove('folder-drop-hover');
@@ -8725,14 +10624,17 @@ function srvDrop(e, targetSid) {
   if (!srcId || srcId === targetSid) return;
 
   U(me).folders = U(me).folders || [];
+  const srcFolder = U(me).folders.find(f => (f.servers || []).includes(srcId));
+  const targetFolder = U(me).folders.find(f => (f.servers || []).includes(targetSid));
+
+  // Remove src from any previous folder
   for (const f of U(me).folders) {
     f.servers = (f.servers || []).filter(id => id !== srcId);
   }
 
-  const existingFolder = U(me).folders.find(f => (f.servers || []).includes(targetSid));
-  if (existingFolder) {
-    if (!existingFolder.servers.includes(srcId)) existingFolder.servers.push(srcId);
-    toast('Added to folder "' + (existingFolder.name || 'Folder') + '"');
+  if (targetFolder) {
+    if (!targetFolder.servers.includes(srcId)) targetFolder.servers.push(srcId);
+    toast('Added to folder "' + (targetFolder.name || 'Folder') + '"');
   } else {
     const newFolder = {
       id: 'f' + Date.now(),
@@ -8808,7 +10710,9 @@ function copyServerTemplate(sid0){
 }
 
 function ssettings(id,p){if(id)ss.s=id;if(p)ss.p=p;const s=db.servers[ss.s];if(!canEdit(s,ss.s))return;
-shell(`<div class="sg">${esc(s.name).toUpperCase()}</div>`+Object.entries(SST).map(([k,v])=>`<div class="si ${ss.p==k?'on':''}" onclick="ssettings(0,'${k}')">${v}</div>`).join(''),(ss.p=='general'?'<h1>Server Overview</h1>':'')+SSP[ss.p](ss.s,s))}
+if(ss.p==='bots' && !isA(me)) ss.p='general';
+const allowedTabs = Object.entries(SST).filter(([k]) => k !== 'bots' || isA(me));
+shell(`<div class="sg">${esc(s.name).toUpperCase()}</div>`+allowedTabs.map(([k,v])=>`<div class="si ${ss.p==k?'on':''}" onclick="ssettings(0,'${k}')">${v}</div>`).join(''),(ss.p=='general'?'<h1>Server Overview</h1>':'')+SSP[ss.p](ss.s,s))}
 async function saveSrv(id){const s=db.servers[id],n=$('#sv').value.trim(),f=$('#si')?.files[0],fb=$('#sb')?.files[0],inv=($('#sinv')?.value||'').trim().toLowerCase().replace(/[^\w-]/g,'');if(inv&&Object.entries(db.servers).some(([k,x])=>k!=id&&(x.invite||'').toLowerCase()==inv))return toast('That invite code is taken');
 if(n)s.name=n;s.desc=$('#sd').value.trim();s.community=$('#sc').checked;if($('#sinv'))s.invite=inv;try{if(f&&id!=SID)s.icon=await upImg(f,128,'icon');if(fb)s.banner=await upImg(fb,960,'banner')}catch{return toast('Image failed')}clearTimeout(saveT);await push();render();ssettings();toast('Server saved')}
 const resetIcon=id=>{db.servers[id].icon='';save();render();ssettings();toast('Icon reset to default')};
@@ -9005,6 +10909,7 @@ app:()=>{
 },
 keybinds:()=>`<h1>Keyboard Shortcuts</h1>
   <div style="background:var(--card);border-radius:10px;border:1px solid var(--line);overflow:hidden;margin-top:14px">
+    <div class="keybind-row" style="background:rgba(255,90,54,0.08);border-left:3px solid #ff5a36"><span>Capture Game Highlight Clip (Instant Clip / Save)</span><span class="keybind-chip" style="background:#ff5a36;color:#fff;font-weight:700">F8 / Alt + C</span></div>
     <div class="keybind-row"><span>Quick Switcher (Server/Channel/DM)</span><span class="keybind-chip">Ctrl + K</span></div>
     <div class="keybind-row"><span>Toggle Mute Notifications & Sounds</span><span class="keybind-chip">Ctrl + Shift + M</span></div>
     <div class="keybind-row"><span>Back in Channel History</span><span class="keybind-chip">Ctrl + [</span></div>
@@ -9017,7 +10922,7 @@ keybinds:()=>`<h1>Keyboard Shortcuts</h1>
     <div class="keybind-row"><span>Autocomplete @mentions and :emojis:</span><span class="keybind-chip">Tab</span></div>
     <div class="keybind-row"><span>Close modals and dismiss popups</span><span class="keybind-chip">Esc</span></div>
   </div>`,
-profile:()=>{const x=U(me);return`<div class="hero"><div style="color:var(--br)">${ic('sparkle',30,1)}</div><div class="sp"><b>Make it yours</b><div class="mu">Pick an accent colour, profile theme, banner and avatar decorations.</div></div><button class="g" style="padding:6px 12px;font-size:12px;white-space:nowrap" onclick="settings('namestyle')">Name Style ➔</button></div><label>LOOK</label><h2 style="margin-top:14px;font-size:14px">DISPLAY NAME ${isA(me)?'':`<span class="mu">(every ${L.nameHours}h)</span>`}</h2><input id="ed" maxlength="32" value="${esc(x.display)}" oninput="updateProfPreview()"><h2 style="font-size:14px">PRONOUNS</h2><input id="epronouns" maxlength="40" value="${esc(x.pronouns||'')}" placeholder="e.g. they/them, she/her, he/him" oninput="updateProfPreview()"><h2 style="font-size:14px">CUSTOM STATUS</h2><div class="row"><input id="est" maxlength="60" value="${esc(x.status||'')}" placeholder="What are you up to?" oninput="updateProfPreview()"><select id="estExp" style="width:160px;margin:0"><option value="0">Don't clear</option><option value="3600000">Clear after 1 hour</option><option value="14400000">Clear after 4 hours</option><option value="today">End of today</option></select></div><h2 style="font-size:14px">CUSTOM ACTIVITY</h2><div class="row"><select id="eactType" style="width:140px;margin:0"><option value="Playing" ${x.act?.t==='Playing'?'selected':''}>Playing</option><option value="Listening to" ${x.act?.t==='Listening to'?'selected':''}>Listening to</option><option value="Watching" ${x.act?.t==='Watching'?'selected':''}>Watching</option><option value="Competing in" ${x.act?.t==='Competing in'?'selected':''}>Competing in</option></select><input id="eactName" maxlength="60" value="${esc(x.act?.n||'')}" placeholder="e.g. Minecraft, Spotify" style="margin:0" oninput="updateProfPreview()"></div><h2 style="font-size:14px">BIO</h2><textarea id="ebio" maxlength="300" rows="3" placeholder="Tell everyone about yourself - emojis work too!" oninput="updateProfPreview()">${esc(x.bio||'')}</textarea><h2 style="font-size:14px">PROFILE PICTURE <span class="mu">(GIFs animate)</span></h2><div class="row"><input id="ea" type="file" accept="image/*">${x.avatar?`<button class="g" onclick="U(me).avatar='';save();render();settings('profile')">Remove</button>`:''}</div><h2 style="font-size:14px">AVATAR DECORATION</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin-bottom:14px">${Object.entries(AV_DECS).map(([k,d])=>{
+profile:()=>{const x=U(me);return`<div class="hero"><div style="color:var(--br)">${ic('sparkle',30,1)}</div><div class="sp"><b>Make it yours</b><div class="mu">Pick an accent colour, profile theme, banner and avatar decorations.</div></div><button class="g" style="padding:6px 12px;font-size:12px;white-space:nowrap" onclick="settings('namestyle')">Name Style ➔</button></div><label>LOOK</label><h2 style="margin-top:14px;font-size:14px">DISPLAY NAME</h2><input id="ed" maxlength="32" value="${esc(x.display)}" oninput="updateProfPreview()"><h2 style="font-size:14px">PRONOUNS</h2><input id="epronouns" maxlength="40" value="${esc(x.pronouns||'')}" placeholder="e.g. they/them, she/her, he/him" oninput="updateProfPreview()"><h2 style="font-size:14px">CUSTOM STATUS</h2><div class="row"><input id="est" maxlength="60" value="${esc(x.status||'')}" placeholder="What are you up to?" oninput="updateProfPreview()"><select id="estExp" style="width:160px;margin:0"><option value="0">Don't clear</option><option value="3600000">Clear after 1 hour</option><option value="14400000">Clear after 4 hours</option><option value="today">End of today</option></select></div><h2 style="font-size:14px">CUSTOM ACTIVITY</h2><div class="row"><select id="eactType" style="width:140px;margin:0"><option value="Playing" ${x.act?.t==='Playing'?'selected':''}>Playing</option><option value="Listening to" ${x.act?.t==='Listening to'?'selected':''}>Listening to</option><option value="Watching" ${x.act?.t==='Watching'?'selected':''}>Watching</option><option value="Competing in" ${x.act?.t==='Competing in'?'selected':''}>Competing in</option></select><input id="eactName" maxlength="60" value="${esc(x.act?.n||'')}" placeholder="e.g. Minecraft, Spotify" style="margin:0" oninput="updateProfPreview()"></div><h2 style="font-size:14px">BIO</h2><textarea id="ebio" maxlength="300" rows="3" placeholder="Tell everyone about yourself - emojis work too!" oninput="updateProfPreview()">${esc(x.bio||'')}</textarea><h2 style="font-size:14px">PROFILE PICTURE <span class="mu">(GIFs animate)</span></h2><div class="row"><input id="ea" type="file" accept="image/*">${x.avatar?`<button class="g" onclick="U(me).avatar='';save();render();settings('profile')">Remove</button>`:''}</div><h2 style="font-size:14px">AVATAR DECORATION</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin-bottom:14px">${Object.entries(AV_DECS).map(([k,d])=>{
   const isLocked = d.quest && !(x.unlockedAvDecs||[]).includes(k);
   const clickHandler = isLocked ? `toast('Locked! Complete quest in the Quests tab to unlock this exclusive decoration.')` : `setAvDec('${k}')`;
   return `
@@ -10272,13 +12177,14 @@ else if(+expChoice>0){x.statusExp=Date.now()+(+expChoice);}
 else if(expChoice==='0'){x.statusExp=0;}
 const an=($('#eactName')?.value||'').trim().slice(0,60);
 if(an){x.act={t:$('#eactType')?.value||'Playing',n:an};}else{delete x.act;}
-if(n&&n!=x.display){const w=L.nameHours*36e5-(Date.now()-(x.nameAt||0));if(!isA(me)&&w>0)return toast('You can change your name again in '+Math.ceil(w/36e5)+'h')}
+// display name lockout removed
 try{if(a)x.avatar=await upImg(a,256,'avatar');if(b)x.banner=await upImg(b,960,'banner')}catch{return toast('Image failed. Check Storage permissions.')}
 x.status=$('#est').value.trim();x.bio=($('#ebio')?.value||'').trim().slice(0,300);
 if(n&&n!=x.display){
-  const dispErr = checkUsernameAppropriateness(n);
-  if(dispErr) return toast('Display name: ' + dispErr);
-  x.display=n;x.nameAt=Date.now();
+  const clean = n.trim();
+  if(clean.length < 1 || clean.length > 32) return toast('Display name must be between 1 and 32 characters');
+  x.display = clean;
+  x.nameAt = Date.now();
 }clearTimeout(saveT);await push();render();settings();toast('Profile saved')}
 /* ================= context menus ================= */
 function menu(e,items,top=''){e.preventDefault();$('.cm')?.remove();cmf=items.map(i=>i[1]);const m=document.createElement('div');m.className='cm pop';m.innerHTML=top+items.map((x,j)=>`<div class="${x[2]||''}" onclick="cmf[${j}]()">${x[0]}</div>`).join('');m.style.left=Math.min(e.clientX,innerWidth-230)+'px';m.style.top=Math.max(8,Math.min(e.clientY,innerHeight-items.length*38-90))+'px';document.body.append(m)}
@@ -10399,7 +12305,9 @@ if(kind=='img'){it=[['Copy image',()=>copyImg(id)],['Save image',()=>saveImg(id)
 else if(kind=='msg'){const m=findMsg(id);if(!m)return;top=`<p class="rx">${['angry','thumb','heart','laugh'].map(x=>`<span onclick="react('${id}','${x}')">${eimg(x,'em2')}</span>`).join('')}</p>`;it.push(['Reply',()=>replyMsg(id)]);if(m.u===me&&!m.em&&!m.btn&&!m.g)it.push(['Edit message',()=>startEdit(id)]);it.push(['Copy text',()=>copy(m.x||'')],[m.pin?'Unpin message':'Pin message',()=>pinMsg(id)]);if(m.img)it.push(['Copy image',()=>copyImg(m.img)],['Save image',()=>saveImg(m.img)]);it.push(['Copy message link',()=>copy(location.origin+location.pathname+'#msg-'+id)]);if(isMod()||m.u===me)it.push(['Delete message',()=>delMsg(id),'dn'])}
 else if(kind=='chan'){const[s0,c0]=id.split('|');const sv=db.servers[s0];if(canEdit(sv,s0))it=[['Channel Settings',()=>chEditModal(s0,c0)],['Edit Channel Name',()=>renameCh(s0,c0)],['Delete Channel',()=>deleteChannelModal(s0,c0),'dn']]}
 else if(kind=='cat'){const[s0,cat0]=id.split('|');const sv=db.servers[s0];if(canEdit(sv,s0))it=[['Create Channel',()=>newChannelModal(s0,cat0)],['Category Permissions',()=>categoryPermModal(s0,cat0)],['Edit Category Name',()=>renameCategoryModal(s0,cat0)],['Delete Category',()=>deleteCategoryModal(s0,cat0),'dn']]}
-else if(kind=='srv'){const s=db.servers[id];if(!s)return;it.push([`${ic('bolt',14,1)} Power <span class="beta">BETA</span> <span class="mu">${myPowers()}/2</span>`,()=>power(id)]);if((s.powers||[]).includes(me))it.push(['Remove my Power',()=>unpower(id)]);it.push([isMutedSrv(id)?'Unmute server':'Mute server',()=>togMuteSrv(id)]);if(canEdit(s,id))it.push(['Create Channel',()=>newChannelModal(id)],['Create Category',()=>newCategoryModal(id)],['Server settings',()=>ssettings(id,'general')]);if(dev())it.push(['Copy server ID',()=>copy(id)]);if(s.owner!=me&&id!=SID)it.push(['Leave server',()=>leave(id),'dn'])}
+else if(kind=='srv'){const s=db.servers[id];if(!s)return;it.push([`${ic('bolt',14,1)} Power <span class="beta">BETA</span> <span class="mu">${myPowers()}/2</span>`,()=>power(id)]);if((s.powers||[]).includes(me))it.push(['Remove my Power',()=>unpower(id)]);it.push([isMutedSrv(id)?'Unmute server':'Mute server',()=>togMuteSrv(id)]);if(canEdit(s,id))it.push(['Create Channel',()=>newChannelModal(id)],['Create Category',()=>newCategoryModal(id)],['Server settings',()=>ssettings(id,'general')]);const inAnyFolder = (U(me).folders || []).some(f => (f.servers || []).includes(id));
+if (inAnyFolder) it.push(['Remove from folder', () => removeServerFromFolder(id)]);
+if(dev())it.push(['Copy server ID',()=>copy(id)]);if(s.owner!=me&&id!=SID)it.push(['Leave server',()=>leave(id),'dn'])}
 else if(kind=='usr'&&U(id)){it.push(['Profile',()=>prof(id,e)]);if(view.t==='srv'&&id!==me&&id!==BOT&&id!==GB){const sv=cs();if(sv&&(sv.owner===me||isA(me)||perm(sv,me,null,'kick_members')))it.push(['Kick '+dn(id),()=>kickMember(view.s,id),'dn']);if(sv&&(sv.owner===me||isA(me)||perm(sv,me,null,'ban_members')))it.push(['Ban '+dn(id),()=>banMember(view.s,id),'dn'])}if(id!==me&&id!==BOT&&id!==GB){it.push([isBlocked(id,me)?'Unblock user':'Block user',()=>isBlocked(id,me)?unblockUser(id):blockUser(id),'dn']);it.push(['Message',()=>dm(id)]);if(dmList().includes(id))it.push(['Close DM',()=>closeDM(id),'dn'])}if(dev())it.push(['Copy user ID',()=>copy(uid(id))]);if(id!=me&&id!=BOT&&id!=GB)it.push([`${ic('flag',14)} Report`,()=>reportModal(id),'dn'])}
 if(it.length)menu(e,it,top);
 }
@@ -10412,8 +12320,15 @@ function draw(){
   if(!me||!U(me))return authView();
   applyTheme();
   const prevG=$('#msgs');
-  const wasNearBottom=prevG?(prevG.scrollHeight-prevG.scrollTop-prevG.clientHeight<=150):true;
-  const prevMsgsScrollTop=prevG?prevG.scrollTop:0;
+  const prevInp = $('#inp');
+  const prevInpVal = prevInp ? prevInp.value : '';
+  const prevInpHeight = prevInp ? prevInp.style.height : '';
+  const lastMsgEl = prevG?.querySelector('.msg:last-child');
+  const lastMsgH = lastMsgEl ? lastMsgEl.offsetHeight : 150;
+  const distFromBottom = prevG ? (prevG.scrollHeight - prevG.scrollTop - prevG.clientHeight) : 0;
+  // If user is within the last message or within 400px of bottom, keep anchored to avoid jumping
+  const wasNearBottom = prevG ? (distFromBottom <= Math.max(380, lastMsgH + 80)) : true;
+  const prevMsgsScrollTop = prevG ? prevG.scrollTop : 0;
   const prevThScroll=$('#threadMsgs')?$('#threadMsgs').scrollTop:0;
   const prevSideScroll=$('.side')?$('.side').scrollTop:0;
   const prevSnScroll=$('.sn')?$('.sn').scrollTop:0;
@@ -10457,13 +12372,13 @@ function draw(){
     }
   }
 if(view.t=='srv'){const c=ch(),lock=!perm(s,me,c.id,'s');
-const needsRuleScreening = Boolean(s.onboarding?.enabled && s.onboarding?.rules?.length && !s.onboardingDone?.[me]);
+const needsRuleScreening = Boolean(s.onboarding?.enabled && ((s.onboarding?.rules?.length > 0) || (s.onboarding?.questions?.length > 0)) && !s.onboardingDone?.[me] && s.owner !== me);
 const screeningBanner = needsRuleScreening ? `<div class="rule-screening-bar"><div style="display:flex;align-items:center;gap:10px"><span style="color:var(--br)">${ic('shield',18)}</span><span style="font-size:13px;color:var(--tx);font-weight:600">All members must follow Memocord's Terms of Service and Community Guidelines.</span></div><button style="padding:6px 14px;font-size:12px;font-weight:700" onclick="showOnboardingModal('${S}')">Complete Rules Screening</button></div>` : '';
 if(c.type==='forum'){
   m=forumView(s,c);
 }else{
   const timedOut=isTimedOut(s,me);
-  m=chat(`<button class="ib mobile-btn" onclick="toggleMobileSidebar()" title="Channels">${ic('menu',20)}</button><span style="color:var(--mu)">${ic(c.lock?'mega':'hash',22)}</span><b>${esc(c.n)}</b>${c.topic?`<span class="ch-topic ell" title="${esc(c.topic)}">${esc(c.topic)}</span>`:''}${c.slowmode?`<span class="slowmode-pill" title="Slowmode: ${c.slowmode}s">${ic('clock',12)} ${c.slowmode}s</span>`:''}<span class="sp"></span><button class="ib" onclick="showScreenShareModal()" title="Share Screen / Stream">${ic('screen',20)}</button><button class="ib ${set(me).sound?'':'red'}" onclick="togSound()" title="Message sounds">${ic('bell',20)}</button><button class="ib" onclick="pinsModal()" title="Pinned messages">${ic('pin',20)}</button><button class="ib" onclick="savedMessagesModal()" title="Saved messages">${ic('bookmark',20)}</button><button class="ib ${showMem?'on':''}" onclick="showMem=!showMem;render()" title="Member list">${ic('users',20)}</button><button class="ib mobile-btn" onclick="toggleMobileMembers()" title="Members">${ic('users',20)}</button>${!isApp()?'<button class="open-app-btn" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(15)+' <span>App</span></button>':''}${srch()}`,perm(s,me,c.id,'v')?(s.msgs[c.id]||[]):[],lock,'Message #'+c.n,S,c,`Only certain roles can post in #${c.n}. You can still read and react.`);}let last;
+  m=chat(`<button class="ib mobile-btn" onclick="toggleMobileSidebar()" title="Channels">${ic('menu',20)}</button><span style="color:var(--mu)">${ic(c.lock?'mega':'hash',22)}</span><b>${esc(c.n)}</b>${c.topic?`<span class="ch-topic ell" title="${esc(c.topic)}">${esc(c.topic)}</span>`:''}${c.slowmode?`<span class="slowmode-pill" title="Slowmode: ${c.slowmode}s">${ic('clock',12)} ${c.slowmode}s</span>`:''}<span class="sp"></span><button class="ib ${set(me).sound?'':'red'}" onclick="togSound()" title="Message sounds">${ic('bell',20)}</button><button class="ib" onclick="pinsModal()" title="Pinned messages">${ic('pin',20)}</button><button class="ib" onclick="savedMessagesModal()" title="Saved messages">${ic('bookmark',20)}</button><button class="ib" onclick="openClipsModal()" title="Clips & Highlights (BETA)" style="position:relative">${ic('film',20)}<span class="beta-pill" style="position:absolute;top:-4px;right:-8px;font-size:8px;padding:1px 4px">BETA</span></button><button class="ib ${showMem?'on':''}" onclick="showMem=!showMem;render()" title="Member list">${ic('users',20)}</button><button class="ib mobile-btn" onclick="toggleMobileMembers()" title="Members">${ic('users',20)}</button>${!isApp()?'<button class="open-app-btn" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(15)+' <span>App</span></button>':''}${srch()}`,perm(s,me,c.id,'v')?(s.msgs[c.id]||[]):[],lock,'Message #'+c.n,S,c,`Only certain roles can post in #${c.n}. You can still read and react.`);}let last;
 side=`<div class="sh" data-ctx="srv:${S}" onclick="srvMenu()" style="${s.banner?`background:linear-gradient(#0000,#0009),url(${esc(s.banner)}) center/cover`:''}"><span class="ell">${esc(s.name)}</span>${powered(s)?`<span class="pwc">${ic('bolt',12,1)} Powered</span>`:''}<span class="sp"></span>${ic('chev',18)}</div><button class="inv" onclick="inviteModal('${S}')">${ic('link',16)} Invite people</button>`+((canEdit(s,S)||(s.events||[]).length)?`<div class="nav" style="color:var(--tx);font-weight:700;display:flex;align-items:center" onclick="eventsModal('${S}')">${ic('clock',18)} <span>${(s.events||[]).length?(s.events.length+' Event'+(s.events.length>1?'s':'')):'Events'}</span>${canEdit(s,S)?`<button class="cat-add-btn" style="margin-left:auto" onclick="event.stopPropagation();createEventModal('${S}')" title="Schedule Event">${ic('plus',14)}</button>`:''}</div>`:``)
 +renderServerChannels(s,S)
 const mm=s.members.filter(u=>U(u)&&!banned(u)),ver=s.ver||[],bt=u=>U(u).b?.includes('bot'),row=u=>`<div class="mrow ${online(u)||bt(u)?'':'offl'}" data-ctx="usr:${u}" style="${pl(u)}background-size:cover" onclick="prof('${u}',event)"><div class="avw">${av(u,34,S)}<i class="${dotCls(u)}"></i></div><div style="min-width:0" class="ell"><div class="ell">${nameH(u,S)}${u==s.owner?` <span style="color:#f0b232">${ic('crown',13,1)}</span>`:''}</div>${!set(u).hideActivity&&U(u).act?.n?`<div class="st ell" style="color:#a89b94">${actDisplayInline(U(u),u)}</div>`:U(u).status?`<div class="st ell">${esc(U(u).status)}</div>`:''}</div></div>`;
@@ -10489,7 +12404,7 @@ if(showMem){
  mem='<aside class="mem">'+memHtml+'</aside>';
 }
 }
-else{if(view.t=='dm'){const o=view.id;m=chat(`${av(o,26)}<b>${dn(o)}</b><span class="sp"></span><button class="ib" onclick="showScreenShareModal()" title="Screen Share / Video Call">${ic('screen',20)}</button><button class="ib" onclick="savedMessagesModal()" title="Saved messages">${ic('bookmark',20)}</button>${!isApp()?'<button class="open-app-btn" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(15)+' <span>App</span></button>':''}${srch()}`,db.dms[dmk(o)]||[],o==BOT||o==GB,'Message @'+o,'',null,'You cannot reply to this account')}
+else{if(view.t=='dm'){const o=view.id;m=chat(`${av(o,26)}<b>${dn(o)}</b><span class="sp"></span><button class="ib ${currentVoice?.sid==='dm'&&currentVoice?.cid===dmk(o)?'on':''}" onclick="${currentVoice?.sid==='dm'&&currentVoice?.cid===dmk(o)?'leaveVoiceChannel()':'startDmVoiceCall(\''+o+'\')'}" title="${currentVoice?.sid==='dm'&&currentVoice?.cid===dmk(o)?'Disconnect Call':'Start Voice Call'}">${ic(currentVoice?.sid==='dm'&&currentVoice?.cid===dmk(o)?'phoneoff':'phone',20)}</button><button class="ib" onclick="savedMessagesModal()" title="Saved messages">${ic('bookmark',20)}</button><button class="ib" onclick="openClipsModal()" title="Clips & Highlights (BETA)" style="position:relative">${ic('film',20)}<span class="beta-pill" style="position:absolute;top:-4px;right:-8px;font-size:8px;padding:1px 4px">BETA</span></button>${!isApp()?'<button class="open-app-btn" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(15)+' <span>App</span></button>':''}${srch()}`,db.dms[dmk(o)]||[],false,'Message @'+o,'',null,'')}
 else if(view.t=='grp'){const g=db.groups[view.id];m=chat(`${g.icon?`<img class="av" src="${esc(g.icon)}" style="width:26px;height:26px;border-radius:50%;object-fit:cover">`:ic('users',22)} <b>${esc(g.name)}</b><span class="mu">${g.members.length} members</span><span class="sp"></span><button class="g" onclick="groupSettingsModal('${view.id}')">${ic('gear',16)} Settings</button><button class="g" onclick="grpModal('${view.id}')">Add friends</button><button class="r" onclick="leaveGrp('${view.id}')">Leave</button>`,g.msgs,0,'Message '+g.name,'')}
 else m=view.t=='disc'?discView():(view.t=='customize'||view.t=='shop')?customizeView():view.t=='quests'?questsView():friendsView();
 const dl=dmList().sort((a,b)=>{const lastA=(db.dms[dmk(a)]||[]).slice(-1)[0]?.ts||0;const lastB=(db.dms[dmk(b)]||[]).slice(-1)[0]?.ts||0;return lastB-lastA;}),gl=Object.entries(db.groups).filter(([,g])=>g.members.includes(me));
@@ -10499,7 +12414,7 @@ $('#root').innerHTML=`<div class="app-titlebar" id="appTitlebar">
   <img src="icons/icon.svg" style="width:16px;height:16px;cursor:pointer;flex:none" alt="Memocord" onclick="handleLogoClick()">
   <span style="font-size:12px;font-weight:700;color:var(--tx);letter-spacing:0.3px;pointer-events:none">Memocord</span>
   <span class="sp" style="pointer-events:none"></span>
-</div><div id="app"><nav class="rail"><div class="ri home ${view.t!='srv'?'on':''}" onclick="go({t:'home',tab:'online'})" title="Home">${bear(30)}${T?`<span class="nb">${T}</span>`:''}</div><div class="rs"></div>${(()=>{
+</div><div id="app"><nav class="rail" ondragover="railDragOver(event)" ondrop="railDrop(event)"><div class="ri home ${view.t!='srv'?'on':''}" onclick="go({t:'home',tab:'online'})" title="Home">${bear(30)}${T?`<span class="nb">${T}</span>`:''}</div><div class="rs"></div>${(()=>{
   const folders=U(me).folders||[];
   const inFolder=new Set(folders.flatMap(f=>f.servers||[]));
   const freeSrvs=srvs.filter(([id])=>!inFolder.has(id));
@@ -10522,8 +12437,8 @@ $('#root').innerHTML=`<div class="app-titlebar" id="appTitlebar">
     return `<div class="ri ${view.t=='srv'&&S==id?'on':''} ${isLvl3?'pwb-lvl3':''}" data-ctx="srv:${id}" draggable="true" ondragstart="srvDragStart(event,'${id}')" ondragover="srvDragOver(event,'${id}')" ondragleave="srvDragLeave(event)" ondrop="srvDrop(event,'${id}')" onclick="go({t:'srv',s:'${id}',c:'general'});closeMobilePanels()" title="${esc(v.name)}${powered(v)?' (Powered)':''}">${v.icon&&id!=SID?`<img src="${esc(v.icon)}">`:id==SID?bear(30):esc(v.name[0].toUpperCase())}${powered(v)?`<span class="pwb" title="Powered">${ic('bolt',11,1)}</span>`:''}${sU.mentions?`<span class="nb">${sU.mentions}</span>`:sU.unread&&!muted?`<span class="pip"></span>`:''}</div>`;
   }).join('');
   return folderHtml+freeHtml;
-})()}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div><div class="ri add" onclick="go({t:'disc'})" title="Explore communities">${ic('compass',24)}</div>${!isApp()?'<div class="ri add" style="color:var(--br)" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(26)+'</div>':''}</nav><aside class="side">${side}</aside><main>${m}</main>${mem}${renderVoiceDock()}<div class="up">
-  <div class="up-user-pill" style="${pl(me)?`${pl(me)};border:1px solid rgba(255,255,255,0.12);box-shadow:inset 0 0 10px rgba(0,0,0,0.4);`:''}" onclick="presenceMenu(event)" title="Change status / View Profile">
+})()}<div class="ri add" onclick="newSrv()" title="Create or join a server">${ic('plus',24)}</div><div class="ri add" onclick="go({t:'disc'})" title="Explore communities">${ic('compass',24)}</div>${!isApp()?'<div class="ri add" style="color:var(--br)" onclick="openOrInstallApp()" title="Use Standalone App">'+bear(26)+'</div>':''}</nav><aside class="side">${side}</aside><main>${m}</main>${mem}${renderVoiceDock()}<div class="up" style="${pl(me) ? `${pl(me)};` : ''}">
+  <div class="up-user-pill" onclick="presenceMenu(event)" title="Change status / View Profile">
     <div class="avw" style="width:40px;height:40px;flex:none">
       ${av(me, 40)}
       <i class="${dotCls(me)}"></i>
@@ -10545,7 +12460,12 @@ $('#root').innerHTML=`<div class="app-titlebar" id="appTitlebar">
     </button>
   </div>
 </div></div>`;
-const i=$('#inp');if(i){if(aid=='inp'&&aval)i.value=aval;if(aid=='inp')i.focus();showPend();
+const i=$('#inp');if(i){
+if(aid=='inp'&&aval!=null)i.value=aval;
+if(typeof prevInpHeight!=='undefined'&&prevInpHeight) i.style.height=prevInpHeight;
+else if(i.value){ i.style.height='auto'; i.style.height=Math.min(i.scrollHeight,280)+'px'; }
+if(aid=='inp'){ i.focus(); if(asel!=null) try{ i.setSelectionRange(asel,asel); }catch(_){} }
+showPend();
 i.oninput=()=>{i.style.height='auto';i.style.height=Math.min(i.scrollHeight,280)+'px';if(i.value.trim())sendTyp();acI=0;emAc();mentionAc();slashAc();channelAc()};i.onkeydown=e=>{if(editingTs&&e.key==='Escape'){e.preventDefault();cancelEdit();return}if(!editingTs&&!i.value&&e.key==='ArrowUp'){e.preventDefault();const myMsgs=msgArr().filter(m=>m.u===me&&m.x&&!m.em&&!m.btn&&!m.g);if(myMsgs.length)startEdit(myMsgs[myMsgs.length-1].ts);return}if(slashAcList.length&&(e.key==='ArrowDown'||e.key==='ArrowUp')){e.preventDefault();slashAcIndex=(slashAcIndex+(e.key==='ArrowDown'?1:-1)+slashAcList.length)%slashAcList.length;const p=$('#slashAc');if(p)[...p.querySelectorAll('.slash-item')].forEach((d,j)=>d.classList.toggle('on',j===slashAcIndex));return}
 if(slashAcList.length&&(e.key==='Enter'||e.key==='Tab')){e.preventDefault();pickSlash(slashAcIndex);return}
 if(slashAcList.length&&e.key==='Escape'){slashAcList=[];$('#slashAc').innerHTML='';return}
